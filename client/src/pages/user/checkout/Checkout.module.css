@@ -1,0 +1,80 @@
+.outnav{
+    background-color: white;
+    display: flex;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    gap: 500px;
+    box-shadow: 0 0 2px grey;
+    margin-bottom: 50px;
+}
+.outnav h2{
+    margin-right: 550px;
+}
+.grid1{
+    box-shadow: 0 0 2px grey;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    
+
+}
+.grid2{
+     box-shadow: 0 0 2px grey;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 105px;
+    
+
+}
+.grid3{
+     box-shadow: 0 0 2px grey;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+.outmain{
+    display: grid;
+    grid-template-columns: 330px 330px;
+    justify-content: center;
+    align-items: center;
+    gap: 30px   ;
+}
+.grid1 input{
+    margin-bottom: 10px;
+    width: 290px;
+    height: 30px;
+    
+}
+.grid1 textarea{
+    margin-bottom: 10px;
+    width: 290px;
+}
+.outmain label{
+    margin-bottom: 20px;
+}
+.grid2 strong{
+    margin-left: 150px;
+}
+.grid2 span{
+    margin-left: 210px;
+}
+.grid2 button{
+    background-color: orange;
+    border: none;
+    height: 40px;
+    width:310px
+
+}
+.grid2 button:hover{
+    cursor: pointer;
+}
+.grid3 input{
+    cursor: pointer;
+}
+.icon {
+  margin-right: 10px;
+  font-size: 1.1rem;
+  color: #6c63ff;
+}
