@@ -11,6 +11,7 @@ const orderRoutes = require('./api/routes/order.route')
 const categoryRoutes = require('./api/routes/category.route')
 const itemRoutes = require('./api/routes/item.route')
 const userRoutes = require('./api/routes/user.route');
+const phonepeRoutes = require('./api/routes/phonePay.route');
 
 const PORT = process.env.PORT || 5000;
 corsOpts = {
@@ -36,6 +37,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/items', itemRoutes)
 app.use('/api/users', userRoutes);
+app.use("/api", phonepeRoutes);
 
 sequelize.sync().then(() => {
     console.log("DB Synced");
