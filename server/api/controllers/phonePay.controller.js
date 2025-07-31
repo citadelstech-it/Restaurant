@@ -84,7 +84,7 @@ const checkStatus = async (req, res) => {
         if (response.data.success) {
             return res.redirect("http://localhost:5173/");
         } else {
-            return res.redirect("https://new-b-website.vercel.app/");
+            return res.redirect("http://localhost:5173/");
         }
 
     } catch (error) {
