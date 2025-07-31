@@ -3,6 +3,7 @@ import "./App.css";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import { Home } from "./pages/user/home/Home";
 import Cart from "./pages/user/cart/Cart";
+import InventoryManagement from "./components/admin/inventoryManagement/InventoryManagement";
 
 function App() {
   return (
@@ -10,6 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<  Cart/>}/>
+        <Route path="/inventory-management" element={<  InventoryManagement/>}/>
+
         
       </Routes>
     </BrowserRouter>
