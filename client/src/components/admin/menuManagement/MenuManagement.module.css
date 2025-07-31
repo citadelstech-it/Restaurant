@@ -1,0 +1,189 @@
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  width: 1200px;
+  margin-left: 130px;
+}
+
+.mainNavBar {
+  display: flex;
+  justify-content: space-around;
+  gap: 750px;
+  box-shadow: 0 0 2px gray;
+  background-color: aliceblue;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 850px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+
+.searchBox {
+  padding: 8px 10px;
+  font-size: 16px;
+  width: 250px;
+}
+
+.addButton {
+  padding: 8px 12px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 35px;
+  margin-top: 15px;
+}
+
+.allItemsdropdown {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #cec7c7;
+  width: 150px;
+  height: 37px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.cardContent {
+  padding: 10px;
+  flex-grow: 1;
+  margin-top: 0px;
+}
+
+.cardTitlePrice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardTitlePrice h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.cardButtons {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.editButton {
+  padding: 5px 10px;
+  width: 150px;
+  background-color: #4b6cff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.deleteButton {
+  padding: 5px 10px;
+  width: 150px;
+  background-color: #ff5a5a;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px;
+  width: 600px;
+  border-radius: 8px;
+}
+
+.modal input {
+  width: 550px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.addItemButto {
+  background-color: rgb(240, 89, 89);
+  width: 150px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.cancelItemButto {
+  background-color: cadetblue;
+  width: 150px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.stockBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #2ad80b;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.calories {
+  font-weight: 500;
+  color: #555;
+}
+
+.grams {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -20px;
+}
