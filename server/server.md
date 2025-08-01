@@ -100,6 +100,15 @@ http://localhost:5000/api
 
 ---
 
+### Payment
+
+- **POST /phonepe/pay**  
+  Initiate a payment using PhonePe.  
+  **Body:** `{ transactionId, MUID, name, amount, number }`  
+  **Description:** Starts a payment transaction for the given order using PhonePe.
+
+---
+
 ## Environment Variables
 
 See `.env` for database and Cloudinary configuration.
