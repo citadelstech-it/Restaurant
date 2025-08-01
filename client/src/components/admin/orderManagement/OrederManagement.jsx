@@ -83,7 +83,7 @@ const OrederManagement = () => {
     const todayDate = new Date().toISOString().split("T")[0]; 
 
     const filteredOrders = orders.filter(order => {
-        const orderDate = order.date.split(" ")[0]; 
+        let orderDate = order.date.split(" ")[0]; 
         return (filter === 'All Orders' ? true : order.status === filter) && orderDate === todayDate;
     });
 
