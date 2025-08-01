@@ -1,9 +1,14 @@
 // import { useState } from "react";
 import "./App.css";
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Home } from "./pages/user/home/Home";
 import Cart from "./pages/user/cart/Cart";
 import Checkout from "./pages/user/checkout/Checkout";
+import Recipt from "./pages/user/bill/Recipt";
+import InventoryManagement from "./components/admin/inventoryManagement/InventoryManagement";
+import MenuManagement from "./components/admin/menuManagement/MenuManagement";
+
+import OrederManagement from "./components/admin/orderManagement/OrederManagement";
 
 function App() {
   return (
@@ -12,6 +17,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<  Cart/>}/>
         <Route path="/checkout" element={<Checkout/>}/>
+        <Route path="/recipt" element={<Recipt />} />
+        <Route path="/inventory-management" element={<  InventoryManagement />} />
+        <Route path="/menu" element={<MenuManagement />} />
+        {/* <Route path="/cart" element={<  Cart/>}/> */}
+        <Route path="/order" element={<OrederManagement/>}/>
 
         
       </Routes>
