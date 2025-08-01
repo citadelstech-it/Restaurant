@@ -1,0 +1,270 @@
+.products_page {
+  padding: 2rem;
+}
+
+.nav {
+  background: white;
+  padding: 1rem;
+  /* text-align: right; */
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart_nav {
+  background: orange;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+}
+
+.homeButton{
+  width: 100px;
+  height: 44px;
+   background: orange;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+.category {
+  margin-bottom: 3rem;
+}
+
+.item_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.5rem;
+}
+
+.item_card {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.food_image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.stock_badge {
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  background: #b8ef8e;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.description {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #d35400;
+  margin-bottom: 0.5rem;
+}
+
+.quantity_controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.quantity_controls button {
+  width: 25px;
+  height: 25px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cart_button {
+  background-color: #f60;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+span{
+  background-color: red;
+}
+.priceDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.priceDiv p{
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+
+
+
+
+.rotatingBackground1 {
+  position: fixed; 
+  top: 90%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/oranges.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.5; 
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground2 {
+  position: fixed;
+  top: 36%;
+  left: 24%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/vecteezy.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground3 {
+  position: fixed; 
+  top: 33%;
+  left: 73%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/waterLemon.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground4 {
+  position: fixed;
+  top: 95%;
+  left: 5%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/cherry.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9;
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground5 {
+  position: fixed; 
+  top: 19%;
+  left: 48%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/leef.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground6 {
+  position: fixed; 
+  top: 9%;
+  left: 35%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/vecteezy.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9;
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground7 {
+  position: fixed; 
+  top: 14%;
+  left: 2%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/oranges.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground8 {
+  position: fixed;
+  top: 16%;
+  left: 95%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/greenApple.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground9 {
+  position: fixed; 
+  top: 56%;
+  left: 93%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/leef.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground10 {
+  position: fixed; 
+  top: 10%;
+  left: 80%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/strawbeery.png') no-repeat center center;
+  background-size: cover;
+  opacity: 1; 
+  /* animation: rotate 60s linear infinite; */
+}
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

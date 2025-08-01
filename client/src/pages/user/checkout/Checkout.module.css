@@ -1,0 +1,165 @@
+.outnav{
+    background-color: white;
+    display: flex;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    gap: 500px;
+    box-shadow: 0 0 2px grey;
+    margin-bottom: 50px;
+}
+.outnav h1{
+    margin-right: 550px;
+}
+.grid1{
+    box-shadow: 0 0 2px grey;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    
+
+}
+.grid2{
+     box-shadow: 0 0 2px grey;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 169px;
+    
+
+}
+.grid3{
+     box-shadow: 0 0 2px grey;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+.outmain{
+    display: grid;
+    grid-template-columns: 330px 330px;
+    justify-content: center;
+    align-items: center;
+    gap: 30px   ;
+}
+
+ .grid1 input, textarea {
+  padding: 10px;
+  background-color:whitesmoke;
+  border: none;
+  border-bottom: 2px solid #888;
+  color:black;
+  font-size: 14px;
+  width: 290px;
+  margin-bottom: 10px;
+}
+
+ .grid1 textarea {
+  resize: vertical;
+  min-height: 50px;
+}
+.outmain label{
+    margin-bottom: 30px;
+}
+.grid2 strong{
+  margin-left: 140px;
+}
+.grid2 span{
+    margin-left: 210px;
+}
+.grid2 button{
+    background-color: orange;
+    border: none;
+    height: 40px;
+    width:310px
+
+}
+.grid2 button:hover{
+    cursor: pointer;
+}
+.grid3 input{
+    cursor: pointer;
+}
+.icon {
+  margin-right: 10px;
+  font-size: 1.1rem;
+  color: #6c63ff;
+}
+/* .popup {
+  background-color: #d1f7d6;
+  color: #155724;
+  border: 1px solid #28a745;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 500px;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ */
+/* Modal overlay to cover whole screen */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.modalContent {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 400px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.4s ease;
+}
+
+.modalContent h2 {
+  margin-bottom: 10px;
+  color: #28a745;
+}
+
+.modalContent p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.modalContent button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modalContent button:hover {
+  background-color: #218838;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
