@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import checkstyles from "../checkout/Checkout.module.css";
 
-// Font Awesome Imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCreditCard, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { faPaypal } from '@fortawesome/free-brands-svg-icons';
@@ -14,6 +13,8 @@ const Checkout = () => {
     instructions: '',
     payment: '',
   });
+
+  const [showModal, setShowModal] = useState(false); 
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -32,15 +33,10 @@ const Checkout = () => {
       return;
     }
 
-    alert(`Order placed successfully!
     
-Name: ${formData.fullName}
-Phone: ${formData.phone}
-Address: ${formData.address}
-Instructions: ${formData.instructions || "None"}
-Payment Method: ${formData.payment}
-Total: ₹79.80`);
+    setShowModal(true);
 
+    
     setFormData({
       fullName: '',
       phone: '',
@@ -50,110 +46,111 @@ Total: ₹79.80`);
     });
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div>
       <div className={checkstyles.outnav}>
         <p>← Back to Home</p>
-        <h2>Checkout</h2>
+        <h1>Checkout</h1>
       </div>
-      <form onSubmit={handleSubmit} className={checkstyles.outmain}>
 
-        <div className={checkstyles.grid1}>
-          <h3>🛵 Delivery Information</h3>
-
-          <label>Full Name</label><br/>
-          <input
-            type="text"
-            name="fullName"
-            placeholder="Enter your full name"
-            value={formData.fullName}
-            onChange={handleChange}
-            required/><br/>
-
-          <label>Phone Number</label><br/>
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Enter your phone number"
-            value={formData.phone}
-            onChange={handleChange}
-            required/><br/>
-          
-          <label>Delivery Address</label><br/>
-          <textarea
-            name="address"
-            rows="3"
-            placeholder="Enter your complete address"
-            value={formData.address}
-            onChange={handleChange}
-            required/><br/>
-         
-          <label>Special Instructions</label><br/>
-          <textarea
-            name="instructions"
-            rows="2"
-            placeholder="Any special requests or instructions"
-            value={formData.instructions}
-            onChange={handleChange}/>
+    
+      {showModal && (
+        <div className={checkstyles.modalOverlay}>
+          <div className={checkstyles.modalContent}>
+            <h2>🎉 Order Placed Successfully!</h2>
+            <p>Thank you for your order! Your food will be delivered soon.</p>
+            <button onClick={closeModal}>OK</button>
+          </div>
         </div>
+      )}
 
-        <div className={checkstyles.grid2}>
-          <h3>📦 Order Summary</h3>
-          <p>Chicken Fry × 1 <strong>₹66.90</strong></p>
-          <p>Craft Beer × 1 <strong>₹12.90</strong></p>
-          <hr />
-          <h4>Total <span>₹79.80</span></h4>
-          <button type="submit">✓ Place Order</button>
-        </div>
+      
+      {!showModal && (
+        <form onSubmit={handleSubmit} className={checkstyles.outmain}>
 
-       
-        <div className={checkstyles.grid3}>
-          <h3>💳 Payment Methods</h3>
+          <div className={checkstyles.grid1}>
+            <h3>🛵 Delivery Information</h3>
 
-          <input
-            type="radio"
-            id="credit"
-            name="payment"
-            value="Credit/Debit Card"
-            checked={formData.payment === 'Credit/Debit Card'}
-            onChange={handleChange}/>
-         
-          <label htmlFor="credit">
-            <FontAwesomeIcon icon={faCreditCard} className={checkstyles.icon} />
-            Credit/Debit Card
-          </label><br/>
+            <label>Full Name</label><br />
+            <input
+              type="text"
+              name="fullName"
+              placeholder="Enter your full name"
+              value={formData.fullName}
+              onChange={handleChange}
+              required /><br />
 
-          <input
-            type="radio"
-            id="cash"
-            name="payment"
-            value="Cash on Delivery"
-            checked={formData.payment === 'Cash on Delivery'}
-            onChange={handleChange}/>
-         
-          <label htmlFor="cash">
-            <FontAwesomeIcon icon={faMoneyBillWave} className={checkstyles.icon} />
-            Cash on Delivery
-          </label><br/>
+            <label>Phone Number</label><br />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Enter your phone number"
+              value={formData.phone}
+              onChange={handleChange}
+              required /><br />
 
-          <input
-            type="radio"
-            id="paypal"
-            name="payment"
-            value="PayPal"
-            checked={formData.payment === 'PayPal'}
-            onChange={handleChange}/>
-         
-          <label htmlFor="paypal">
-            <FontAwesomeIcon icon={faPaypal} className={checkstyles.icon}/>
-            PayPal
-          </label><br/>
-        </div>
+            <label>Delivery Address</label><br />
+            <textarea
+              name="address"
+              rows="3"
+              placeholder="Enter your complete address"
+              value={formData.address}
+              onChange={handleChange}
+              required /><br />
 
-      </form>
+            <label>Special Instructions</label><br />
+            <textarea
+              name="instructions"
+              rows="2"
+              placeholder="Any special requests or instructions"
+              value={formData.instructions}
+              onChange={handleChange} />
+          </div>
+
+          <div className={checkstyles.grid2}>
+            <h3>📦 Order Summary</h3>
+            <p>Chicken Fry × 1 <strong>₹66.90</strong></p>
+            <p>Bagara Rice × 1 <strong>₹13.00</strong></p>
+            <hr />
+            <h4>Total <span>₹79.90</span></h4>
+            <button type="submit">✓ Place Order</button>
+          </div>
+
+          <div className={checkstyles.grid3}>
+            <h3>💳 Payment Methods</h3>
+
+            <input
+              type="radio"
+              id="credit"
+              name="payment"
+              value="Credit/Debit Card"
+              checked={formData.payment === 'Credit/Debit Card'}
+              onChange={handleChange} />
+            <label htmlFor="credit">
+              <FontAwesomeIcon icon={faCreditCard} className={checkstyles.icon} />
+              Credit/Debit Card
+            </label><br />
+            <input
+              type="radio"
+              id="paypal"
+              name="payment"
+              value="PayPal"
+              checked={formData.payment === 'PayPal'}
+              onChange={handleChange} />
+            <label htmlFor="paypal">
+              <FontAwesomeIcon icon={faPaypal} className={checkstyles.icon} />
+              PayPal
+            </label><br />
+          </div>
+
+        </form>
+      )}
     </div>
   );
 };
 
 export default Checkout;
-
