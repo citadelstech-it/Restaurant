@@ -89,12 +89,12 @@ const InventoryManagement = () => {
     <div className={styles.inventorycontainer}>
       <div className={styles.inventoryheader}>
         <h2>Inventory Management</h2>
-        {/* <button className={styles.exportBtn}>
+        { <button className={styles.exportBtn}>
           <span>
             <i className="fa-solid fa-download"></i>
           </span>{" "}
-          Export Report
-        </button> */}
+          Add Items
+        </button> }
       </div>
 
       <div className={styles.searchNavBar}>
