@@ -1,3 +1,5 @@
+import homebg from "../../../assets/react.svg"
+
 export const Checkout = () => {
   return (
     <div>

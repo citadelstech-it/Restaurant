@@ -1,0 +1,275 @@
+/* Dashboard.module.css */
+
+.container {
+  display: flex;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f8f9fc;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ========== Main Content Area ========== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background-color: #f9fafb;
+  overflow-y: auto;
+}
+
+.contentWrapper {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 30px;
+  color: #1e1e1e;
+  box-sizing: border-box;
+}
+
+/* ========== Header ========== */
+.heading {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* ========== Summary Cards ========== */
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.card {
+  flex: 1;
+  min-width: 220px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  background-color: #eef6ff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 22px;
+  color: #1e1e1e;
+}
+
+.card p {
+  margin: 0;
+  font-size: 14px;
+  color: #888;
+}
+
+.cardIcon {
+  font-size: 28px;
+  height: 50px;
+  width: 50px;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card:nth-child(1) .cardIcon {
+  color: #007bff;
+  background: #e6f0ff;
+}
+
+.card:nth-child(2) .cardIcon {
+  color: #28a745;
+  background: #e7f9ec;
+}
+
+.card:nth-child(3) .cardIcon {
+  color: #fd7e14;
+  background: #fff4e5;
+}
+
+.card:nth-child(4) .cardIcon {
+  color: #6f42c1;
+  background: #f4edfa;
+}
+
+/* ========== Bottom Section ========== */
+.bottom {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* ========== Orders ========== */
+.orders {
+  flex: 1;
+  min-width: 300px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.orders h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #fff;
+}
+
+.orders ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.orders li {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 12px;
+  margin: 10px 0;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* ========== Low Stock Alert ========== */
+.lowStock {
+  flex: 1;
+  min-width: 300px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.lowStock h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #dc3545;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.stockItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #fdecea;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.stockItem:hover {
+  background-color: #ffe8e2;
+  box-shadow: 0 3px 8px rgba(255, 137, 102, 0.1);
+  transform: scale(1.01);
+}
+
+.stockImage {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.stockQty {
+  color: red;
+  font-weight: bold;
+  font-size: 14px;
+  margin-left: auto;
+}
+
+/* ========== Status Badges ========== */
+.statusPreparing {
+  color: #f0ad4e;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.statusReady {
+  color: #28a745;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.statusDelivered {
+  color: #007bff;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* ========== Responsive Layout ========== */
+@media (max-width: 1024px) {
+  .cards,
+  .bottom {
+    flex-direction: column;
+  }
+
+  .card,
+  .orders,
+  .lowStock {
+    width: 100%;
+  }
+
+  .contentWrapper {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .heading {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card h3 {
+    font-size: 18px;
+  }
+
+  .cardIcon {
+    font-size: 22px;
+    height: 40px;
+    width: 40px;
+  }
+
+  .main {
+    padding: 15px;
+  }
+
+  .contentWrapper {
+    padding: 0 10px;
+  }
+}
