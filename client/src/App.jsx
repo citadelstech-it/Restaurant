@@ -8,6 +8,7 @@ import Cart from "./pages/user/cart/Cart";
 import SideBar from "./components/admin/adminSidebar/sideBar";
 // import ItemsList from "./pages/user/itemsList/ItemList"; 
 import Products from "./pages/user/products/Products";
+import Checkout from "./pages/user/checkout/Checkout";
 import Recipt from "./pages/user/bill/Recipt";
 import InventoryManagement from "./components/admin/inventoryManagement/InventoryManagement";
 import MenuManagement from "./components/admin/menuManagement/MenuManagement";
@@ -21,13 +22,14 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/orderhistory" element={<OrderHistory />} />
         <Route path="/cart" element={<  Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/sidebar" element={<SideBar />} />
-        <Route path="/pro" element={<Products/>}/>
+        <Route path="/pro" element={<Products />} />
         <Route path="/recipt" element={<Recipt />} />
         <Route path="/inventory-management" element={<  InventoryManagement />} />
         <Route path="/menu" element={<MenuManagement />} />
         {/* <Route path="/cart" element={<  Cart/>}/> */}
-        <Route path="/order" element={<OrederManagement/>}/>
+        <Route path="/order" element={<OrederManagement />} />
       </Routes>
     </BrowserRouter>
   );
