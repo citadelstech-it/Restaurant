@@ -1,0 +1,199 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: white;
+  border-bottom: 2px solid gray;
+}
+
+.container {
+  min-height: 100vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+ 
+
+
+}
+.maincontainer{
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  width: 442px;
+  padding: 15px;
+}
+.header {
+  font-size: 1.25rem;
+  color: black;
+  font-weight: 800;
+  margin-right: 650px;
+
+}
+
+.backLink {
+  font-size: 0.875rem;
+  margin-left: 400px;
+
+}
+
+.backLink {
+  color: gray;
+  text-decoration: none;
+}
+
+.backLink a:hover {
+  text-decoration: underline;
+}
+.confirmationBox {
+  display: flex;
+  flex-direction: column;      
+  align-items: center;         
+  justify-content: center;     
+  text-align: center;
+  padding: 20px 0;
+}
+
+.checkmark {
+  width: 50px;
+  height: 50px;
+  background-color: #10b981;   
+  color: white;
+  border-radius: 50%;          
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.confirmTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 5px 0;
+}
+
+.confirmText {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  border: 2px dotted gray;
+
+  
+
+  
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.restaurantBox {
+  border: 1px solid white;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 16px;
+
+}
+
+.restaurantName {
+  font-weight: bold;
+  color: black;
+  margin-bottom: 4px;
+}
+
+.orderInfo {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.orderInfo p {
+  display: flex;
+  justify-content: space-between;
+}
+
+.items {
+  text-align: left;
+  font-size: 0.875rem;
+  margin-top: 12px;
+}
+
+.items h4 {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.itemRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.priceDetails {
+  border-top: 1px solid black;
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+.priceDetails div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin-top: 8px;
+}
+
+.footerText {
+  font-size: 0.75rem;
+  color: black;
+  margin-top: 12px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.downloadBtn {
+  flex: 1;
+  background:orange;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.downloadBtn:hover {
+  background: orange;
+}
+
+.printBtn {
+  flex: 1;
+  background:rgb(51, 68, 90);
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.printBtn:hover {
+  background: rgb(176, 170, 170);
+}
