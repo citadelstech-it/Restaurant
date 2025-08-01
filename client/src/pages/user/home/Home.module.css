@@ -8,20 +8,30 @@
 }
 .navbar h2 {
   color: white;
-  padding-left: 35px;
+  padding-left: 45%;
 }
-.navbar button {
+.navButton {
+  background-color: orangered;
+  color: white;
+  font-size: 25px;
+  border: none;
+  border-radius: 5px;
   padding: 10px;
   width: 150px;
   margin-right: 20px;
+  transition: all 1s linear;
 }
+.navButton:hover {
+  background-color: blue;
+  transform: scale(1.1);
+}
+
 .section1 {
   padding: 100px 50px;
-  /* border: 2px solid red; */
   height: 200px;
-  text-align: left;
   position: relative;
   overflow: hidden;
+  text-align: left;
 }
 .section1_div {
   position: absolute;
@@ -33,35 +43,21 @@
   filter: blur(6px);
   z-index: 0;
 }
-
 .section1_div img {
   width: 100%;
 }
-
 .section1 > *:not(.section1_div) {
   position: relative;
   z-index: 10;
 }
 .heading {
   color: orangered;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
   text-align: center;
   font-size: 100px;
+  font-family: "Trebuchet MS", sans-serif;
   margin-top: -2px;
 }
-.navButton {
-  background-color: orangered;
-  color: white;
-  font-size: 25px;
-  border: none;
-  border-radius: 5px;
-  transition: all 1s linear;
-}
-.navButton:hover {
-  background-color: blue;
-  transform: scale(1.1);
-}
+
 .section2 {
   margin-top: 70px;
   display: flex;
@@ -69,32 +65,37 @@
   align-items: center;
   gap: 10px;
 }
-.section3 {
-  margin-top: 70px;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 10px;
-}
-.section3 {
-  margin-top: 50px;
-  height: 500px;
-}
 .menuBar {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
-.menuBar input {
-  width: 500px;
-  height: 35px;
-  border-radius: 5px;
-  border: 0.5px solid gray;
-  padding-left: 10px;
+.searchBar {
+  position: relative;
+  width: 300px;
 }
-.menuButtons{
- height: 35px;
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: gray;
+  font-size: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+.searchInput {
+  width: 100%;
+  padding: 10px 10px 10px 35px; 
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.menuButtons {
+  height: 35px;
   width: 120px;
   background-color: white;
   border: 0.5px solid gray;
@@ -102,32 +103,179 @@
   transition: all 1s linear;
 }
 .menuButton1 {
-  height: 35px;
   width: 70px;
 }
-.menuButtons:hover{
-    background-color: orangered;
-    color: white;
-    transform: scale(1.1);
+.menuButtons:hover {
+  background-color: orangered;
+  color: white;
+  transform: scale(1.1);
+}
+
+.section3 {
+  margin-top: 50px;
+  height: 500px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
 }
 .cards {
   height: 380px;
   width: 300px;
-    border-radius:10px ;
-    box-shadow: 0 0 5px gray;
-    cursor: pointer;
-    transition: all 1s linear;
+  border-radius: 10px;
+  box-shadow: 0 0 5px gray;
+  cursor: pointer;
+  transition: all 1s linear;
 }
-.cards img{
-    height: 75%;
-    width: 100%;
-    border-top-left-radius:10px ;
-    border-top-right-radius:10px ;
+.cards img {
+  height: 75%;
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
-.cards h2{
-    text-align: center;
-    margin-top: 25px;
+.cards h2 {
+  text-align: center;
+  margin-top: 25px;
 }
-.cards:hover{
-    transform: scale(1.05);
+.cards:hover {
+  transform: scale(1.05);
 }
+.rotatingBackground1 {
+  position: fixed; 
+  top: 90%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/oranges.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.5; 
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground2 {
+  position: fixed;
+  top: 36%;
+  left: 24%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/vecteezy.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground3 {
+  position: fixed; 
+  top: 33%;
+  left: 73%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/waterLemon.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground4 {
+  position: fixed;
+  top: 95%;
+  left: 5%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/cherry.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9;
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground5 {
+  position: fixed; 
+  top: 19%;
+  left: 48%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/leef.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground6 {
+  position: fixed; 
+  top: 9%;
+  left: 35%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/vecteezy.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9;
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground7 {
+  position: fixed; 
+  top: 14%;
+  left: 2%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/oranges.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground8 {
+  position: fixed;
+  top: 16%;
+  left: 95%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/greenApple.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground9 {
+  position: fixed; 
+  top: 56%;
+  left: 93%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/leef.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  /* animation: rotate 60s linear infinite; */
+}
+.rotatingBackground10 {
+  position: fixed; 
+  top: 10%;
+  left: 80%;
+  /* transform: translate(-50%, -50%); */
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/strawbeery.png') no-repeat center center;
+  background-size: cover;
+  opacity: 1; 
+  /* animation: rotate 60s linear infinite; */
+}
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
