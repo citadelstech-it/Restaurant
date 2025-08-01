@@ -5,8 +5,11 @@
 .nav {
   background: white;
   padding: 1rem;
-  text-align: right;
+  /* text-align: right; */
   border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .cart_nav {
@@ -16,8 +19,18 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  border: none;
 }
 
+.homeButton{
+  width: 100px;
+  height: 44px;
+   background: orange;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
 .category {
   margin-bottom: 3rem;
 }

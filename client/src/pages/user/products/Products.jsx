@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { starters, mainCourse, beverages } from "../../../data/foodData";
+import { starters, mainCourse } from "../../../data/foodData";
 import productsStyle from "../products/Products.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -103,11 +103,11 @@ const Products = () => {
               items={mainCourse}
               onAddToCart={handleAddToCart}
             />
-            <Category
+            {/* <Category
               title="Beverages"
               items={beverages}
               onAddToCart={handleAddToCart}
-            />
+            /> */}
           </>
         );
     }
@@ -116,6 +116,7 @@ const Products = () => {
   return (
     <div>
       <nav className={productsStyle.nav}>
+        <button className={productsStyle.homeButton} onClick={()=>{navigate("/")}}>Home</button>
         <button
           className={productsStyle.cart_nav}
           onClick={() => navigate("/cart")}
