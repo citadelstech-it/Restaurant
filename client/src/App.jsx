@@ -12,7 +12,7 @@ import Checkout from "./pages/user/checkout/Checkout";
 import Recipt from "./pages/user/bill/Recipt";
 import InventoryManagement from "./components/admin/inventoryManagement/InventoryManagement";
 import MenuManagement from "./components/admin/menuManagement/MenuManagement";
-import OrederManagement from "./components/admin/orderManagement/OrederManagement";
+import OrderManagement from "./components/admin/orderManagement/OrderManagement";
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
         <Route path="/inventory-management" element={<  InventoryManagement />} />
         <Route path="/menu" element={<MenuManagement />} />
         {/* <Route path="/cart" element={<  Cart/>}/> */}
-        <Route path="/order" element={<OrederManagement />} />
+        <Route path="/order" element={<OrderManagement />} />
       </Routes>
     </BrowserRouter>
   );
