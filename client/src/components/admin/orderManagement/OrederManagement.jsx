@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import orderStyle from '../../admin/orderManagement/OrederManagement.module.css';
+import SideBar from '../adminSidebar/sideBar';
 
 const initialOrders = [
     {
         id: 'ORD006',
-        date: '2025-07-31 13:45', 
+        date: '2025-08-01 13:45', 
         customer: 'Sundari',
         table: 'T-09',
         items: [
@@ -16,7 +17,7 @@ const initialOrders = [
     },
     {
         id: 'ORD005',
-        date: '2025-07-31 13:20', 
+        date: '2025-08-1 13:20', 
         customer: 'Bhanu',
         table: 'T-01',
         items: [
@@ -27,7 +28,7 @@ const initialOrders = [
     },
     {
         id: 'ORD004',
-        date: '2025-07-31 13:00', 
+        date: '2025-08-01 13:00', 
         customer: 'Babu',
         table: 'T-03',
         items: [
@@ -38,7 +39,7 @@ const initialOrders = [
     },
     {
         id: 'ORD003',
-        date: '2025-07-31 14:30', 
+        date: '2025-08-1 13:30', 
         customer: 'John Smith',
         table: 'T-05',
         items: [{ name: 'Grilled Salmon', quantity: 2, price: 50 }],
@@ -46,7 +47,7 @@ const initialOrders = [
     },
     {
         id: 'ORD002',
-        date: '2025-07-31 14:25',
+        date: '2025-08-1 13:25',
         customer: 'Sarah Johnson',
         table: 'T-12',
         items: [
@@ -57,7 +58,7 @@ const initialOrders = [
     },
     {
         id: 'ORD001',
-        date: '2025-07-31 14:15', 
+        date: '2025-08-1 13:15', 
         customer: 'Mike Brown',
         table: 'T-06',
         items: [{ name: 'Chocolate Cake', quantity: 2, price: 50 }
@@ -101,6 +102,7 @@ const OrederManagement = () => {
     // );
 
     return (
+       
         <div>
             <header>
                 <div className={orderStyle.header}>
@@ -193,7 +195,8 @@ const OrederManagement = () => {
                     </div>
                 ))}
             </header>
-        </div>
+            </div>
+            
     );
 };
 

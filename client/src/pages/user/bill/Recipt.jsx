@@ -10,7 +10,7 @@ const Recipt = () => {
   const receiptRef = useRef();
 
   const handleBackToMenu = () => {
-    navigate('/menu-management');
+    navigate('/');
   };
 
   const handleDownload = async () => {

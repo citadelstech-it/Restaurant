@@ -4,6 +4,7 @@ import checkstyles from "../checkout/Checkout.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCreditCard, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { faPaypal } from '@fortawesome/free-brands-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const Checkout = () => {
     instructions: '',
     payment: '',
   });
+
+  const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false); 
 
@@ -63,7 +66,7 @@ const Checkout = () => {
           <div className={checkstyles.modalContent}>
             <h2>🎉 Order Placed Successfully!</h2>
             <p>Thank you for your order! Your food will be delivered soon.</p>
-            <button onClick={closeModal}>OK</button>
+            <button onClick={()=>{navigate("/recipt")}}>View Recipt</button>
           </div>
         </div>
       )}

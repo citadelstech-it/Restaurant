@@ -1,123 +1,179 @@
 .container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  width: 1200px;
-  margin-left: 130px;
+  font-family: 'Poppins', sans-serif;
+  width: 1260px;
+  margin: -10px;
+  background-color: #f9f9f9;
 }
 
 .mainNavBar {
   display: flex;
-  justify-content: space-around;
-  gap: 750px;
-  box-shadow: 0 0 2px gray;
-  background-color: aliceblue;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f6ca84;
+  height: 60px;
+  border-radius: 0 0 12px 12px;
 }
 
-h1 {
+.mainNavBar h1 {
   font-size: 28px;
-  margin-bottom: 20px;
   font-weight: bold;
+  color: #d84315;
 }
 
 .topBar {
   display: flex;
   align-items: center;
-  gap: 850px;
-  margin-bottom: 20px;
-  padding-top: 10px;
+  justify-content: space-between;
+  padding: 20px 30px;
 }
 
 .searchBox {
-  padding: 8px 10px;
+  padding: 10px 15px;
   font-size: 16px;
-  width: 250px;
+  width: 280px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 .addButton {
-  padding: 8px 12px;
-  background-color: blue;
+  padding: 8px 20px;
+  background-color: #ff7043;
   color: white;
+  font-weight: bold;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  height: 35px;
-  margin-top: 15px;
+  height: 40px;
+  transition: background-color 0.3s;
+}
+
+.addButton:hover {
+  background-color: #f4511e;
 }
 
 .allItemsdropdown {
   padding: 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background-color: #cec7c7;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffe0b2;
   width: 150px;
-  height: 37px;
+  height: 40px;
 }
 
 .gridContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
-  align-items: start;
+  padding: 0 30px 30px;
 }
 
 .card {
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s;
   position: relative;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 .card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
+  border-bottom: 1px solid #eee;
 }
 
 .cardContent {
-  padding: 10px;
+  padding: 15px;
   flex-grow: 1;
-  margin-top: 0px;
 }
 
 .cardTitlePrice {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 8px;
 }
 
 .cardTitlePrice h3 {
   font-size: 18px;
   margin: 0;
+  color: #333;
 }
 
 .cardButtons {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   gap: 10px;
+  margin-top: 10px;
 }
 
 .editButton {
-  padding: 5px 10px;
-  width: 150px;
-  background-color: #4b6cff;
-  color: white;
+  padding: 8px 0;
+  width: 48%;
+  background-color: #fadf8e;
+  color: #333;
+  font-weight: bold;
   border: none;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.editButton:hover {
+  background-color: #f8c025;
 }
 
 .deleteButton {
-  padding: 5px 10px;
-  width: 150px;
-  background-color: #ff5a5a;
+  padding: 8px 0;
+  width: 48%;
+  background-color: #f68583;
   color: white;
+  font-weight: bold;
   border: none;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.deleteButton:hover {
+  background-color: #e53935;
+}
+
+.stockBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #43a047;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 10;
+  display: block; /* Always visible */
+}
+
+.calories {
+  font-weight: 500;
+  color: #757575;
+}
+
+.grams {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
 }
 
 .modalOverlay {
@@ -135,55 +191,52 @@ h1 {
 
 .modal {
   background-color: #fff;
-  padding: 20px;
+  padding: 30px;
   width: 600px;
-  border-radius: 8px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.modal input {
-  width: 550px;
-  padding: 8px 10px;
-  margin-bottom: 10px;
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 .modalButtons {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .addItemButto {
-  background-color: rgb(240, 89, 89);
-  width: 150px;
+  background-color: #66bb6a;
+  width: 48%;
+  color: white;
+  padding: 10px 0;
+  border: none;
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.addItemButto:hover {
+  background-color: #43a047;
 }
 
 .cancelItemButto {
-  background-color: cadetblue;
-  width: 150px;
-  cursor: pointer;
-  border-radius: 2px;
-}
-
-.stockBadge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #2ad80b;
+  background-color: #90a4ae;
+  width: 48%;
   color: white;
-  padding: 5px 10px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
+  padding: 10px 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s;
 }
 
-.calories {
-  font-weight: 500;
-  color: #555;
-}
-
-.grams {
-  display: flex;
-  justify-content: space-between;
-  margin-top: -20px;
+.cancelItemButto:hover {
+  background-color: #607d8b;
 }
