@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styles from "../menuManagement/MenuManagement.module.css";
+// import Sidebar from '../../adminSidebar/SideBar.jsx'
+import Sidebar from "../adminSidebar/SideBar";
 
 const MenuManagement = () => {
   const [menuItems, setMenuItems] = useState([
@@ -152,142 +154,159 @@ const MenuManagement = () => {
   });
 
   return (
-    <div className={styles.container}>
-      <div className={styles.mainNavBar}>
-        <h1 className={styles.h1}>Menu Management</h1>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className={styles.addButton}
-        >
-          + Add New Items
-        </button>
-      </div>
-      <div className={styles.topBar}>
-        <input
-          type="text"
-          placeholder="🔍 Search menu Items.."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className={styles.searchBox}
-        />
-        <select
-          className={styles.allItemsdropdown}
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-        >
-          <option>All Categories</option>
-          <option>Starters</option>
-          <option>Main Course</option>
-          <option>Dessert</option>
-          <option>Sides</option>
-        </select>
-      </div>
+    <Sidebar>
+      <div className={styles.container}>
+        <div className={styles.mainNavBar}>
+          <h1>Menu Management</h1>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className={styles.addButton}
+          >
+            + Add New Items
+          </button>
+        </div>
+        <div className={styles.topBar}>
+          <input
+            type="text"
+            placeholder="🔍 Search menu Items.."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchBox}
+          />
+          <select
+            className={styles.allItemsdropdown}
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option>All Categories</option>
+            <option>Starters</option>
+            <option>Main Course</option>
+            <option>Dessert</option>
+            <option>Sides</option>
+            <option>Special</option>
+          </select>
+        </div>
 
-      <div className={styles.gridContainer}>
-        {filteredItems.map((item) => (
-          <div key={item.id} className={styles.card}>
-            <div className={styles.stockBadge}>{item.stock} in stock</div>
-            <img src={item.image} alt={item.title} />
-            <div className={styles.cardContent}>
-              <div className={styles.cardTitlePrice}>
-                <h3>{item.title}</h3>
-                <span>₹ {item.price.toFixed(2)}</span>
-              </div>
-              <p>{item.category}</p>
-              <div className={styles.grams}>
-                <p>100 Grams</p>
-                <p className={styles.calories}>{item.calories} kcal</p>
-              </div>
-              <div className={styles.cardButtons}>
-                <button
-                  onClick={() => handleEditItem(item)}
-                  className={styles.editButton}
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteItem(item.id)}
-                  className={styles.deleteButton}
-                >
-                  Delete
-                </button>
+        <div className={styles.gridContainer}>
+          {filteredItems.map((item) => (
+            <div key={item.id} className={styles.card}>
+              <div className={styles.stockBadge}>{item.stock} in stock</div>
+              <img src={item.image} alt={item.title} />
+              <div className={styles.cardContent}>
+                <div className={styles.cardTitlePrice}>
+                  <h3>{item.title}</h3>
+                  <span>₹ {item.price.toFixed(2)}</span>
+                </div>
+                <p>{item.category}</p>
+                <div className={styles.grams}>
+                  <p>100 Grams</p>
+                  <p className={styles.calories}>{item.calories} kcal</p>
+                </div>
+                <div className={styles.cardButtons}>
+                  <button
+                    onClick={() => handleEditItem(item)}
+                    className={styles.editButton}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteItem(item.id)}
+                    className={styles.deleteButton}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {isModalOpen && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h2>{isEditMode ? "Edit Item" : "Add New Menu Item"}</h2>
-            <form onSubmit={handleAddOrUpdateItem}>
-              <input
-                name="title"
-                placeholder="Title"
-                value={newItem.title}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                name="price"
-                type="number"
-                step="0.01"
-                placeholder="Price"
-                value={newItem.price}
-                onChange={handleInputChange}
-                required
-              />
-              <input
+        {isModalOpen && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
+              <h2>{isEditMode ? "Edit Item" : "Add New Menu Item"}</h2>
+              <form onSubmit={handleAddOrUpdateItem}>
+                <input
+                  name="title"
+                  placeholder="Title"
+                  value={newItem.title}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  name="price"
+                  type="number"
+                  step="0.01"
+                  placeholder="Price"
+                  value={newItem.price}
+                  onChange={handleInputChange}
+                  required
+                />
+                {/* <input
                 name="category"
                 placeholder="Category"
                 value={newItem.category}
                 onChange={handleInputChange}
                 required
-              />
-              <input
-                name="image"
-                placeholder="Image URL"
-                value={newItem.image}
+              /> */}
+                <select
+                 name="category"
+                placeholder="Category"
+                value={newItem.category}
                 onChange={handleInputChange}
                 required
-              />
-              <input
-                name="stock"
-                type="number"
-                placeholder="Stock"
-                value={newItem.stock}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                name="calories"
-                type="number"
-                placeholder="Calories"
-                value={newItem.calories}
-                onChange={handleInputChange}
-                required
-              />
-              <div className={styles.modalButtons}>
-                <button type="submit" className={styles.addItemButto}>
-                  {isEditMode ? "Update" : "Add Item"}
-                </button>
-                <button
-                  type="button"
-                  className={styles.cancelItemButto}
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    setIsEditMode(false);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+                > <option>Select Category</option>
+                  <option>All Categories</option>
+                  <option>Starters</option>
+                  <option>Main Course</option>
+                  <option>Dessert</option>
+                  <option>Sides</option>
+                  <option>Special</option>
+                </select>
+                <input
+                  name="image"
+                  placeholder="Image URL"
+                  value={newItem.image}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  name="stock"
+                  type="number"
+                  placeholder="Stock"
+                  value={newItem.stock}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  name="calories"
+                  type="number"
+                  placeholder="Calories"
+                  value={newItem.calories}
+                  onChange={handleInputChange}
+                  required
+                />
+                <div className={styles.modalButtons}>
+                  <button type="submit" className={styles.addItemButto}>
+                    {isEditMode ? "Update" : "Add Item"}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.cancelItemButto}
+                    onClick={() => {
+                      setIsModalOpen(false);
+                      setIsEditMode(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Sidebar>
   );
 };
 
