@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./InventoryManagement.module.css";
+import SideBar from "../adminSidebar/SideBar";
 
 const initialInventoryData = [
   {
@@ -175,6 +176,7 @@ const InventoryManagement = () => {
   };
 
   return (
+    <SideBar>
     <div className={styles.inventorycontainer}>
       <div className={styles.inventoryheader}>
         <h2>Inventory Management</h2>
@@ -327,6 +329,7 @@ const InventoryManagement = () => {
         </table>
       </div>
     </div>
+    </SideBar>
   );
 };
 
