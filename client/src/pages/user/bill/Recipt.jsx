@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import html2canvas from 'html2canvas';
-// import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 import styles from './Recipt.module.css';
 
@@ -10,7 +10,7 @@ const Recipt = () => {
   const receiptRef = useRef();
 
   const handleBackToMenu = () => {
-    navigate('/menu-management');
+    navigate('/');
   };
 
   const handleDownload = async () => {

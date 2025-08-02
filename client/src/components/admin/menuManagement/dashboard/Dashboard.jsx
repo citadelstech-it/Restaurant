@@ -9,6 +9,7 @@ import {
   AppstoreOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
+import Sidebar from '../../adminSidebar/SideBar.jsx'
 
 const Dashboard = () => {
   const [orders] = useState([
@@ -81,6 +82,7 @@ const Dashboard = () => {
   ];
 
   return (
+    <Sidebar>
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.contentWrapper}>
@@ -169,7 +171,8 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
-    </div>
+      </div>
+      </Sidebar>
   );
 };
 

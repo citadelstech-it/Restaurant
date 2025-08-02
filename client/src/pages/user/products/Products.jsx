@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { starters, mainCourse } from "../../../data/foodData";
 import productsStyle from "../products/Products.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ItemCard = ({ item, onAddToCart }) => {
   const [count, setCount] = useState(1);
@@ -32,12 +34,12 @@ const ItemCard = ({ item, onAddToCart }) => {
         <p className={productsStyle.price}>₹{item.price.toFixed(2)}</p>
         <div className={productsStyle.quantity_controls}>
           <button onClick={decrement}>−</button>
-          <span>{count}</span>
+          <span className={productsStyle.products_span}>{count}</span>
           <button onClick={increment}>+</button>
         </div>
       </div>
       <button className={productsStyle.cart_button} onClick={handleAddToCart}>
-        🛒 Add to Cart
+        <FontAwesomeIcon icon={faCartShopping} /> Add to Cart
       </button>
     </div>
   );
@@ -116,27 +118,34 @@ const Products = () => {
   return (
     <div>
       <nav className={productsStyle.nav}>
-        <button className={productsStyle.homeButton} onClick={()=>{navigate("/")}}>Home</button>
+        <button
+          className={productsStyle.homeButton}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Home
+        </button>
         <button
           className={productsStyle.cart_nav}
           onClick={() => navigate("/cart")}
         >
-          🛒 Cart ({cartCount})
+          <FontAwesomeIcon icon={faCartShopping} />
+          Cart ({cartCount})
         </button>
       </nav>
       <div className={productsStyle.products_page}>{renderCategory()}</div>
-       <div className={productsStyle .rotatingBackground1}></div>
-              <div className={productsStyle.rotatingBackground2}></div>
-              <div className={productsStyle.rotatingBackground3}></div>
-              <div className={productsStyle.rotatingBackground4}></div>
-              <div className={productsStyle.rotatingBackground5}></div>
-              <div className={productsStyle.rotatingBackground6}></div>
-              <div className={productsStyle.rotatingBackground7}></div>
-              <div className={productsStyle.rotatingBackground8}></div>
-              <div className={productsStyle.rotatingBackground9}></div>
-              <div className={productsStyle.rotatingBackground10}></div>
+      <div className={productsStyle.rotatingBackground1}></div>
+      <div className={productsStyle.rotatingBackground2}></div>
+      <div className={productsStyle.rotatingBackground3}></div>
+      <div className={productsStyle.rotatingBackground4}></div>
+      <div className={productsStyle.rotatingBackground5}></div>
+      <div className={productsStyle.rotatingBackground6}></div>
+      <div className={productsStyle.rotatingBackground7}></div>
+      <div className={productsStyle.rotatingBackground8}></div>
+      <div className={productsStyle.rotatingBackground9}></div>
+      <div className={productsStyle.rotatingBackground10}></div>
     </div>
-    
   );
 };
 
