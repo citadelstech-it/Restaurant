@@ -34,7 +34,7 @@
   align-items: center;
   margin-top: -15px;
 }
-span {
+.sidebar_span {
   background-color: rgb(74, 76, 216);
   width: 30px;
   height: 25px;
