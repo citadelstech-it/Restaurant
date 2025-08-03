@@ -133,7 +133,7 @@ const Checkout = () => {
             <label htmlFor="credit">
               <FontAwesomeIcon icon={faCreditCard} className={checkstyles.icon} />
               Credit/Debit Card
-            </label><br />
+            </label><br/>
             <input
               type="radio"
               id="paypal"
@@ -149,6 +149,16 @@ const Checkout = () => {
 
         </form>
       )}
+      <div className={checkstyles.rotatingBackground1}></div>
+        <div className={checkstyles.rotatingBackground2}></div>
+        <div className={checkstyles.rotatingBackground3}></div>
+        <div className={checkstyles.rotatingBackground4}></div>
+        <div className={checkstyles.rotatingBackground5}></div>
+        <div className={checkstyles.rotatingBackground6}></div>
+        <div className={checkstyles.rotatingBackground7}></div>
+        <div className={checkstyles.rotatingBackground8}></div>
+        <div className={checkstyles.rotatingBackground9}></div>
+        <div className={checkstyles.rotatingBackground10}></div>
     </div>
   );
 };

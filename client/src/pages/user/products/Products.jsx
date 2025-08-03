@@ -32,7 +32,7 @@ const ItemCard = ({ item, onAddToCart }) => {
         <p className={productsStyle.price}>₹{item.price.toFixed(2)}</p>
         <div className={productsStyle.quantity_controls}>
           <button onClick={decrement}>−</button>
-          <span>{count}</span>
+          <span className={item.products_span}>{count}</span>
           <button onClick={increment}>+</button>
         </div>
       </div>
