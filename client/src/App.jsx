@@ -10,6 +10,7 @@ import Recipt from "./pages/user/bill/Recipt";
 import InventoryManagement from "./components/admin/inventoryManagement/InventoryManagement";
 import MenuManagement from "./components/admin/menuManagement/MenuManagement";
 import OrederManagement from "./components/admin/orderManagement/OrederManagement";
+import LoginPage from "./components/admin/loginPage/LoginPage";
 import SideBar from "./components/admin/adminSidebar/SideBar";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/inventory-management" element={<  InventoryManagement />} />
         <Route path="/menu" element={<MenuManagement />} />
         <Route path="/order" element={<OrederManagement />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   );
