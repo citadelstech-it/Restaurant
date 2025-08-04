@@ -1,18 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../menuManagement/MenuManagement.module.css";
 import Sidebar from "../adminSidebar/SideBar";
 import axios from "axios";
 
-
 const MenuManagement = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [categories, setCategories] = useState([
-    "Starters",
-    "Main Course",
-    "Dessert",
-    "Sides",
-    "Special",
-  ]);
+  const [categories, setCategories] = useState([]);
   const [filterStatus, setFilterStatus] = useState("All Categories");
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,17 +13,34 @@ const MenuManagement = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
   const [newItem, setNewItem] = useState({
-    title: "",
+    name: "",
     price: "",
-    category: "",
+    description: "",
+    categoryId: "",
     image: "",
-    stock: "",
+    inStock: "",
     calories: "",
+    grams: "",
   });
   const [newCategory, setNewCategory] = useState({
-    title: "",
+    name: "",
     description: "",
   });
+
+  useEffect(() => {
+    fetchCategories();
+    fetchMenuItems();
+  }, []);
+
+  const fetchCategories = async () => {
+    const res = await axios.get("http://localhost:5000/api/categories");
+    setCategories(res.data);
+  };
+
+  const fetchMenuItems = async () => {
+    const res = await axios.get("http://localhost:5000/api/items");
+    setMenuItems(res.data);
+  };
 
   const handleInputChange = (e) => {
     setNewItem({ ...newItem, [e.target.name]: e.target.value });
@@ -51,62 +61,79 @@ const MenuManagement = () => {
     }
   };
 
-  const handleAddOrUpdateItem = (e) => {
+  const handleAddOrUpdateItem = async (e) => {
     e.preventDefault();
-    if (isEditMode) {
-      setMenuItems(
-        menuItems.map((item) =>
-          item.id === currentItem.id
-            ? {
-                ...newItem,
-                id: currentItem.id,
-                price: parseFloat(newItem.price),
-                stock: parseInt(newItem.stock),
-                calories: parseInt(newItem.calories),
-              }
-            : item
-        )
-      );
-    } else {
-      const item = {
-        id: menuItems.length + 1,
-        ...newItem,
-        price: parseFloat(newItem.price),
-        stock: parseInt(newItem.stock),
-        calories: parseInt(newItem.calories),
-      };
-      setMenuItems([...menuItems, item]);
+    const formData = new FormData();
+    formData.append("name", newItem.name);
+    formData.append("price", newItem.price);
+    formData.append("description", newItem.description);
+    formData.append("inStock", newItem.inStock);
+    formData.append("categoryId", newItem.categoryId);
+    formData.append("calories", newItem.calories);
+    formData.append("grams", newItem.grams);
+    if (e.target.image.files[0]) {
+      formData.append("image", e.target.image.files[0]);
     }
-    resetModal();
+
+    try {
+      if (isEditMode) {
+        await axios.put(`http://localhost:5000/api/items/${currentItem.id}`, formData);
+      } else {
+        await axios.post("http://localhost:5000/api/items", formData);
+      }
+      fetchMenuItems();
+      resetModal();
+    } catch (error) {
+      console.error("Error saving item", error);
+    }
   };
 
-  const handleDeleteItem = (id) => {
-    setMenuItems(menuItems.filter((item) => item.id !== id));
+  const handleDeleteItem = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/items/${id}`);
+      fetchMenuItems();
+    } catch (error) {
+      console.error("Error deleting item", error);
+    }
   };
 
   const handleEditItem = (item) => {
-    setNewItem(item);
+    setNewItem({
+      name: item.name,
+      price: item.price,
+      description: item.description,
+      categoryId: item.categoryId,
+      image: item.image,
+      inStock: item.inStock,
+      calories: item.calories,
+      grams: item.grams,
+    });
     setCurrentItem(item);
     setIsEditMode(true);
     setIsModalOpen(true);
   };
 
-  const handleAddCategory = (e) => {
+  const handleAddCategory = async (e) => {
     e.preventDefault();
-    if (newCategory.title) {
-      setCategories([...categories, newCategory.title]);
+    try {
+      await axios.post("http://localhost:5000/api/categories", newCategory);
+      fetchCategories();
       resetCategoryModal();
+    } catch (error) {
+      console.error("Error adding category", error);
     }
   };
 
   const resetModal = () => {
     setNewItem({
-      title: "",
+      name: "",
       price: "",
-      category: "",
+      description: "",
+      categoryId: "",
       image: "",
-      stock: "",
+      inStock: "",
       calories: "",
+      grams: "",
     });
     setIsModalOpen(false);
     setIsEditMode(false);
@@ -114,39 +141,19 @@ const MenuManagement = () => {
 
   const resetCategoryModal = () => {
     setNewCategory({
-      title: "",
+      name: "",
       description: "",
     });
     setIsCategoryModalOpen(false);
   };
 
   const filteredItems = menuItems.filter((item) => {
-    const matchesSearch = item.title
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
-      filterStatus === "All Categories" || item.category === filterStatus;
+      filterStatus === "All Categories" || item.categoryName === filterStatus;
     return matchesSearch && matchesCategory;
   });
- const handleCategory = async (e) =>{
-  e.preventDefault();
-   try{
-    const responce = await axios.post("http://localhost:5000/api/categories",{
-      name:newCategory.title,
-      description:newCategory.description  
-  });
-  console.log(responce,"from post category");
-  if(responce.status === 201){
-    setNewCategory({
-      title:"",
-      description:""
-    })
-  }
-   }catch(error){
-    console.log(error,"error posting category");
-    
-   }
- }
+
   return (
     <Sidebar>
       <div className={styles.container}>
@@ -168,7 +175,7 @@ const MenuManagement = () => {
         <div className={styles.topBar}>
           <input
             type="text"
-            placeholder="🔍 Search menu Items.."
+            placeholder="🔍 Search menu items..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className={styles.searchBox}
@@ -179,8 +186,10 @@ const MenuManagement = () => {
             onChange={(e) => setFilterStatus(e.target.value)}
           >
             <option>All Categories</option>
-            {categories.map((cat, idx) => (
-              <option key={idx}>{cat}</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.name}>
+                {cat.name}
+              </option>
             ))}
           </select>
         </div>
@@ -188,17 +197,17 @@ const MenuManagement = () => {
         <div className={styles.gridContainer}>
           {filteredItems.map((item) => (
             <div key={item.id} className={styles.card}>
-              <div className={styles.stockBadge}>{item.stock} in stock</div>
-              <img src={item.image} alt={item.title} />
+              <div className={styles.stockBadge}>{item.inStock} in stock</div>
+              <img src={item.image || item.imageUrl} alt={item.name} />
               <div className={styles.cardContent}>
                 <div className={styles.cardTitlePrice}>
-                  <h3>{item.title}</h3>
-                  <span>₹ {item.price.toFixed(2)}</span>
+                  <h3>{item.name}</h3>
+                  <span>₹ {item.price}</span>
                 </div>
-                <p>{item.category}</p>
+                <p>{item.categoryName}</p>
                 <div className={styles.grams}>
-                  <p>100 Grams</p>
-                  <p className={styles.calories}>{item.calories} kcal</p>
+                  <p>{item.grams || "100"} Grams</p>
+                  <p className={styles.calories}>{item.calories || "0"} kcal</p>
                 </div>
                 <div className={styles.cardButtons}>
                   <button
@@ -219,55 +228,50 @@ const MenuManagement = () => {
           ))}
         </div>
 
-        {/* Item Modal */}
         {isModalOpen && (
           <div className={styles.modalOverlay}>
             <div className={styles.modal}>
               <h2>{isEditMode ? "Edit Item" : "Add New Menu Item"}</h2>
               <form onSubmit={handleAddOrUpdateItem}>
                 <input
-                  name="title"
-                  placeholder="Title"
-                  value={newItem.title}
+                  name="name"
+                  placeholder="Item Name"
+                  value={newItem.name}
                   onChange={handleInputChange}
                   required
                 />
                 <input
                   name="price"
                   type="number"
-                  step="0.01"
                   placeholder="Price"
                   value={newItem.price}
                   onChange={handleInputChange}
                   required
                 />
+                <input
+                  name="description"
+                  placeholder="Description"
+                  value={newItem.description}
+                  onChange={handleInputChange}
+                />
                 <select
-                  name="category"
-                  value={newItem.category}
+                  name="categoryId"
+                  value={newItem.categoryId}
                   onChange={handleInputChange}
                   required
                 >
-                  <option>Select Category</option>
-                  {categories.map((cat, idx) => (
-                    <option key={idx}>{cat}</option>
+                  <option value="">Select Category</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
                   ))}
                 </select>
                 <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  required={!isEditMode && !newItem.image}
-                />
-                {newItem.image && (
-                  <div className={styles.imagePreview}>
-                    <img src={newItem.image} alt="Preview" />
-                  </div>
-                )}
-                <input
-                  name="stock"
+                  name="grams"
                   type="number"
-                  placeholder="Stock"
-                  value={newItem.stock}
+                  placeholder="Grams"
+                  value={newItem.grams}
                   onChange={handleInputChange}
                   required
                 />
@@ -279,9 +283,28 @@ const MenuManagement = () => {
                   onChange={handleInputChange}
                   required
                 />
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {newItem.image && (
+                  <div className={styles.imagePreview}>
+                    <img src={newItem.image} alt="Preview" />
+                  </div>
+                )}
+                <input
+                  name="inStock"
+                  type="number"
+                  placeholder="Stock"
+                  value={newItem.inStock}
+                  onChange={handleInputChange}
+                  required
+                />
                 <div className={styles.modalButtons}>
                   <button type="submit" className={styles.addItemButto}>
-                    {isEditMode ? "Update" : "Add Item"}
+                    {isEditMode ? "Update Item" : "Add Item"}
                   </button>
                   <button
                     type="button"
@@ -296,16 +319,15 @@ const MenuManagement = () => {
           </div>
         )}
 
-        {/* Category Modal */}
         {isCategoryModalOpen && (
           <div className={styles.modalOverlay}>
             <div className={styles.modal}>
               <h2>Add New Category</h2>
-              <form onSubmit={handleCategory}>
+              <form onSubmit={handleAddCategory}>
                 <input
-                  name="title"
-                  placeholder="Category Title"
-                  value={newCategory.title}
+                  name="name"
+                  placeholder="Category Name"
+                  value={newCategory.name}
                   onChange={handleCategoryInputChange}
                   required
                 />
