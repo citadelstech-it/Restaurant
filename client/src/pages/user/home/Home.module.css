@@ -219,8 +219,8 @@
 }
 .rotatingBackground4 {
   position: fixed;
-  top: 92%;
-  left: 8%;
+  top: 93%;
+  left: 93%;
   transform: translate(-50%, -50%);
   z-index: -1;
   width: 100px;
@@ -232,8 +232,8 @@
 }
 .rotatingBackground5 {
   position: fixed; 
-  top: 19%;
-  left: 48%;
+  top: 15%;
+  left: 13%;
   /* transform: translate(-50%, -50%); */
   z-index: -1;
   width: 100px;
@@ -245,7 +245,7 @@
 }
 .rotatingBackground6 {
   position: fixed; 
-  top: 9%;
+  top: 15%;
   left: 35%;
   /* transform: translate(-50%, -50%); */
   z-index: -1;
@@ -258,7 +258,7 @@
 }
 .rotatingBackground7 {
   position: fixed; 
-  top: 14%;
+  top: 19%;
   left: 2%;
   /* transform: translate(-50%, -50%); */
   z-index: -1;
@@ -285,7 +285,7 @@
 .rotatingBackground9 {
   position: fixed; 
   top: 56%;
-  left: 93%;
+  left: 90%;
   /* transform: translate(-50%, -50%); */
   z-index: -1;
   width: 100px;
@@ -306,6 +306,20 @@
   background: url('../../../assets/homeImages/strawbeery.png') no-repeat center center;
   background-size: cover;
   opacity: 1; 
+  /* animation: rotate 60s linear infinite; */
+}
+
+.rotatingBackground11 {
+  position: fixed; 
+  top: 90%;
+  left: 6%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 200px;
+  height: 300px;
+  background: url('../../../assets/homeImages/coffee-beans.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
   /* animation: rotate 60s linear infinite; */
 }
 @keyframes rotate {
@@ -351,4 +365,65 @@
   .section2 {
     flex-direction: column;
   }
+}
+
+@media (max-width: 1024px) {
+  .rotatingBackground1,
+  .rotatingBackground2,
+  .rotatingBackground3,
+  .rotatingBackground4,
+  .rotatingBackground5,
+  .rotatingBackground6,
+  .rotatingBackground7,
+  .rotatingBackground8,
+  .rotatingBackground9,
+  .rotatingBackground10,
+  .rotatingBackground11 {
+    width: 70px;
+    height: 70px;
+    background-size: contain;
+  }
+
+  .rotatingBackground1 { top: 88%; left: 45%; }
+  .rotatingBackground2 { top: 32%; left: 22%; }
+  .rotatingBackground3 { top: 30%; left: 70%; }
+  .rotatingBackground4 { top: 90%; left: 90%; }
+  .rotatingBackground5 { top: 12%; left: 10%; }
+  .rotatingBackground6 { top: 12%; left: 30%; }
+  .rotatingBackground7 { top: 15%; left: 5%; }
+  .rotatingBackground8 { top: 14%; left: 90%; }
+  .rotatingBackground9 { top: 50%; left: 88%; }
+  .rotatingBackground10 { top: 8%; left: 75%; }
+  .rotatingBackground11 { top: 90%; left: 5%; width: 120px; height: 180px; }
+}
+
+@media (max-width: 600px) {
+  .rotatingBackground1,
+  .rotatingBackground2,
+  .rotatingBackground3,
+  .rotatingBackground4,
+  .rotatingBackground5,
+  .rotatingBackground6,
+  .rotatingBackground7,
+  .rotatingBackground8,
+  .rotatingBackground9,
+  .rotatingBackground10,
+  .rotatingBackground11 {
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    opacity: 0.7;
+  }
+
+  .rotatingBackground1 { top: 85%; left: 42%; }
+  .rotatingBackground2 { top: 28%; left: 20%; }
+  .rotatingBackground3 { top: 28%; left: 65%; }
+  .rotatingBackground4 { top: 88%; left: 88%; }
+  .rotatingBackground5 { top: 10%; left: 8%; }
+  .rotatingBackground6 { top: 10%; left: 28%; }
+  .rotatingBackground7 { top: 13%; left: 4%; }
+  .rotatingBackground8 { top: 12%; left: 88%; }
+  .rotatingBackground9 { top: 45%; left: 85%; }
+  .rotatingBackground10 { top: 6%; left: 70%; }
+  .rotatingBackground11 { top: 88%; left: 4%; width: 100px; height: 150px; }
 }

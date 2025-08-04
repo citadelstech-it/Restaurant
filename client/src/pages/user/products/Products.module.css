@@ -1,280 +1,221 @@
-.products_page {
+/* .productsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 24px;
+  justify-content: center;
+}
+
+.card {
+  width: 250px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+.imageWrapper {
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.stockBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #222;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.title {
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.description {
+  font-size: 14px;
+  color: #555;
+  margin-top: 4px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.price {
+  color: orange;
+  font-weight: bold;
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qtyControl {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 6px;
+  gap: 6px;
+}
+
+.qtyControl button {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.addToCartBtn {
+  background: orange;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.addToCartBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+} */
+
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 60px;
+  width: 100%;
+  background-color: #000;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo {
+  font-size: 24px;
+}
+
+.navButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.navBtn {
+  background: orange;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.productsContainer {
+  display: flex;
+  gap: 2rem;
   padding: 2rem;
 }
 
-.nav {
-  background: white;
-  padding: 1rem;
-  /* text-align: right; */
-  border-bottom: 1px solid #ddd;
+
+.card {
+  width: 300px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: 0.3s;
+}
+
+.imageWrapper {
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.stockBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff4757;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.title {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.price {
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.cart_nav {
-  background: orange;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  border: none;
-}
-
-.homeButton{
-  width: 100px;
-  height: 44px;
-   background: orange;
-  color: white;
-  cursor: pointer;
-  border: none;
-  border-radius: 4px;
-}
-
-.category {
-  margin-bottom: 3rem;
-}
-
-.item_grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 1.5rem;
-}
-
-.item_card {
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+.qtyControl {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  height: 400px;
+  gap: 0.5rem;
 }
 
-.food_image {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-}
-
-.stock_badge {
-  position: absolute;
-  top: 4px;
-  right: 10px;
-  background: #b8ef8e;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.description {
-  color: #555;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-
-.price {
-  font-weight: bold;
-  font-size: 1.0rem;
-  color: #d35400;
-}
-
-.quantity_controls {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.quantity_controls button {
-  width: 25px;
-  height: 25px;
-  font-size: 18px;
-  border: 1px solid #ccc;
-  background: #fff;
-  border-radius: 4px;
+.qtyControl button {
+  width: 28px;
+  height: 28px;
+  background-color: #eee;
+  border: none;
   cursor: pointer;
-  margin-top: 19px;
+  font-size: 16px;
 }
 
-.cart_button {
-  background-color: #f60;
+.addToCartBtn {
+  background-color:orange;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  width: 100%;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 20px;
-}
-.products_span{
-  background-color: red;
-  height: 31px;
-  width: 30px;
-  color: white;
-  text-align: center;
-  border-radius: 50%;
-  padding-top: 2px;
-  margin-top: 19px;
-}
-.priceDiv{
+  padding: 0.4rem 0.8rem;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 15px;
-}
-.priceDiv p{
-  font-size: 20px;
-  margin-top: 5px;
-}
-
-
-
-
-
-.rotatingBackground1 {
-  position: fixed; 
-  top: 90%;
-  left: 47%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/oranges.png') no-repeat center center;
-  background-size: cover;
-  opacity: 0.5; 
-  animation: rotate 60s linear infinite;
-}
-.rotatingBackground2 {
-  position: fixed;
-  top: 36%;
-  left: 24%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/vecteezy.png') no-repeat center center;
-  background-size: cover;
-  opacity: 0.9; 
-  animation: rotate 60s linear infinite;
-}
-.rotatingBackground3 {
-  position: fixed; 
-  top: 33%;
-  left: 73%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/waterLemon.png') no-repeat center center;
-  background-size: cover;
-  opacity: 0.9; 
-  /* animation: rotate 60s linear infinite; */
-}
-.rotatingBackground4 {
-  position: fixed;
-  top: 95%;
-  left: 5%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/cherry.png') no-repeat center center;
-  background-size: cover;
-  opacity: 0.9;
-  /* animation: rotate 60s linear infinite; */
-}
-.rotatingBackground5 {
-  position: fixed; 
-  top: 19%;
-  left: 48%;
-  /* transform: translate(-50%, -50%); */
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/leef.png') no-repeat center center;
-  background-size: cover;
-  opacity: 0.9; 
-  /* animation: rotate 60s linear infinite; */
-}
-.rotatingBackground6 {
-  position: fixed; 
-  top: 9%;
-  left: 35%;
-  /* transform: translate(-50%, -50%); */
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/vecteezy.png') no-repeat center center;
-  background-size: cover;
-  opacity: 0.9;
-  animation: rotate 60s linear infinite;
-}
-.rotatingBackground7 {
-  position: fixed; 
-  top: 14%;
-  left: 2%;
-  /* transform: translate(-50%, -50%); */
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/oranges.png') no-repeat center center;
-  background-size: cover;
-  opacity: 0.9; 
-  animation: rotate 60s linear infinite;
-}
-.rotatingBackground8 {
-  position: fixed;
-  top: 16%;
-  left: 95%;
-  /* transform: translate(-50%, -50%); */
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/greenApple.png') no-repeat center center;
-  background-size: cover;
-  opacity: 0.9; 
-  /* animation: rotate 60s linear infinite; */
-}
-.rotatingBackground9 {
-  position: fixed; 
-  top: 56%;
-  left: 93%;
-  /* transform: translate(-50%, -50%); */
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/leef.png') no-repeat center center;
-  background-size: cover;
-  opacity: 0.9; 
-  /* animation: rotate 60s linear infinite; */
-}
-.rotatingBackground10 {
-  position: fixed; 
-  top: 10%;
-  left: 80%;
-  /* transform: translate(-50%, -50%); */
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  background: url('../../../assets/homeImages/strawbeery.png') no-repeat center center;
-  background-size: cover;
-  opacity: 1; 
-  /* animation: rotate 60s linear infinite; */
-}
-@keyframes rotate {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
+  gap: 0.3rem;
+  cursor: pointer;
+  border-radius: 4px;
 }
