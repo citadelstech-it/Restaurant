@@ -154,7 +154,7 @@ const MenuManagement = () => {
   return (
     <div className={styles.container}>
       <div className={styles.mainNavBar}>
-        <h1>Menu Management</h1>
+        <h1 className={styles.h1}>Menu Management</h1>
         <button
           onClick={() => setIsModalOpen(true)}
           className={styles.addButton}

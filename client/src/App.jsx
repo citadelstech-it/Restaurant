@@ -3,16 +3,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import  Home from "./pages/user/home/Home";
 import Dashboard from "./components/admin/menuManagement/dashboard/Dashboard";
 import OrderHistory from "./components/admin/menuManagement/orderhistory/OrderHistory";
-// import { useState } from "react";
 import Cart from "./pages/user/cart/Cart";
-import SideBar from "./components/admin/adminSidebar/sideBar";
-// import ItemsList from "./pages/user/itemsList/ItemList"; 
 import Products from "./pages/user/products/Products";
 import Checkout from "./pages/user/checkout/Checkout";
 import Recipt from "./pages/user/bill/Recipt";
 import InventoryManagement from "./components/admin/inventoryManagement/InventoryManagement";
 import MenuManagement from "./components/admin/menuManagement/MenuManagement";
 import OrderManagement from "./components/admin/orderManagement/OrderManagement";
+//*import SideBar from "./components/admin/adminSidebar/SideBar";
+import SideBar from "./components/admin/adminSidebar/sideBar";
 
 function App() {
   return (

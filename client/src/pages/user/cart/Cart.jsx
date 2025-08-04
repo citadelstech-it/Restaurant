@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './Cart.module.css';
 import chickenbiryani from '../cart/Chicken Biryani.webp';
 import muttonbiryani from '../cart/Mutton Biryani.webp';
+import { useNavigate } from 'react-router-dom';
 
 const TAX_RATE = 0.05;
 
@@ -35,6 +36,8 @@ const Cart = () => {
       )
     );
   };
+
+  const navigate = useNavigate();
 
   const handleRemove = id => {
     setCartItems(prev => prev.filter(item => item.id !== id));
@@ -78,7 +81,7 @@ const Cart = () => {
             <p>Tax (5%) <span>₹ {tax}</span></p>
             <hr />
             <h4>Total <span>₹ {total}</span></h4>
-            <button className={styles.checkout}>Proceed to Checkout</button>
+            <button className={styles.checkout} onClick={()=>{navigate("/checkout")}}>Proceed to Checkout</button>
           </div>
         </div>
       </div>
