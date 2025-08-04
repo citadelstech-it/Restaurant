@@ -9,26 +9,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  background-color:#f8fafc ;
+  background-color: #f8fafc;
 }
 
-.addItemsBtn {
-  background-color: #22c55e;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.exportBtn:hover {
-  background-color: #16a34a;
-}
-.searchNavBar{
+.searchNavBar {
   background-color: white;
   border: 1px solid rgb(173, 162, 162);
-  
 }
 
 .searchBar {
@@ -36,14 +22,13 @@
   justify-content: space-between;
   padding: 14px;
   border: 1px solid #ccc;
-
 }
 
 .searchInput {
   width: 260px;
   padding: 12px;
-  border-radius: 6px; 
-  
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
 }
 
 .allItemsdropdown {
@@ -56,24 +41,25 @@
   width: 100%;
   border-collapse: collapse;
   background-color: white;
- 
+  border: none;
 }
 
 .inventoryTable th,
 .inventoryTable td {
-  padding: 14px ;
+  padding: 14px;
   text-align: center;
-  /* border-left: none;
-  border-right: none; */
+  border-bottom:1px solid gray;
+  
 }
 
 .inventoryTable th {
-  background-color:#f1f5f9;;
+  background-color: #f1f5f9;
   color: #334155;
   font-size: 14px;
   font-weight: 600;
   
 }
+
 .inventoryTable tr {
   border-bottom: 0.5px solid #d4dbe2;
 }
@@ -81,7 +67,6 @@
 .itemCell {
   display: flex;
   align-items: center;
-  text-align: center;
   gap: 10px;
 }
 
@@ -91,13 +76,6 @@
   border-radius: 6px;
   object-fit: cover;
 }
-
-/* .editIcon {
-  font-size: 14px;
-  margin-left: 6px;
-  cursor: pointer;
-  color: #4b5563;
-} */
 
 .statusBadge {
   padding: 4px 12px;
@@ -116,11 +94,11 @@
   background-color: #fef3c7;
   color: #92400e;
 }
-.outofstock {
-  background-color: #e0e0e0;  
-  color: #333;                
-}
 
+.outofstock {
+  background-color: #e0e0e0;
+  color: #333;
+}
 
 .plus,
 .minus {
@@ -134,22 +112,25 @@
 }
 
 .plus {
-  
   color: #0284c7;
 }
 
 .minus {
-  
   color: #b91c1c;
 }
+
 .plus:hover,
 .minus:hover {
-  color: rgb(47, 255, 179); 
-  background-color:rgb(112, 39, 112);          
+  color: rgb(47, 255, 179);
+  background-color: rgb(148, 62, 165);
 }
+
 .editIcon {
   margin-left: 8px;
   cursor: pointer;
+  font-size: 16px;
+  background: none;
+  border: none;
   color: #555;
 }
 
@@ -159,31 +140,5 @@
   font-size: 14px;
   border: 1px solid #aaa;
   border-radius: 4px;
+  text-align: center;
 }
-.addItemForm {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 15px 0;
-}
-
-.addItemForm input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.addItemForm button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  background-color: #28a745;
-  color: white;
-  cursor: pointer;
-}
-
-.addItemForm button:last-child {
-  background-color: #dc3545;
-}
-
-
