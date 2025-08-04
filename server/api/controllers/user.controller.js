@@ -62,3 +62,26 @@ exports.logoutUser = async (req, res) => {
         res.status(500).json({ message: 'Server error', error });
     }
 };
+
+exports.resetPassword = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { newPassword } = req.body;
+
+        if (!newPassword) {
+            return res.status(400).json({ message: 'New password is required' });
+        }
+
+        const user = await Users.findByPk(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        user.Password = await bcrypt.hash(newPassword, 10);
+        await user.save();
+
+        res.json({ message: 'Password reset successful' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
