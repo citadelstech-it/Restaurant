@@ -14,23 +14,46 @@ const getFilteredOrders = (orders, filter) => {
   return orders.filter(order => {
     const orderDate = new Date(order.date);
     const diffDays = (now - orderDate) / (1000 * 60 * 60 * 24);
-    if (filter === 'today') return diffDays < 1;
-    if (filter === 'yesterday') return diffDays >= 1 && diffDays < 2;
-    if (filter === 'weekly') return diffDays < 7;
-    if (filter === 'monthly') return diffDays < 30;
-    if (filter === 'yearly') return diffDays < 365;
-    return true;
+    switch (filter) {
+      case 'today':
+        return now.toDateString() === orderDate.toDateString();
+      case 'yesterday':
+        const yesterday = new Date(now);
+        yesterday.setDate(now.getDate() - 1);
+        return yesterday.toDateString() === orderDate.toDateString();
+      case 'weekly':
+        return diffDays < 7;
+      case 'monthly':
+        return diffDays < 30;
+      case 'yearly':
+        return diffDays < 365;
+      default:
+        return true;
+    }
   });
 };
 
 const OrderHistory = () => {
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [orders, setOrders] = useState(sampleOrders);
+  const [orders] = useState(sampleOrders);
 
-  const filteredOrders = getFilteredOrders(orders, filter).filter(order =>
-    order.customer.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredOrders = getFilteredOrders(orders, filter)
+    .filter(order => order.id.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by latest first
+
+  const groupedOrders = filteredOrders.reduce((groups, order) => {
+    const formattedDate = new Date(order.date).toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+    if (!groups[formattedDate]) {
+      groups[formattedDate] = [];
+    }
+    groups[formattedDate].push(order);
+    return groups;
+  }, {});
 
   return (
     <div className={styles.orderHistory}>
@@ -40,7 +63,7 @@ const OrderHistory = () => {
         <input
           className={styles.searchInput}
           type="text"
-          placeholder="Search by customer..."
+          placeholder="Search by Order ID..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -71,20 +94,29 @@ const OrderHistory = () => {
           </thead>
           <tbody>
             <AnimatePresence>
-              {filteredOrders.map((order) => (
-                <motion.tr
-                  key={order.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <td>{order.date}</td>
-                  <td>{order.id}</td>
-                  <td>{order.customer}</td>
-                  <td>{order.status}</td>
-                  <td>₹{order.total.toLocaleString('en-IN')}</td>
-                </motion.tr>
+              {Object.entries(groupedOrders).map(([date, orders]) => (
+                <React.Fragment key={date}>
+                  <tr className={styles.dateRow}>
+                    <td colSpan="5" className={styles.dateHeading}>
+                      -- {date} --
+                    </td>
+                  </tr>
+                  {orders.map(order => (
+                    <motion.tr
+                      key={order.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <td>{date}</td>
+                      <td>{order.id}</td>
+                      <td>{order.customer}</td>
+                      <td>{order.status}</td>
+                      <td>₹{order.total.toLocaleString('en-IN')}</td>
+                    </motion.tr>
+                  ))}
+                </React.Fragment>
               ))}
             </AnimatePresence>
           </tbody>

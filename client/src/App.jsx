@@ -9,7 +9,7 @@ import Checkout from "./pages/user/checkout/Checkout";
 import Recipt from "./pages/user/bill/Recipt";
 import InventoryManagement from "./components/admin/inventoryManagement/InventoryManagement";
 import MenuManagement from "./components/admin/menuManagement/MenuManagement";
-import OrederManagement from "./components/admin/orderManagement/OrederManagement";
+import OrderManagement from "./components/admin/orderManagement/OrderManagement";
 import SideBar from "./components/admin/adminSidebar/SideBar";
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
         <Route path="/recipt" element={<Recipt />} />
         <Route path="/inventory-management" element={<  InventoryManagement />} />
         <Route path="/menu" element={<MenuManagement />} />
-        <Route path="/order" element={<OrederManagement />} />
+        <Route path="/order" element={<OrderManagement />} />
       </Routes>
     </BrowserRouter>
   );

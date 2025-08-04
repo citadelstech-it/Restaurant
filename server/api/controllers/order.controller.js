@@ -1,5 +1,5 @@
-const { Users, CartItems, Items, Orders, OrderItems, } = require('../models');
-
+const { Users, CartItems, Items, Orders, OrderItems, Categories } = require('../models');
+const { Op } = require('sequelize');
 
 async function generateOrderId() {
     const lastOrder = await Orders.findOne({
@@ -76,13 +76,37 @@ exports.checkout = async (req, res) => {
 
 exports.getOrders = async (req, res) => {
     try {
-        const orders = await Orders.findAll({
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const offset = (page - 1) * limit;
+
+        // Get today's start and end times (00:00 to 23:59)
+        const start = new Date();
+        start.setHours(0, 0, 0, 0);
+        const end = new Date();
+        end.setHours(23, 59, 59, 999);
+
+        const { count, rows: orders } = await Orders.findAndCountAll({
+            where: {
+                createdAt: {
+                    [Op.between]: [start, end]
+                }
+            },
+            offset,
+            limit,
+            order: [['createdAt', 'DESC']],
             include: [{
                 model: OrderItems,
                 include: [Items]
             }]
         });
-        res.json(orders);
+
+        res.json({
+            orders,
+            totalOrders: count,
+            currentPage: page,
+            totalPages: Math.ceil(count / limit)
+        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -123,3 +147,99 @@ exports.ChangeStatus = async (req, res) => {
     }
 };
 
+exports.orderHistory = async (req, res) => {
+    try {
+        const { order_id, order_date } = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const offset = (page - 1) * limit;
+
+        let where = {};
+
+        if (order_id) {
+            where.Order_Id = { [Op.like]: `%${order_id}%` };
+        }
+
+        if (order_date) {
+            const start = new Date(order_date);
+            start.setHours(0, 0, 0, 0);
+            const end = new Date(order_date);
+            end.setHours(23, 59, 59, 999);
+            where.createdAt = { [Op.between]: [start, end] };
+        }
+
+        const { count, rows: orders } = await Orders.findAndCountAll({
+            where,
+            offset,
+            limit,
+            order: [['createdAt', 'DESC']],
+            include: [{
+                model: OrderItems,
+                include: [Items]
+            }]
+        });
+
+        res.json({
+            orders,
+            totalOrders: count,
+            currentPage: page,
+            totalPages: Math.ceil(count / limit)
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+exports.getDashboardData = async (req, res) => {
+    try {
+        // Total revenue (sum of GrandTotal for all orders)
+        const totalRevenueResult = await Orders.findAll({
+            attributes: [
+                [require('sequelize').fn('SUM', require('sequelize').col('GrandTotal')), 'totalRevenue']
+            ]
+        });
+        const totalRevenue = parseFloat(totalRevenueResult[0].get('totalRevenue')) || 0;
+
+        // Total orders count
+        const totalOrders = await Orders.count();
+
+        // Menu items count
+        const menuItemsCount = await Items.count();
+
+        // Low stock item count (<= 10)
+        const lowStockCount = await Items.count({
+            where: {
+                inStock: { [require('sequelize').Op.lte]: 10 }
+            }
+        });
+
+        // Recent orders (limit 3, latest first)
+        const recentOrders = await Orders.findAll({
+            limit: 3,
+            order: [['createdAt', 'DESC']],
+            include: [{
+                model: OrderItems,
+                include: [Items]
+            }]
+        });
+
+        // Low stock alert items (<= 10)
+        const lowStockItems = await Items.findAll({
+            where: {
+                inStock: { [require('sequelize').Op.lte]: 10 }
+            },
+            include: [{ model: Categories }]
+        });
+
+        res.json({
+            totalRevenue,
+            totalOrders,
+            menuItemsCount,
+            lowStockCount,
+            recentOrders,
+            lowStockItems
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};

@@ -89,3 +89,14 @@
   transition: background-color 0.3s ease;
 }
 
+.dateRow {
+  background-color: #f9f9f9;
+}
+
+.dateHeading {
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 0;
+  color: #444;
+  background-color: #eee;
+}

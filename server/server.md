@@ -24,6 +24,10 @@ http://localhost:5000/api
     Login a user.  
   **Body:** `{ userName, password}`
 
+- **PUT /users/:id/resetPassword**  
+  Admin resets a user's password by ID.  
+  **Body:** `{ newPassword }`
+
 ### Categories
 
 - **GET /categories**  
@@ -47,8 +51,17 @@ http://localhost:5000/api
 
 ### Items
 
-- **GET /items**  
-  Get all items (includes category).
+**GET /items**  
+  Get all items with pagination and filters.  
+  **Query params:**  
+  - `page` (number, optional)  
+  - `limit` (number, optional)  
+  - `item_name` (string, optional, filter by name)  
+  - `stock_status` (string, optional: `low`, `in`, `out`, `all`)  
+    - `low`: inStock < 10 and > 0  
+    - `in`: inStock > 10  
+    - `out`: inStock == 0  
+    - `all`: all items
 
 - **POST /items**  
   Add a new item.  
@@ -84,11 +97,22 @@ http://localhost:5000/api
 
 ### Orders
 
-- **GET /orders**  
-  Get all orders.
+- **GET /orders/getOrders**
+  Get today's orders with pagination.  
+  **Query params:**  
+  - `page` (number, optional)  
+  - `limit` (number, optional)
 
 - **GET /orders/:id**  
   Get a single order by ID.
+
+- **GET /orders/orderHistory**  
+  Filter orders by order_id and/or order_date with pagination.  
+  **Query params:**  
+  - `order_id` (string, optional)  
+  - `order_date` (YYYY-MM-DD, optional)  
+  - `page` (number, optional)  
+  - `limit` (number, optional)
 
 - **POST /orders/checkout**  
   Place an order (checkout).  
@@ -97,6 +121,19 @@ http://localhost:5000/api
 - **PUT /orders/status/:id**  
   Change order status.  
   **Body:** `{ status }`
+
+---
+
+### Dashboard
+
+- **GET orders/dashboard**  
+  Get dashboard data:  
+  - Total revenue  
+  - Total orders count  
+  - Menu items count  
+  - Low stock item count (<= 10)  
+  - Recent orders (limit 3)  
+  - Low stock alert items (<= 10)
 
 ---
 

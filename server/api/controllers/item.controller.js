@@ -40,8 +40,43 @@ exports.addItem = async (req, res) => {
 
 exports.getItems = async (req, res) => {
     try {
-        const items = await Items.findAll({ include: [{ model: Categories }] });
-        res.json(items);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const offset = (page - 1) * limit;
+        const { item_name, stock_status } = req.query;
+
+        // Build where clause
+        let where = {};
+
+        if (item_name) {
+            where.name = { [require('sequelize').Op.iLike]: `%${item_name}%` };
+        }
+
+        if (stock_status) {
+            if (stock_status === 'low') {
+                where.inStock = { [require('sequelize').Op.lte]: 10, [require('sequelize').Op.gt]: 0 };
+            } else if (stock_status === 'in') {
+                where.inStock = { [require('sequelize').Op.gt]: 10 };
+            } else if (stock_status === 'out') {
+                where.inStock = 0;
+            }
+            // 'all' or undefined: no filter
+        }
+
+        const { count, rows: items } = await Items.findAndCountAll({
+            where,
+            offset,
+            limit,
+            order: [['createdAt', 'DESC']],
+            include: [{ model: Categories }]
+        });
+
+        res.json({
+            items,
+            totalItems: count,
+            currentPage: page,
+            totalPages: Math.ceil(count / limit)
+        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
