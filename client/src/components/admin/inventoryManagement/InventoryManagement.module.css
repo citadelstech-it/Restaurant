@@ -9,11 +9,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  background-color: #f8fafc;
+  background-color:#f8fafc ;
 }
 
 .searchNavBar {
-  background-color: white;
+  background-color: white ;
   border: 1px solid rgb(173, 162, 162);
 }
 
@@ -142,3 +142,5 @@
   border-radius: 4px;
   text-align: center;
 }
+
+
