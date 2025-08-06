@@ -17,7 +17,7 @@ async function generateOrderId() {
 }
 
 exports.checkout = async (req, res) => {
-    const { user_id, customer_name, customer_email, customer_phone, paymentMethod } = req.body;
+    const { user_id, customer_name, customer_email, customer_phone, paymentMethod, transactionId, paymentStatus } = req.body;
 
     try {
         const cart = await Users.findByPk(user_id, {
@@ -49,7 +49,9 @@ exports.checkout = async (req, res) => {
             GST: gstAmount,
             GrandTotal: totalAmount,
             status: 'pending',
-            paymentMethod
+            paymentMethod,
+            transactionId,
+            paymentStatus: paymentStatus || 'PENDING'
         });
 
         for (const ci of cart.CartItems) {

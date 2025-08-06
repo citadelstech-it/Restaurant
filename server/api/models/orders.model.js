@@ -41,7 +41,11 @@ const Orders = sequelize.define("Orders", {
     paymentMethod: {
         type: DataTypes.STRING,
         allowNull: true
-    }
+    },
+    transactionId: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
 });
 
 module.exports = Orders;
