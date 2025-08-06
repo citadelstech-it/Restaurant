@@ -1,181 +1,10 @@
-// import React, { useState } from 'react';
-// import checkstyles from "../checkout/Checkout.module.css";
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faCreditCard, faPhone,  } from '@fortawesome/free-solid-svg-icons';
-// import { useNavigate } from 'react-router-dom';
-
-// const Checkout = () => {
-//   const [formData, setFormData] = useState({
-//     fullName: '',
-//     phone: '',
-//     email: '',
-//     instructions: '',
-//     payment: '',
-//   });
-
-//   const navigate = useNavigate();
-//   const handleBackToMenu = () => {
-//     navigate('/');
-//   };
-
-//   const [showModal, setShowModal] = useState(false); 
-
-//   const handleChange = (e) => {
-//     const { name, value, type } = e.target;
-//     setFormData({
-//       ...formData,
-//       [name]: type === 'radio' ? value : value
-//     });
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-
-//     const { fullName, phone, email, payment } = formData;
-//     if (!fullName || !phone || !email || !payment) {
-//       alert('Please fill all required fields and select a payment method.');
-//       return;
-//     }
-
-    
-//     setShowModal(true);
-
-    
-//     setFormData({
-//       fullName: '',
-//       phone: '',
-//       email: '',
-//       instructions: '',
-//       payment: '',
-//     });
-//   };
-
-//   const closeModal = () => {
-//     setShowModal(false);
-//   };
-
-//   return (
-//     <div>
-//       <div className={checkstyles.outnav}>
-//         <a className={checkstyles.backmenu} href="#" onClick={handleBackToMenu}><p>← Back To Menu</p></a>
-//         <h1>Checkout</h1>
-//       </div>
-
-    
-//       {showModal && (
-//         <div className={checkstyles.modalOverlay}>
-//           <div className={checkstyles.modalContent}>
-//             <h2>🎉 Order Placed Successfully!</h2>
-//             <p>Thank you for your order! Your food will be delivered soon.</p>
-//             <button onClick={()=>{navigate("/recipt")}}>View Recipt</button>
-//           </div>
-//         </div>
-//       )}
-
-      
-//       {!showModal && (
-//         <form onSubmit={handleSubmit} className={checkstyles.outmain}>
-
-//           <div className={checkstyles.grid1}>
-//             <h3>🛵 Delivery Information</h3>
-
-//             <label>Full Name</label><br />
-//             <input
-//               type="text"
-//               name="fullName"
-//               placeholder="Enter your full name"
-//               value={formData.fullName}
-//               onChange={handleChange}
-//               required /><br />
-
-//             <label>Phone Number</label><br />
-//             <input
-//               type="tel"
-//               name="phone"
-//               placeholder="Enter your phone number"
-//               value={formData.phone}
-//               onChange={handleChange}
-//               required /><br />
-
-//             <label>Email</label><br />
-//             <input
-//               name="email"
-//               rows="3"
-//               placeholder="Enter your email "
-//               value={formData.email}
-//               onChange={handleChange}
-//               required /><br />
-
-//             <label>Special Instructions</label><br />
-//             <textarea
-//               name="instructions"
-//               rows="2"
-//               placeholder="Any special requests or instructions"
-//               value={formData.instructions}
-//               onChange={handleChange} />
-//           </div>
-
-//           <div className={checkstyles.grid2}>
-//             <h3>📦 Order Summary</h3>
-//             <p>Chicken Fry × 1 <strong>₹66.90</strong></p>
-//             <p>Bagara Rice × 1 <strong>₹13.00</strong></p>
-//             <hr />
-//             <h4>Total <span>₹79.90</span></h4>
-//             <button type="submit">✓ Place Order</button>
-//           </div>
-
-//           <div className={checkstyles.grid3}>
-//             <h3>💳 Payment Methods</h3>
-
-//             <input
-//               type="radio"
-//               id="credit"
-//               name="payment"
-//               value="Credit/Debit Card"
-//               checked={formData.payment === 'Credit/Debit Card'}
-//               onChange={handleChange} />
-//             <label htmlFor="credit">
-//               <FontAwesomeIcon icon={faCreditCard} className={checkstyles.icon} />
-//               Credit/Debit Card
-//             </label><br/>
-//             <input
-//               type="radio"
-//               id="phonepay"
-//               name="payment"
-//               value="Phonepay"
-//               checked={formData.payment === 'PhonePay'}
-//               onChange={handleChange} />
-//             <label htmlFor="paypal">
-//               <FontAwesomeIcon icon={faPhone} className={checkstyles.icon} />
-//               PhonePay
-//             </label><br />
-//           </div>
-
-//         </form>
-//       )}
-//       <div className={checkstyles.rotatingBackground1}></div>
-//         <div className={checkstyles.rotatingBackground2}></div>
-//         <div className={checkstyles.rotatingBackground3}></div>
-//         <div className={checkstyles.rotatingBackground4}></div>
-//         <div className={checkstyles.rotatingBackground5}></div>
-//         <div className={checkstyles.rotatingBackground6}></div>
-//         <div className={checkstyles.rotatingBackground7}></div>
-//         <div className={checkstyles.rotatingBackground8}></div>
-//         <div className={checkstyles.rotatingBackground9}></div>
-//         <div className={checkstyles.rotatingBackground10}></div>
-//     </div>
-//   );
-// };
-
-// export default Checkout;
-
 
 import React, { useState, useEffect } from "react";
 import checkstyles from "../checkout/Checkout.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCreditCard, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
@@ -186,25 +15,50 @@ const Checkout = () => {
     paymentMethod: "",
   });
 
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([]); 
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  // useEffect(() => {
+  //   const fetchItems = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:5000/api/items");
+  //       if (!response.ok) throw new Error("Failed to fetch items");
 
-  // Fetch order items from backend
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/items");
-        if (!response.ok) throw new Error("Failed to fetch items");
-        const data = await response.json();
-        setItems(data);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    };
+  //       const data = await response.json();
+  //       console.log("Fetched items response:", data);
+  //       const itemsArray = Array.isArray(data) ? data : data.items;
+  //       setItems(itemsArray || []);
+  //     } catch (error) {
+  //       console.error("Error fetching items:", error);
+  //       setItems([]); 
+  //     }
+  //   };
 
-    fetchItems();
-  }, []);
+  //   fetchItems();
+  // }, []);
+
+
+useEffect(() => {
+  const fetchItems = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/items");
+      console.log("Fetched items response:", response.data);
+
+      // Handle both array or object format
+      const itemsArray = Array.isArray(response.data)
+        ? response.data
+        : response.data.items;
+
+      setItems(itemsArray || []);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      setItems([]); // fallback to empty array
+    }
+  };
+
+  fetchItems();
+}, []);
+
 
   // Calculate total
   const calculateTotal = () =>
@@ -228,9 +82,9 @@ const Checkout = () => {
       return;
     }
 
-    // Only send the attributes your backend expects
+    // Backend expects these keys
     const payload = {
-      user_id: Math.floor(Math.random() * 5) + 2, // 2 to 6
+      user_id: 6, // random 2–6
       customer_name,
       customer_email,
       customer_phone,
@@ -238,7 +92,7 @@ const Checkout = () => {
     };
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "http://localhost:5000/api/orders/checkout",
         {
           method: "POST",
@@ -345,9 +199,9 @@ const Checkout = () => {
               <p>Your cart is empty.</p>
             ) : (
               items.map((item) => (
-                <p key={item.id}>
+                <p key={item.id || item._id}>
                   {item.name} × {item.quantity || 1}{" "}
-                  <strong>₹{item.price.toFixed(2)}</strong>
+                  <strong>₹{(item.price || 0).toFixed(2)}</strong>
                 </p>
               ))
             )}
