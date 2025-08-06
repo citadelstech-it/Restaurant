@@ -171,8 +171,6 @@ body {
 
 .checkout:hover {
   background-color: #e25d00;
-<<<<<<< HEAD
-=======
 }
 .rotatingBackground1 {
   position: fixed; 
@@ -311,5 +309,4 @@ body {
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
->>>>>>> 5a508341ef67060bbb2fe32532658b45f83e3bf2
 }
