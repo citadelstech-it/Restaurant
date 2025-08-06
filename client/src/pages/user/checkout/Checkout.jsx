@@ -44,7 +44,7 @@ useEffect(() => {
       const response = await axios.get("http://localhost:5000/api/items");
       console.log("Fetched items response:", response.data);
 
-      // Handle both array or object format
+      
       const itemsArray = Array.isArray(response.data)
         ? response.data
         : response.data.items;
@@ -52,7 +52,7 @@ useEffect(() => {
       setItems(itemsArray || []);
     } catch (error) {
       console.error("Error fetching items:", error);
-      setItems([]); // fallback to empty array
+      setItems([]); 
     }
   };
 
@@ -60,7 +60,7 @@ useEffect(() => {
 }, []);
 
 
-  // Calculate total
+ 
   const calculateTotal = () =>
     items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
 
@@ -82,9 +82,8 @@ useEffect(() => {
       return;
     }
 
-    // Backend expects these keys
     const payload = {
-      user_id: 6, // random 2–6
+      user_id: 6, 
       customer_name,
       customer_email,
       customer_phone,
@@ -126,15 +125,12 @@ useEffect(() => {
 
   return (
     <div>
-      {/* Navigation */}
       <div className={checkstyles.outnav}>
         <a className={checkstyles.backmenu} href="#" onClick={handleBackToMenu}>
           <p>← Back To Menu</p>
         </a>
         <h1>Checkout</h1>
       </div>
-
-      {/* Success Modal */}
       {showModal && (
         <div className={checkstyles.modalOverlay}>
           <div className={checkstyles.modalContent}>
@@ -144,11 +140,8 @@ useEffect(() => {
           </div>
         </div>
       )}
-
-      {/* Checkout Form */}
       {!showModal && (
         <form onSubmit={handleSubmit} className={checkstyles.outmain}>
-          {/* Delivery Info */}
           <div className={checkstyles.grid1}>
             <h3>🛵 Delivery Information</h3>
 
@@ -191,8 +184,6 @@ useEffect(() => {
               onChange={handleChange}
             />
           </div>
-
-          {/* Order Summary */}
           <div className={checkstyles.grid2}>
             <h3>📦 Order Summary</h3>
             {items.length === 0 ? (
@@ -211,8 +202,6 @@ useEffect(() => {
             </h4>
             <button type="submit">✓ Place Order</button>
           </div>
-
-          {/* Payment Methods */}
           <div className={checkstyles.grid3}>
             <h3>💳 Payment Methods</h3>
 
@@ -247,7 +236,7 @@ useEffect(() => {
         </form>
       )}
 
-      {/* Rotating Fruits */}
+      
       {[...Array(10)].map((_, i) => (
         <div key={i} className={checkstyles[`rotatingBackground${i + 1}`]}></div>
       ))}
