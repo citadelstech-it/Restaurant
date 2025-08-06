@@ -1,116 +1,3 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import productsStyle from "./Products.module.css";
-import { FaCartShopping } from "react-icons/fa6";
-import { useNavigate, useLocation } from "react-router-dom";
-
-const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [quantities, setQuantities] = useState({});
-  const [cartItems, setCartItems] = useState({});
-  const navigate = useNavigate();
-  const location = useLocation();
-  const category = location.state?.category || "All";
-
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/items")
-      .then((res) => {
-        let filteredItems = res.data;
-        if (category !== "All") {
-          filteredItems = res.data.filter((item) => item.category === category);
-        }
-        setProducts(filteredItems);
-
-        const initialQuantities = {};
-        filteredItems.forEach((item) => {
-          initialQuantities[item.id] = 1;
-        });
-        setQuantities(initialQuantities);
-      })
-      .catch((err) => console.error("Error fetching products", err));
-  }, [category]);
-
-  const handleQtyChange = (id, delta) => {
-    setQuantities((prev) => {
-      const newQty = Math.max(1, (prev[id] || 1) + delta);
-      return { ...prev, [id]: newQty };
-    });
-
-    setCartItems((prev) => {
-      if (prev[id]) {
-        const updatedQty = Math.max(1, (prev[id] || 1) + delta);
-        return { ...prev, [id]: updatedQty };
-      }
-      return prev;
-    });
-  };
-
-  const handleAddToCart = (item) => {
-    const selectedQty = quantities[item.id] || 1;
-
-    if (selectedQty > item.inStock) {
-      alert("Cannot add more than available stock.");
-      return;
-    }
-
-    setCartItems((prev) => ({
-      ...prev,
-      [item.id]: selectedQty,
-    }));
-  };
-
-  const cartCount = Object.values(cartItems).reduce((acc, qty) => acc + qty, 0);
-
-  return (
-    <>
-      <nav className={productsStyle.navbar}>
-        <h2 className={productsStyle.logo}>Restaurant</h2>
-        <div className={productsStyle.navButtons}>
-          <button onClick={() => navigate("/")} className={productsStyle.navBtn}>
-            Home
-          </button>
-          <button onClick={() => navigate("/cart")} className={productsStyle.navBtn}>
-            <FaCartShopping /> View Cart ({cartCount})
-          </button>
-        </div>
-      </nav>
-
-      <div className={productsStyle.productsContainer}>
-        {products.map((item) => (
-          <div key={item.id} className={productsStyle.card}>
-            <div className={productsStyle.imageWrapper}>
-              <img src={item.imageUrl} alt={item.name} className={productsStyle.image} />
-              <span className={productsStyle.stockBadge}>
-                {item.inStock > 0 ? `${item.inStock} left` : "Out of Stock"}
-              </span>
-            </div>
-            <h3 className={productsStyle.title}>{item.name}</h3>
-            <p className={productsStyle.description}>{item.description}</p>
-            <p className={productsStyle.price}>₹{item.price}</p>
-
-            <div className={productsStyle.controls}>
-              <div className={productsStyle.qtyControl}>
-                <button onClick={() => handleQtyChange(item.id, -1)}>-</button>
-                <span>{quantities[item.id] || 1}</span>
-                <button onClick={() => handleQtyChange(item.id, 1)}>+</button>
-              </div>
-              <button
-                className={productsStyle.addToCartBtn}
-                onClick={() => handleAddToCart(item)}
-                disabled={item.inStock === 0}
-              >
-                <FaCartShopping /> Add to Cart
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-};
-
-export default Products;
-
 
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
@@ -132,13 +19,10 @@ export default Products;
 //     axios
 //       .get("http://localhost:5000/api/items")
 //       .then((res) => {
-//         console.log("Fetched items:", res.data);
-//         console.log("Selected category:", category);
-
-//         let filteredItems = res.data;
+//         let filteredItems = res.data.items || [];
 
 //         if (category !== "All") {
-//           filteredItems = res.data.filter(
+//           filteredItems = filteredItems.filter(
 //             (item) => item.Category?.name === category
 //           );
 //         }
@@ -155,38 +39,31 @@ export default Products;
 //   }, [category]);
 
 //   const handleIncrement = (itemId) => {
-//     setQuantities((prev) => {
-//       const newQty = { ...prev, [itemId]: prev[itemId] + 1 };
-//       return newQty;
-//     });
+//     setQuantities((prev) => ({
+//       ...prev,
+//       [itemId]: prev[itemId] + 1,
+//     }));
 //   };
 
 //   const handleDecrement = (itemId) => {
-//     setQuantities((prev) => {
-//       const newQty = {
-//         ...prev,
-//         [itemId]: prev[itemId] > 1 ? prev[itemId] - 1 : 1,
-//       };
-//       return newQty;
-//     });
+//     setQuantities((prev) => ({
+//       ...prev,
+//       [itemId]: prev[itemId] > 1 ? prev[itemId] - 1 : 1,
+//     }));
 //   };
 
 //   const handleAddToCart = async (itemId) => {
 //     try {
 //       const quantity = quantities[itemId];
 //       const payload = {
-//         user_id: 1, // Replace with dynamic user ID if available
+//         user_id: 6,
 //         item_id: itemId,
 //         quantity,
 //       };
 
-//       const res = await axios.post(
-//         "http://localhost:5000/api/cart/add",
-//         payload
-//       );
+//       const res = await axios.post("http://localhost:5000/api/cart", payload);
 
 //       if (res.status === 200) {
-//         alert("Item added to cart!");
 //         setCartCount((prev) => prev + quantity);
 //       }
 //     } catch (err) {
@@ -199,7 +76,7 @@ export default Products;
 //   };
 
 //   const goHome = () => {
-//     navigate("/");
+//     navigate("/home");
 //   };
 
 //   return (
@@ -217,7 +94,7 @@ export default Products;
 //         {products.map((item) => (
 //           <div key={item.id} className={productsStyle.product_card}>
 //             <img
-//               src={`http://localhost:5000/${item.image}`}
+//               src={item.imageUrl}
 //               alt={item.name}
 //               className={productsStyle.image}
 //             />
@@ -245,3 +122,158 @@ export default Products;
 // };
 
 // export default Products;
+
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import productsStyle from "../products/Products.module.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+
+const Products = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const selectedCategory = location.state?.category || "All";
+
+  const [productsByCategory, setProductsByCategory] = useState({});
+  const [quantities, setQuantities] = useState({});
+  const [cartCount, setCartCount] = useState(0);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    // Decode JWT and set user_id
+    const token = Cookies.get("token");
+    if (token) {
+      const decoded = jwtDecode(token);
+      setUserId(decoded.user_id); // Adjust key if your JWT structure differs
+    }
+
+    axios
+      .get("http://localhost:5000/api/items")
+      .then((res) => {
+        let filteredItems = res.data.items || [];
+
+        if (selectedCategory !== "All") {
+          filteredItems = filteredItems.filter(
+            (item) => item.Category?.name === selectedCategory
+          );
+        }
+
+        const grouped = {};
+        const initialQuantities = {};
+
+        filteredItems.forEach((item) => {
+          const categoryName = item.Category?.name || "Others";
+          if (!grouped[categoryName]) grouped[categoryName] = [];
+          grouped[categoryName].push(item);
+
+          initialQuantities[item.id] = 1;
+        });
+
+        setProductsByCategory(grouped);
+        setQuantities(initialQuantities);
+      })
+      .catch((err) => console.error("Error fetching items:", err));
+  }, [selectedCategory]);
+
+  const handleIncrement = (itemId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [itemId]: prev[itemId] + 1,
+    }));
+  };
+
+  const handleDecrement = (itemId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [itemId]: prev[itemId] > 1 ? prev[itemId] - 1 : 1,
+    }));
+  };
+
+  const handleAddToCart = async (itemId) => {
+    try {
+      if (!userId) {
+        alert("Please login to add items to cart");
+        return;
+      }
+
+      const quantity = quantities[itemId];
+      const payload = {
+        user_id: userId,
+        item_id: itemId,
+        quantity,
+      };
+
+      const res = await axios.post("http://localhost:5000/api/cart", payload);
+
+      if (res.status === 200) {
+        setCartCount((prev) => prev + quantity);
+      }
+    } catch (err) {
+      console.error("Failed to add to cart:", err);
+    }
+  };
+
+  const goToCart = () => {
+    navigate("/cart");
+  };
+
+  const goHome = () => {
+    navigate("/home");
+  };
+
+  return (
+    <div className={productsStyle.products_page}>
+      <nav className={productsStyle.nav}>
+        <button className={productsStyle.nav_button} onClick={goHome}>
+          Home
+        </button>
+        <button className={productsStyle.nav_button} onClick={goToCart}>
+          <FontAwesomeIcon icon={faCartShopping} /> View Cart ({cartCount})
+        </button>
+      </nav>
+
+      {Object.keys(productsByCategory).length === 0 && (
+        <p className={productsStyle.no_items}>No items found.</p>
+      )}
+
+      {Object.entries(productsByCategory).map(([category, items]) => (
+        <div key={category}>
+          <h2 className={productsStyle.category_heading}>{category}</h2>
+          <div className={productsStyle.products_grid}>
+            {items.map((item) => (
+              <div key={item.id} className={productsStyle.product_card}>
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  className={productsStyle.image}
+                />
+                <h3>{item.name}</h3>
+                <p>Price: ₹{item.price}</p>
+                <p>Stock: {item.inStock}</p>
+
+                <div className={productsStyle.quantity_controls}>
+                  <button onClick={() => handleDecrement(item.id)}>-</button>
+                  <span>{quantities[item.id]}</span>
+                  <button onClick={() => handleIncrement(item.id)}>+</button>
+                </div>
+
+                <button
+                  className={productsStyle.add_to_cart}
+                  onClick={() => handleAddToCart(item.id)}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Products;

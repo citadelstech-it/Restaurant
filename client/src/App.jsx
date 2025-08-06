@@ -12,12 +12,13 @@ import MenuManagement from "./components/admin/menuManagement/MenuManagement";
 import OrederManagement from "./components/admin/orderManagement/OrederManagement";
 import LoginPage from "./components/admin/loginPage/LoginPage";
 import SideBar from "./components/admin/adminSidebar/SideBar";
+import UserLogin from "./components/admin/login/UserLogin";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/orderhistory" element={<OrderHistory />} />
         <Route path="/cart" element={<  Cart />} />
@@ -28,7 +29,8 @@ function App() {
         <Route path="/inventory-management" element={<  InventoryManagement />} />
         <Route path="/menu" element={<MenuManagement />} />
         <Route path="/order" element={<OrederManagement />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/user-login" element={<UserLogin />} />
       </Routes>
     </BrowserRouter>
   );
