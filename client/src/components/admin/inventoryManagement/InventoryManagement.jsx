@@ -21,7 +21,6 @@ const InventoryManagement = () => {
       .then((response) => {
         const inventoryData = response.data.items || [];
         setInventory(inventoryData);
-
         const initialQuantities = inventoryData.reduce((acc, item) => {
           acc[item.id] = item.inStock;
           return acc;
@@ -33,18 +32,18 @@ const InventoryManagement = () => {
       });
   }, []);
 
+  const getStatus = (inStock) => {
+    if (inStock === 0) return "Out Of Stock";
+    if (inStock > 0 && inStock < 10) return "Low Stock";
+    return "In Stock";
+  };
+
   const handleQuantityChange = (id, change) => {
     const updatedInventory = inventory.map((item) =>
       item.id === id
         ? {
             ...item,
-            quantity: Math.max(0, item.inStock + change),
-            status:
-              item.inStock + change === 0
-                ? "Out Of Stock"
-                : item.inStock + change < 10
-                ? "Low Stock"
-                : "In Stock",
+            inStock: Math.max(0, item.inStock + change), 
             lastUpdated: formatTime(),
           }
         : item
@@ -61,7 +60,6 @@ const InventoryManagement = () => {
     axios
       .put(`http://localhost:5000/api/items/${id}`, {
         inStock: updatedItem.inStock,
-        status: updatedItem.status,
         lastUpdated: updatedItem.lastUpdated,
       })
       .catch((error) => {
@@ -71,7 +69,7 @@ const InventoryManagement = () => {
 
   const filteredInventory = inventory.filter((item) => {
     const matchesStatus =
-      filterStatus === "All Items" || item.status === filterStatus;
+      filterStatus === "All Items" || getStatus(item.inStock) === filterStatus;
 
     const matchesSearch =
       item.name && typeof item.name === "string"
@@ -95,7 +93,7 @@ const InventoryManagement = () => {
               className={styles.searchInput}
               placeholder="🔍 Search inventory..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} 
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <select
               className={styles.allItemsdropdown}
@@ -139,14 +137,14 @@ const InventoryManagement = () => {
                     <td>
                       <span
                         className={`${styles.statusBadge} ${
-                          item.status === "Low Stock"
+                          getStatus(item.inStock) === "Low Stock"
                             ? styles.lowstock
-                            : item.status === "Out Of Stock"
+                            : getStatus(item.inStock) === "Out Of Stock"
                             ? styles.outofstock
                             : styles.instock
                         }`}
                       >
-                        {item.status}
+                        {getStatus(item.inStock)}
                       </span>
                     </td>
                     <td>{item.lastUpdated}</td>
@@ -212,4 +210,3 @@ const InventoryManagement = () => {
 };
 
 export default InventoryManagement;
-
