@@ -48,6 +48,18 @@
   height: 40px;
   transition: background-color 0.3s;
 }
+.addCategoryButton{
+  margin-left: 600px;
+  padding: 8px 20px;
+  background-color: #ff7043;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 40px;
+  transition: background-color 0.3s;
+}
 
 .addButton:hover {
   background-color: #f4511e;

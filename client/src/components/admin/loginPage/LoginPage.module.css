@@ -1,0 +1,153 @@
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZC89OAUqTDxihGBcUssse_igLCgEH1T07Gg&s"); 
+ background-size: cover;
+  background-position: center;
+  /* filter: blur(2px) brightness(0.7); */
+  z-index: -2;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: -1;
+}
+
+.loginCard {
+  width: 850px;
+  height: 450px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  display: flex;
+  overflow: hidden;
+  /* background-color: rgb(16, 17, 17); */
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.leftSection {
+  width: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.foodImage {
+  width: 400px;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.rightSection {
+  width: 50%;
+  background-color: rgba(30, 30, 30, 0.85);
+  color: #ffffff;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightSection h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #ff7043;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form input {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  outline: none;
+  transition: background 0.3s;
+}
+
+.form input::placeholder {
+  color: #ccc;
+}
+
+.form input:focus {
+  background: rgba(255,255,255,0.2);
+}
+
+.errorMsg {
+  color: #ff5252;
+  font-size: 12px;
+  text-align: center;
+}
+
+.forgotPassword {
+  width: 100%;
+  text-align: right;
+  font-size: 12px;
+}
+
+.forgotPassword a {
+  color: #ff7043;
+  text-decoration: none;
+}
+
+.signInButton {
+  margin-top: 10px;
+  padding: 12px;
+  background: linear-gradient(45deg, #ff7043, #ff8a65);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.signInButton:hover {
+  transform: scale(1.05);
+}
+
+.registerText {
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.registerText a {
+  color: #ff7043;
+  text-decoration: none;
+}
