@@ -7,11 +7,16 @@
     gap: 500px;
     box-shadow: 0 0 2px grey;
     margin-bottom: 50px;
+    padding: 10px;
     
 }
 .outnav h1{
     margin-right: 550px;
     margin-top: 10px;
+}
+.backmenu{
+  text-decoration: none;
+  color: black;
 }
 .grid1{
     box-shadow: 0 0 2px grey;
@@ -28,7 +33,7 @@
     background-color: white;
     padding: 10px;
     border-radius: 8px;
-    margin-bottom: 196px;
+    margin-bottom: 160px;
 }
 .grid2 h3,h4,hr,p,button{
   margin-bottom: 10px;
@@ -92,41 +97,13 @@
   font-size: 1.1rem;
   color: #6c63ff;
 }
-/* .popup {
-  background-color: #d1f7d6;
-  color: #155724;
-  border: 1px solid #28a745;
-  padding: 20px;
-  border-radius: 10px;
-  margin: 20px auto;
-  width: 80%;
-  max-width: 500px;
-  font-weight: bold;
-  font-size: 16px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  animation: fadeIn 0.5s ease-in-out;
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
- */
-/* Modal overlay to cover whole screen */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  /* background-color: rgba(0, 0, 0, 0.5); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -208,7 +185,6 @@
   background: url('../../../assets/homeImages/waterLemon.png') no-repeat center center;
   background-size: cover;
   opacity: 0.9; 
-  /* animation: rotate 60s linear infinite; */
 }
 .rotatingBackground4 {
   position: fixed;
@@ -221,26 +197,23 @@
   background: url('../../../assets/homeImages/cherry.png') no-repeat center center;
   background-size: cover;
   opacity: 0.9;
-  /* animation: rotate 60s linear infinite; */
+  
 }
 .rotatingBackground5 {
   position: fixed; 
   top: 19%;
   left: 45%;
-  /* transform: translate(-50%, -50%); */
   z-index: -1;
   width: 100px;
   height: 100px;
   background: url('../../../assets/homeImages/leef.png') no-repeat center center;
   background-size: cover;
   opacity: 0.9; 
-  /* animation: rotate 60s linear infinite; */
 }
 .rotatingBackground6 {
   position: fixed; 
   top: 9%;
   left: 35%;
-  /* transform: translate(-50%, -50%); */
   z-index: -1;
   width: 100px;
   height: 100px;
@@ -253,7 +226,6 @@
   position: fixed; 
   top: 14%;
   left: 2%;
-  /* transform: translate(-50%, -50%); */
   z-index: -1;
   width: 100px;
   height: 100px;
@@ -266,40 +238,34 @@
   position: fixed;
   top: 16%;
   left: 95%;
-  /* transform: translate(-50%, -50%); */
   z-index: -1;
   width: 100px;
   height: 100px;
   background: url('../../../assets/homeImages/greenApple.png') no-repeat center center;
   background-size: cover;
   opacity: 0.9; 
-  /* animation: rotate 60s linear infinite; */
 }
 .rotatingBackground9 {
   position: fixed; 
   top: 56%;
   left: 93%;
-  /* transform: translate(-50%, -50%); */
   z-index: -1;
   width: 100px;
   height: 100px;
   background: url('../../../assets/homeImages/leef.png') no-repeat center center;
   background-size: cover;
-  opacity: 0.9; 
-  /* animation: rotate 60s linear infinite; */
+  opacity: 0.9;
 }
 .rotatingBackground10 {
   position: fixed; 
   top: 10%;
   left: 80%;
-  /* transform: translate(-50%, -50%); */
   z-index: -1;
   width: 100px;
   height: 100px;
   background: url('../../../assets/homeImages/strawbeery.png') no-repeat center center;
   background-size: cover;
   opacity: 1; 
-  /* animation: rotate 60s linear infinite; */
 }
 @keyframes rotate {
   0% {
