@@ -12,6 +12,7 @@ const MenuManagement = () => {
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+
   const [newItem, setNewItem] = useState({
     name: "",
     price: "",
@@ -22,6 +23,7 @@ const MenuManagement = () => {
     calories: "",
     grams: "",
   });
+
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
@@ -33,13 +35,24 @@ const MenuManagement = () => {
   }, []);
 
   const fetchCategories = async () => {
-    const res = await axios.get("http://localhost:5000/api/categories");
-    setCategories(res.data);
+    try {
+      const res = await axios.get("http://localhost:5000/api/categories");
+      setCategories(res.data);
+    } catch (error) {
+      console.error("Error fetching categories", error);
+    }
   };
 
   const fetchMenuItems = async () => {
-    const res = await axios.get("http://localhost:5000/api/items");
-    setMenuItems(res.data);
+    try {
+      const res = await axios.get("http://localhost:5000/api/items");
+      console.log("Fetched Items Response:", res.data);
+      const itemsArray = Array.isArray(res.data) ? res.data : res.data.items || [];
+      setMenuItems(itemsArray);
+    } catch (error) {
+      console.error("Error fetching menu items", error);
+      setMenuItems([]);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -147,12 +160,14 @@ const MenuManagement = () => {
     setIsCategoryModalOpen(false);
   };
 
-  const filteredItems = menuItems.filter((item) => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      filterStatus === "All Categories" || item.categoryName === filterStatus;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredItems = Array.isArray(menuItems)
+    ? menuItems.filter((item) => {
+        const matchesSearch = item.name?.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory =
+          filterStatus === "All Categories" || item.categoryName === filterStatus;
+        return matchesSearch && matchesCategory;
+      })
+    : [];
 
   return (
     <Sidebar>
@@ -172,6 +187,7 @@ const MenuManagement = () => {
             + Add New Items
           </button>
         </div>
+
         <div className={styles.topBar}>
           <input
             type="text"
