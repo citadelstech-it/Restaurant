@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import  Home from "./pages/user/home/Home";
+import Home from "./pages/user/home/Home";
 import Dashboard from "./components/admin/menuManagement/dashboard/Dashboard";
 import OrderHistory from "./components/admin/menuManagement/orderhistory/OrderHistory";
 import Cart from "./pages/user/cart/Cart";
@@ -24,8 +24,8 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/sidebar" element={<SideBar />} />
         <Route path="/pro" element={<Products />} />
-        <Route path="/recipt" element={<Recipt />} />
-        <Route path="/inventory-management" element={<  InventoryManagement />} />
+        <Route path="/receipt/:id" element={<Recipt />} />
+        <Route path="/inventory-management" element={<InventoryManagement />} />
         <Route path="/menu" element={<MenuManagement />} />
         <Route path="/order" element={<OrederManagement />} />
         <Route path="/login" element={<LoginPage />} />
