@@ -103,11 +103,8 @@ const Recipt = () => {
     <>
       <nav>
         <div className={styles.navbar}>
-          <a className={styles.backLink} href="#" onClick={handleBackToMenu}>
-            <span>
-              <i className="fa-solid fa-house"></i>
-            </span>{" "}
-            Back to Menu
+          <a className={styles.backLink} href="home" onClick={handleBackToMenu}>
+            ← Back To Home
           </a>
           <h1 className={styles.header}>Order Receipt</h1>
         </div>

@@ -5,8 +5,8 @@
   padding: 10px 20px;
   background-color: white;
   border-bottom: 2px solid gray;
+  height: 80px;
 }
-
 .container {
   min-height: 100vh;
 

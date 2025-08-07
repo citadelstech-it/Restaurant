@@ -151,8 +151,8 @@
 }
 .rotatingBackground1 {
   position: fixed; 
-  top: 90%;
-  left: 47%;
+  top: 100%;
+  left:  67%;
   transform: translate(-50%, -50%);
   z-index: -1;
   width: 100px;
@@ -190,7 +190,7 @@
 .rotatingBackground4 {
   position: fixed;
   top: 95%;
-  left: 5%;
+  left: 1%;
   transform: translate(-50%, -50%);
   z-index: -1;
   width: 100px;

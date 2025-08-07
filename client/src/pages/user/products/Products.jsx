@@ -178,7 +178,7 @@ const Products = () => {
 
                 <div className={productsStyle.quantity_controls}>
                   <button onClick={() => handleDecrement(item.id)}>-</button>
-                  <span>{quantities[item.id]}</span>
+                  <span className={productsStyle.products_span}>{quantities[item.id]}</span>
                   <button onClick={() => handleIncrement(item.id)}>+</button>
                 </div>
 
