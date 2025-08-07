@@ -112,7 +112,7 @@
   font-weight: bold;
   cursor: pointer;
 }
-span{
+.product_span{
   background-color: red;
 }
 .priceDiv{

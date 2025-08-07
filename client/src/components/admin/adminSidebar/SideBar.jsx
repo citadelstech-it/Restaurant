@@ -34,7 +34,7 @@ const SideBar = () => {
       </div>
       <div className={styles.nav_part2}>
         <FontAwesomeIcon icon={faBell} />
-        <span>A</span>
+        <span className={styles.sidebar_span}>A</span>
         <div className={styles.nav_subPart}>
           <h5>Admin User</h5>
           <p>admin@gmail.com</p>
