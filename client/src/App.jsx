@@ -12,6 +12,7 @@ import MenuManagement from "./components/admin/menuManagement/MenuManagement";
 import LoginPage from "./components/admin/loginPage/LoginPage";
 import UserLogin from "./components/admin/login/UserLogin";
 import OrderManagement from "./components/admin/orderManagement/OrderManagement";
+import SideBar from "./components/admin/adminSidebar/SideBar";
 
 function App() {
   return (
