@@ -10,6 +10,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const token = Cookies.get("your_jwt_secret_key");
   const user_id = jwtDecode(token)?.id;
+  console.log(user_id)
 
   useEffect(() => {
     axios
