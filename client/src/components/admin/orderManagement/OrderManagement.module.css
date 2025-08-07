@@ -4,7 +4,6 @@
   min-height: 100vh;
 }
 
-/* === Header Section === */
 .header {
   display: flex;
   justify-content: space-between;
@@ -134,7 +133,6 @@
   margin-right: auto;
 }
 
-/* === Order Filter Dropdown === */
 .order {
   width: 130px;
   height: 36px;
@@ -144,7 +142,6 @@
   margin-left: 20px;
 }
 
-/* === Refresh Button === */
 .refre1 {
   width: 110px;
   height: 36px;
@@ -156,7 +153,6 @@
   cursor: pointer;
 }
 
-/* === Order Card Containers === */
 .customen,
 .customen1,
 .customen2 {
@@ -173,7 +169,6 @@
   position: relative;
 }
 
-/* === Status Blocks Positioning === */
 .preparing,
 .ready,
 .Delive {
@@ -183,7 +178,6 @@
   text-align: center;
 }
 
-/* === Status Labels === */
 .preparing1,
 .ready1,
 .Delive1 {
@@ -193,30 +187,25 @@
   text-align: center;
 }
 
-/* === Preparing Status Style === */
 .preparing1 {
   background-color: rgb(243, 222, 146);
   color: rgb(103, 67, 1);
 }
 
-/* === Ready Status Style === */
 .ready1 {
   background-color: rgb(179, 241, 203);
   color: rgb(2, 110, 2);
 }
 
-/* === Delivered Status Style === */
 .Delive1 {
   background-color: rgb(228, 237, 255);
   color: rgb(40, 40, 240);
 }
 
-/* === Label Title (optional) === */
 .prepa {
   text-align: center;
 }
 
-/* === Buttons === */
 .mark,
 .deliv {
   display: inline-block;
@@ -228,23 +217,14 @@
   cursor: pointer;
 }
 
-/* === Mark Ready Button === */
 .mark {
   background-color: rgba(3, 120, 3, 0.718);
   color: white;
 }
 
-/* === Mark Delivered Button === */
 .deliv {
   background-color: rgb(65, 65, 251);
   color: white;
 }
 
-/* === Eye Icon for Delivered Orders === */
-.fa-eye {
-  font-size: 18px;
-  color: #333;
-  cursor: pointer;
-  margin-top: 35px;
-  display: inline-block;
-}
+

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import styles from './OrderHistory.module.css';
 import { motion } from 'framer-motion';
@@ -9,9 +10,17 @@ const OrderHistory = () => {
 
   // ✅ Fetch orders from backend
   useEffect(() => {
-    fetch('http://localhost:5000/orders') // Change URL if needed
-      .then((res) => res.json())
-      .then((data) => setOrders(data))
+    fetch('http://localhost:5000/api/orders/getOrders') // ✅ Corrected backend endpoint
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const fetchedOrders = data.orders || [];
+        setOrders(fetchedOrders);
+      })
       .catch((err) => console.error('Error fetching orders:', err));
   }, []);
 
@@ -20,11 +29,10 @@ const OrderHistory = () => {
       const response = await fetch(`http://localhost:5000/orders/status/${orderId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
+        body: JSON.stringify({ status: newStatus }),
       });
 
       if (response.ok) {
-        // Update local state after successful backend update
         setOrders((prevOrders) =>
           prevOrders.map((order) =>
             order.id === orderId ? { ...order, status: newStatus } : order
@@ -39,12 +47,16 @@ const OrderHistory = () => {
   };
 
   const filteredOrders = orders.filter((order) => {
-    const matchesSearch = order.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const idString = String(order.id || ''); // ✅ convert to string safely
+    const matchesSearch = idString.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'All' || order.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
 
-  const sortedOrders = [...filteredOrders].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const sortedOrders = [...filteredOrders].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+
   const uniqueDates = [...new Set(sortedOrders.map((order) => order.date))];
 
   return (
@@ -78,7 +90,7 @@ const OrderHistory = () => {
               <th>Customer</th>
               <th>Date</th>
               <th>Status</th>
-              <th>Total</th>
+              <th>Grand Total</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -86,7 +98,9 @@ const OrderHistory = () => {
             {uniqueDates.map((date) => (
               <React.Fragment key={date}>
                 <tr className={styles.dateRow}>
-                  <td colSpan="6" className={styles.dateHeading}>{date}</td>
+                  <td colSpan="6" className={styles.dateHeading}>
+                    {date}
+                  </td>
                 </tr>
                 {sortedOrders
                   .filter((order) => order.date === date)
@@ -95,17 +109,18 @@ const OrderHistory = () => {
                       key={order.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
+                      transition={{ duration: 0.3 }}>
                       <td>{order.id}</td>
                       <td>{order.customer}</td>
                       <td>{order.date}</td>
                       <td>{order.status}</td>
-                      <td>₹{order.total.toLocaleString('en-IN')}</td>
+                      <td>₹{(Number(order.total) + Number(order.total) * 0.18).toLocaleString('en-IN')}</td>
                       <td>
                         <select
                           value={order.status}
-                          onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                          onChange={(e) =>
+                            handleStatusChange(order.id, e.target.value)
+                          }
                           className={styles.statusSelect}
                         >
                           <option value="Completed">Completed</option>
