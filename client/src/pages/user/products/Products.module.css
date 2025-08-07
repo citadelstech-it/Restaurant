@@ -9,14 +9,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1e3a8a; /* Navy Blue */
+  background-color: black;
   padding: 10px 20px;
   border-radius: 8px;
   margin-bottom: 20px;
 }
 
 .nav button {
-  background-color: #3b82f6; /* Primary Blue */
+  background-color: orange; /* Primary Blue */
   color: white;
   border: none;
   padding: 8px 16px;
@@ -27,7 +27,7 @@
 }
 
 .nav button:hover {
-  background-color: #2563eb; /* Darker Blue */
+  background-color: #eb7425; 
 }
 
 .products_grid {
@@ -63,13 +63,12 @@
 
 .product_card h3 {
   font-size: 18px;
-  color: #1e293b; /* Dark Gray */
+  color: #1e293b; 
   margin: 8px 0;
 }
 
 .product_card p {
-  font-size: 14px;
-  color: #475569;
+  font-size: 20px;
   margin-bottom: 12px;
 }
 
@@ -100,10 +99,11 @@
 .product_card span {
   min-width: 20px;
   font-weight: 500;
+  margin-top: -15px;
 }
 
 .product_card > button {
-  background-color: #10b981; /* Green */
+  background-color: orange; 
   color: white;
   border: none;
   padding: 8px;
@@ -114,5 +114,5 @@
 }
 
 .product_card > button:hover {
-  background-color: #059669;
+  background-color: rgb(255, 123, 0);
 }

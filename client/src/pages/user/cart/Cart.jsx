@@ -51,7 +51,7 @@ const Cart = () => {
   return (
     <div>
       <nav className={styles.cart}>
-        <a onClick={() => navigate("/products")}>
+        <a onClick={() => navigate("/pro")}>
           <i className="fa fa-arrow-left"></i> Back to Menu
         </a>
         <h1>Shopping Cart</h1>
