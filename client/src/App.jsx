@@ -31,6 +31,7 @@ function App() {
         <Route path="/order" element={<OrederManagement />} />
         <Route path="/" element={<LoginPage />} />
         <Route path="/user-login" element={<UserLogin />} />
+        <Route path="/order" element={<OrderManagement />} />
       </Routes>
     </BrowserRouter>
   );
