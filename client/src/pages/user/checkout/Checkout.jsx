@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import checkstyles from "../checkout/Checkout.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,64 +10,57 @@ const Checkout = () => {
     customer_name: "",
     customer_phone: "",
     customer_email: "",
-    instructions: "",
     paymentMethod: "",
   });
 
-  const [items, setItems] = useState([]); 
+  const [items, setItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   const fetchItems = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:5000/api/items");
-  //       if (!response.ok) throw new Error("Failed to fetch items");
 
-  //       const data = await response.json();
-  //       console.log("Fetched items response:", data);
-  //       const itemsArray = Array.isArray(data) ? data : data.items;
-  //       setItems(itemsArray || []);
-  //     } catch (error) {
-  //       console.error("Error fetching items:", error);
-  //       setItems([]); 
-  //     }
-  //   };
+  // Fetch cart items
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/cart");
+        console.log("Fetched items response:", response.data);
 
-  //   fetchItems();
-  // }, []);
+        const itemsArray = Array.isArray(response.data)
+          ? response.data
+          : response.data.items;
 
+        setItems(itemsArray || []);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+        setItems([]);
+      }
+    };
 
-useEffect(() => {
-  const fetchItems = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/items");
-      console.log("Fetched items response:", response.data);
+    fetchItems();
+  }, []);
 
-      
-      const itemsArray = Array.isArray(response.data)
-        ? response.data
-        : response.data.items;
-
-      setItems(itemsArray || []);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-      setItems([]); 
-    }
-  };
-
-  fetchItems();
-}, []);
-
-
- 
   const calculateTotal = () =>
-    items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
+    items.reduce(
+      (sum, item) => sum + (item.price || 0) * (item.quantity || 1),
+      0
+    );
 
   const handleBackToMenu = () => navigate("/");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  // Transaction ID generator - tnxYYYYMMDDHHMMSS
+  const generateTransactionId = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+    return `tnx${year}${month}${day}${hours}${minutes}${seconds}`;
   };
 
   const handleSubmit = async (e) => {
@@ -82,16 +74,53 @@ useEffect(() => {
       return;
     }
 
-    const payload = {
-      user_id: 6, 
-      customer_name,
-      customer_email,
-      customer_phone,
-      paymentMethod,
-    };
+    const totalAmount = calculateTotal();
 
+
+    if (paymentMethod === "PhonePay") {
+      const transactionId = generateTransactionId();
+      const MUID = `MUID${Math.floor(Math.random() * 1000000)}`;
+
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = "http://localhost:5000/api/phonepe/pay";
+
+      const payload = {
+        transactionId,
+        MUID,
+        name: customer_name,
+        amount: totalAmount,
+        number: customer_phone,
+        user_id: 2,
+        customer_email,
+        paymentMethod
+      };
+
+      for (const key in payload) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = payload[key];
+        form.appendChild(input);
+      }
+
+      document.body.appendChild(form);
+      form.submit();
+      return;
+    }
+
+    // Normal checkout flow (non-PhonePe)
     try {
-      const response = await axios.post(
+      const payload = {
+        user_id: 6,
+        customer_name,
+        customer_email,
+        customer_phone,
+        amount: formData.amount || totalAmount,
+        paymentMethod,
+      };
+
+      const response = await fetch(
         "http://localhost:5000/api/orders/checkout",
         {
           method: "POST",
@@ -114,7 +143,6 @@ useEffect(() => {
         customer_name: "",
         customer_phone: "",
         customer_email: "",
-        instructions: "",
         paymentMethod: "",
       });
     } catch (error) {
@@ -122,6 +150,32 @@ useEffect(() => {
       alert("Failed to place order. Please try again.");
     }
   };
+
+
+  const checkoutToPhonepay = async (e) => {
+    e.preventDefault()
+    try {
+      const { customer_name, customer_phone, customer_email, paymentMethod } =
+        formData;
+      const response = await axios.post("http://localhost:5000/api/phonepe/pay", {
+        name: customer_name,
+        number: customer_phone,
+        customer_email,
+        paymentMethod,
+        transactionId: generateTransactionId(),
+        MUID: "user123",
+        user_id: 2,
+        amount: 20
+      })
+      console.log(response, "form checkout")
+      if(response.status===200){
+        window.location.href=response.data.redirectUrl
+      }
+    }
+    catch (err) {
+      console.log(err, "from phonepay")
+    }
+  }
 
   return (
     <div>
@@ -131,6 +185,7 @@ useEffect(() => {
         </a>
         <h1>Checkout</h1>
       </div>
+
       {showModal && (
         <div className={checkstyles.modalOverlay}>
           <div className={checkstyles.modalContent}>
@@ -140,8 +195,9 @@ useEffect(() => {
           </div>
         </div>
       )}
+
       {!showModal && (
-        <form onSubmit={handleSubmit} className={checkstyles.outmain}>
+        <form onSubmit={checkoutToPhonepay} className={checkstyles.outmain}>
           <div className={checkstyles.grid1}>
             <h3>🛵 Delivery Information</h3>
 
@@ -174,16 +230,8 @@ useEffect(() => {
               onChange={handleChange}
               required
             />
-
-            <label>Special Instructions</label>
-            <textarea
-              name="instructions"
-              rows="2"
-              placeholder="Any special requests or instructions"
-              value={formData.instructions}
-              onChange={handleChange}
-            />
           </div>
+
           <div className={checkstyles.grid2}>
             <h3>📦 Order Summary</h3>
             {items.length === 0 ? (
@@ -202,6 +250,7 @@ useEffect(() => {
             </h4>
             <button type="submit">✓ Place Order</button>
           </div>
+
           <div className={checkstyles.grid3}>
             <h3>💳 Payment Methods</h3>
 
@@ -236,7 +285,6 @@ useEffect(() => {
         </form>
       )}
 
-      
       {[...Array(10)].map((_, i) => (
         <div key={i} className={checkstyles[`rotatingBackground${i + 1}`]}></div>
       ))}
