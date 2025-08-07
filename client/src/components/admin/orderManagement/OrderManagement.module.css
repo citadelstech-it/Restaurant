@@ -1,13 +1,10 @@
-<<<<<<< HEAD
 .pageContainer {
   padding: 20px;
   background: #f9fafc;
   min-height: 100vh;
 }
 
-=======
 /* === Header Section === */
->>>>>>> 87177930d92cd4c6b3036e94e60f006a2f98d825
 .header {
   display: flex;
   justify-content: space-between;
@@ -15,7 +12,6 @@
   margin-bottom: 20px;
 }
 
-<<<<<<< HEAD
 .controls {
   display: flex;
   gap: 10px;
@@ -131,7 +127,6 @@
   border: none;
   border-radius: 10px;
 }
-=======
 .dateTime {
   font-size: 14px;
   color: #555;
@@ -253,4 +248,3 @@
   margin-top: 35px;
   display: inline-block;
 }
->>>>>>> 87177930d92cd4c6b3036e94e60f006a2f98d825

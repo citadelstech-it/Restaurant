@@ -3,7 +3,6 @@ import axios from "axios";
 import productsStyle from "../products/Products.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-<<<<<<< HEAD
 
 const ItemCard = ({ item, onAddToCart }) => {
   const [count, setCount] = useState(1);
@@ -55,11 +54,9 @@ const Category = ({ title, items, onAddToCart }) => (
     </div>
   </div>
 );
-=======
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
->>>>>>> 448ed66d8f64c38c9a80686aba3170d6e9ed5e69
 
 const Products = () => {
   const location = useLocation();
