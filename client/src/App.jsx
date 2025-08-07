@@ -10,7 +10,6 @@ import Recipt from "./pages/user/bill/Recipt";
 import InventoryManagement from "./components/admin/inventoryManagement/InventoryManagement";
 import MenuManagement from "./components/admin/menuManagement/MenuManagement";
 import LoginPage from "./components/admin/loginPage/LoginPage";
-import SideBar from "./components/admin/adminSidebar/SideBar";
 import UserLogin from "./components/admin/login/UserLogin";
 import OrderManagement from "./components/admin/orderManagement/OrderManagement";
 
