@@ -93,12 +93,63 @@
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
-  margin-left: 40px;
-  transition: background-color 0.3s ease;
+}
+span{
+  background-color: red;
+}
+.priceDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.priceDiv p{
+  font-size: 20px;
+  margin-top: 5px;
 }
 
-.add_to_cart:hover {
-  background-color: orangered;
+
+
+
+
+.rotatingBackground1 {
+  position: fixed; 
+  top: 90%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/oranges.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.5; 
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground2 {
+  position: fixed;
+  top: 36%;
+  left: 24%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/vecteezy.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  animation: rotate 60s linear infinite;
+}
+.rotatingBackground3 {
+  position: fixed; 
+  top: 33%;
+  left: 73%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  background: url('../../../assets/homeImages/waterLemon.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.9; 
+  /* animation: rotate 60s linear infinite; */
 }
 .category_heading {
   font-size: 24px;

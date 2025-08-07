@@ -1,11 +1,58 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import productsStyle from "../products/Products.module.css";
-import { useLocation, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+import { useNavigate, useLocation } from "react-router-dom";
+
+const ItemCard = ({ item, onAddToCart }) => {
+  const [count, setCount] = useState(1);
+
+  const increment = () => {
+    if (count < item.stock) setCount((prev) => prev + 1);
+  };
+
+  const decrement = () => {
+    if (count > 1) setCount((prev) => prev - 1);
+  };
+
+  const handleAddToCart = () => {
+    onAddToCart(count);
+  };
+
+  return (
+    <div className={productsStyle.item_card}>
+      <img
+        src={item.image}
+        alt={item.name}
+        className={productsStyle.food_image}
+      />
+      <div className={productsStyle.stock_badge}>{item.stock} left</div>
+      <h3>{item.name}</h3>
+      <p className={productsStyle.description}>{item.description}</p>
+      <div className={productsStyle.priceDiv}>
+        <p className={productsStyle.price}>₹{item.price.toFixed(2)}</p>
+        <div className={productsStyle.quantity_controls}>
+          <button onClick={decrement}>−</button>
+          <span className={productsStyle.products_span}>{count}</span>
+          <button onClick={increment}>+</button>
+        </div>
+      </div>
+      <button className={productsStyle.cart_button} onClick={handleAddToCart}>
+        🛒 Add to Cart
+      </button>
+    </div>
+  );
+};
+
+const Category = ({ title, items, onAddToCart }) => (
+  <div className={productsStyle.category}>
+    <h2>{title}</h2>
+    <div className={productsStyle.item_grid}>
+      {items.map((item) => (
+        <ItemCard key={item.id} item={item} onAddToCart={onAddToCart} />
+      ))}
+    </div>
+  </div>
+);
 
 const Products = () => {
   const location = useLocation();
