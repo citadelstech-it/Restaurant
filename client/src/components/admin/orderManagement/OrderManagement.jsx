@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import orderStyle from '../../admin/orderManagement/OrderManagement.module.css';
-import SideBar from '../adminSidebar/sideBar';
+// import SideBar from '../adminSidebar/sideBar';
 
 const initialOrders = [
     {

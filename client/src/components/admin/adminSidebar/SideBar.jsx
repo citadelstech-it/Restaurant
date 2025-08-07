@@ -13,8 +13,6 @@
 // } from "@fortawesome/free-solid-svg-icons";
 // import { useNavigate } from "react-router-dom";
 
-
-
 // const SideBar = ({ children }) => {
 //   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 //   const navigate = useNavigate();
@@ -31,9 +29,6 @@
 //       navigate("/reset-password");
 //     }
 //   }
-
- 
-  
 
 //   return (
 //     <div className={styles.container}>
@@ -104,7 +99,6 @@
 // };
 
 // export default SideBar;
-
 
 // SideBar.jsx
 // import React, { useState } from "react";
@@ -213,7 +207,6 @@
 
 // export default SideBar;
 
-
 import React, { useState } from "react";
 import styles from "./SideBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -221,7 +214,6 @@ import {
   faBars,
   faClipboardList,
   faGauge,
-  faGear,
   faRightFromBracket,
   faUsers,
   faUtensils,
@@ -265,28 +257,35 @@ const SideBar = ({ children }) => {
   };
 
   return (
-   <div className={styles.container}>
-  <header>
-    <nav className={styles.navBar}>
-      <div className={styles.nav_part1}>
-        <FontAwesomeIcon
-          icon={faBars}
-          onClick={toggleSidebar}
-          className={styles.menuIcon}
-        />
-        <h4>Restaurant Admin</h4>
-      </div>
-      <div className={styles.nav_part2}>
-        <FontAwesomeIcon icon={faBell} />
-        <span className={styles.sidebar_span}>A</span>
-        <div className={styles.nav_subPart}>
-          <h5>Admin User</h5>
-          <p>admin@gmail.com</p>
-        </div>
-        <FontAwesomeIcon icon={faRightFromBracket} />
-      </div>
-    </nav>
-  </header>
+    <div className={styles.container}>
+      <header>
+        <nav className={styles.navBar}>
+          <div className={styles.nav_part1}>
+            <FontAwesomeIcon
+              icon={faBars}
+              onClick={toggleSidebar}
+              className={styles.menuIcon}
+            />
+            <h4>Restaurant Admin</h4>
+          </div>
+          <div className={styles.nav_part2}>
+            <button onClick={handleLoginAsUser} className={styles.loginButton}>
+              Login As User
+            </button>
+            <select name="" className={styles.selectBox} onClick={handleSelectChange}>
+              <option value=""> Choose below </option>
+              <option value="create">Create New User</option>
+              <option value="reset">Reset Password</option>
+            </select>
+            <span className={styles.sidebar_span}>A</span>
+            <div className={styles.nav_subPart}>
+              <h5>Admin User</h5>
+              <p>admin@gmail.com</p>
+            </div>
+            <FontAwesomeIcon icon={faRightFromBracket} onClick={handleLogout} />
+          </div>
+        </nav>
+      </header>
 
       <div className={styles.main}>
         <aside
