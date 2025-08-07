@@ -51,6 +51,11 @@
   border-bottom:1px solid gray;
   
 }
+/* .inventoryTable td:hover{
+  box-shadow: #555;
+
+  
+} */
 
 .inventoryTable th {
   background-color: #f1f5f9;
@@ -62,6 +67,12 @@
 
 .inventoryTable tr {
   border-bottom: 0.5px solid #d4dbe2;
+
+}
+
+table tr:hover {
+  background-color: #f0f0f0; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .itemCell {
@@ -142,5 +153,8 @@
   border-radius: 4px;
   text-align: center;
 }
+
+
+
 
 
