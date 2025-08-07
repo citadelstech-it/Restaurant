@@ -13,6 +13,7 @@ import OrederManagement from "./components/admin/orderManagement/OrederManagemen
 import LoginPage from "./components/admin/loginPage/LoginPage";
 import SideBar from "./components/admin/adminSidebar/SideBar";
 import UserLogin from "./components/admin/login/UserLogin";
+import TransactionPage from "./pages/user/transactionPage/TransactionPage"
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/order" element={<OrederManagement />} />
         <Route path="/" element={<LoginPage />} />
         <Route path="/user-login" element={<UserLogin />} />
+        <Route path="/transaction-faild" element={<TransactionPage />} />
       </Routes>
     </BrowserRouter>
   );
