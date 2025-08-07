@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { starters, mainCourse } from "../../../data/foodData";
+import axios from "axios";
 import productsStyle from "../products/Products.module.css";
-import { useNavigate, useLocation } from "react-router-dom";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+<<<<<<< HEAD
 
 const ItemCard = ({ item, onAddToCart }) => {
   const [count, setCount] = useState(1);
@@ -55,96 +55,151 @@ const Category = ({ title, items, onAddToCart }) => (
     </div>
   </div>
 );
+=======
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+>>>>>>> 448ed66d8f64c38c9a80686aba3170d6e9ed5e69
 
 const Products = () => {
-  const [cartCount, setCartCount] = useState(0);
+  const location = useLocation();
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const selectedCategory = state?.category || "All";
+  const selectedCategory = location.state?.category || "All";
 
-  const handleAddToCart = (quantity) => {
-    setCartCount((prev) => prev + quantity);
+  const [productsByCategory, setProductsByCategory] = useState({});
+  const [quantities, setQuantities] = useState({});
+  const [cartCount, setCartCount] = useState(0);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    // Decode JWT and set user_id
+    const token = Cookies.get("your_jwt_secret_key");
+    if (token) {
+      const decoded = jwtDecode(token);
+      setUserId(decoded.user_id); // Adjust key if your JWT structure differs
+    }
+
+    axios
+      .get("http://localhost:5000/api/items")
+      .then((res) => {
+        let filteredItems = res.data.items || [];
+
+        if (selectedCategory !== "All") {
+          filteredItems = filteredItems.filter(
+            (item) => item.Category?.name === selectedCategory
+          );
+        }
+
+        const grouped = {};
+        const initialQuantities = {};
+
+        filteredItems.forEach((item) => {
+          const categoryName = item.Category?.name || "Others";
+          if (!grouped[categoryName]) grouped[categoryName] = [];
+          grouped[categoryName].push(item);
+
+          initialQuantities[item.id] = 1;
+        });
+
+        setProductsByCategory(grouped);
+        setQuantities(initialQuantities);
+      })
+      .catch((err) => console.error("Error fetching items:", err));
+  }, [selectedCategory]);
+
+  const handleIncrement = (itemId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [itemId]: prev[itemId] + 1,
+    }));
   };
 
-  const renderCategory = () => {
-    switch (selectedCategory) {
-      case "Starters":
-        return (
-          <Category
-            title="Starters"
-            items={starters}
-            onAddToCart={handleAddToCart}
-          />
-        );
-      case "Main Course":
-        return (
-          <Category
-            title="Main Course"
-            items={mainCourse}
-            onAddToCart={handleAddToCart}
-          />
-        );
-      case "Beverages":
-        return (
-          <Category
-            title="Beverages"
-            items={beverages}
-            onAddToCart={handleAddToCart}
-          />
-        );
-      default:
-        return (
-          <>
-            <Category
-              title="Starters"
-              items={starters}
-              onAddToCart={handleAddToCart}
-            />
-            <Category
-              title="Main Course"
-              items={mainCourse}
-              onAddToCart={handleAddToCart}
-            />
-            {/* <Category
-              title="Beverages"
-              items={beverages}
-              onAddToCart={handleAddToCart}
-            /> */}
-          </>
-        );
+  const handleDecrement = (itemId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [itemId]: prev[itemId] > 1 ? prev[itemId] - 1 : 1,
+    }));
+  };
+
+  const handleAddToCart = async (itemId) => {
+    try {
+      if (!userId) {
+        alert("Please login to add items to cart");
+        return;
+      }
+
+      const quantity = quantities[itemId];
+      const payload = {
+        user_id: userId,
+        item_id: itemId,
+        quantity,
+      };
+
+      const res = await axios.post("http://localhost:5000/api/cart", payload);
+
+      if (res.status === 200) {
+        setCartCount((prev) => prev + quantity);
+      }
+    } catch (err) {
+      console.error("Failed to add to cart:", err);
     }
   };
 
+  const goToCart = () => {
+    navigate("/cart");
+  };
+
+  const goHome = () => {
+    navigate("/home");
+  };
+
   return (
-    <div>
+    <div className={productsStyle.products_page}>
       <nav className={productsStyle.nav}>
-        <button
-          className={productsStyle.homeButton}
-          onClick={() => {
-            navigate("/");
-          }}
-        >
+        <button className={productsStyle.nav_button} onClick={goHome}>
           Home
         </button>
-        <button
-          className={productsStyle.cart_nav}
-          onClick={() => navigate("/cart")}
-        >
-          <FontAwesomeIcon icon={faCartShopping} />
-          Cart ({cartCount})
+        <button className={productsStyle.nav_button} onClick={goToCart}>
+          <FontAwesomeIcon icon={faCartShopping} /> View Cart ({cartCount})
         </button>
       </nav>
-      <div className={productsStyle.products_page}>{renderCategory()}</div>
-      <div className={productsStyle.rotatingBackground1}></div>
-      <div className={productsStyle.rotatingBackground2}></div>
-      <div className={productsStyle.rotatingBackground3}></div>
-      <div className={productsStyle.rotatingBackground4}></div>
-      <div className={productsStyle.rotatingBackground5}></div>
-      <div className={productsStyle.rotatingBackground6}></div>
-      <div className={productsStyle.rotatingBackground7}></div>
-      <div className={productsStyle.rotatingBackground8}></div>
-      <div className={productsStyle.rotatingBackground9}></div>
-      <div className={productsStyle.rotatingBackground10}></div>
+
+      {Object.keys(productsByCategory).length === 0 && (
+        <p className={productsStyle.no_items}>No items found.</p>
+      )}
+
+      {Object.entries(productsByCategory).map(([category, items]) => (
+        <div key={category}>
+          <h2 className={productsStyle.category_heading}>{category}</h2>
+          <div className={productsStyle.products_grid}>
+            {items.map((item) => (
+              <div key={item.id} className={productsStyle.product_card}>
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  className={productsStyle.image}
+                />
+                <h3>{item.name}</h3>
+                <p>Price: ₹{item.price}</p>
+                <p>Stock: {item.inStock}</p>
+
+                <div className={productsStyle.quantity_controls}>
+                  <button onClick={() => handleDecrement(item.id)}>-</button>
+                  <span>{quantities[item.id]}</span>
+                  <button onClick={() => handleIncrement(item.id)}>+</button>
+                </div>
+
+                <button
+                  className={productsStyle.add_to_cart}
+                  onClick={() => handleAddToCart(item.id)}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

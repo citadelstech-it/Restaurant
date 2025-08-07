@@ -11,12 +11,15 @@ import InventoryManagement from "./components/admin/inventoryManagement/Inventor
 import MenuManagement from "./components/admin/menuManagement/MenuManagement";
 import OrderManagement from "./components/admin/orderManagement/OrderManagement";
 import SideBar from "./components/admin/adminSidebar/sideBar";
+import OrederManagement from "./components/admin/orderManagement/OrederManagement";
+import LoginPage from "./components/admin/loginPage/LoginPage";
+import UserLogin from "./components/admin/login/UserLogin";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/orderhistory" element={<OrderHistory />} />
         <Route path="/cart" element={<  Cart />} />
@@ -27,6 +30,9 @@ function App() {
         <Route path="/inventory-management" element={<  InventoryManagement />} />
         <Route path="/menu" element={<MenuManagement />} />
         <Route path="/order" element={<OrderManagement />} />
+        <Route path="/order" element={<OrederManagement />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/user-login" element={<UserLogin />} />
       </Routes>
     </BrowserRouter>
   );

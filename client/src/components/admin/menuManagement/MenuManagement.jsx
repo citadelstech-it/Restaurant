@@ -1,293 +1,376 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../menuManagement/MenuManagement.module.css";
+import Sidebar from "../adminSidebar/SideBar";
+import axios from "axios";
 
 const MenuManagement = () => {
-  const [menuItems, setMenuItems] = useState([
-    {
-      id: 1,
-      title: "Chicken Biryani",
-      price: 120.99,
-      category: "Main Course",
-      calories: 550,
-      stock: 10,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRztWXXObqjWb0qyL6XBSkTVvb12mhc2jpj0w&s",
-    },
-    {
-      id: 2,
-      title: "Ice Creams",
-      price: 80.99,
-      category: "Dessert",
-      calories: 300,
-      stock: 20,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQreY2UUgmbDiJ9X_qi1aXVyxPTSvGMdG96-A&s",
-    },
-    {
-      id: 3,
-      title: "Kabab",
-      price: 150.99,
-      category: "Starters",
-      calories: 400,
-      stock: 15,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKNb3u6rc3q4eCMPSsO1TXvrzOEHQ5-uEglQ&s",
-    },
-    {
-      id: 4,
-      title: "Paneer Tikka",
-      price: 140.99,
-      category: "Starters",
-      calories: 450,
-      stock: 12,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn-stvhbpCIHk4_aVCxb0aekKPAJPLWM2FeA&s",
-    },
-    {
-      id: 5,
-      title: "Veg Biryani",
-      price: 110.49,
-      category: "Main Course",
-      calories: 500,
-      stock: 50,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkIvMid3LkGsS_HbMOulY1xL-t4Usg1-FuLQ&s",
-    },
-    {
-      id: 6,
-      title: "Gulab Jamun",
-      price: 80.49,
-      category: "Dessert",
-      calories: 250,
-      stock: 25,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6EBUY5C0y1nphrkMYyqfTTv3y1EwqH1yBwA&s",
-    },
-    {
-      id: 7,
-      title: "Naan Bread",
-      price: 100.49,
-      category: "Sides",
-      calories: 200,
-      stock: 30,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0WuY-MmfoqjuY-BbUFXjE-5n0u61JUpSKbg&s",
-    },
-  ]);
-
+  const [menuItems, setMenuItems] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [filterStatus, setFilterStatus] = useState("All Categories");
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+
   const [newItem, setNewItem] = useState({
-    title: "",
+    name: "",
     price: "",
-    category: "",
+    description: "",
+    categoryId: "",
     image: "",
-    stock: "",
+    inStock: "",
     calories: "",
+    grams: "",
   });
+
+  const [newCategory, setNewCategory] = useState({
+    name: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    fetchCategories();
+    fetchMenuItems();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/categories");
+      setCategories(res.data);
+    } catch (error) {
+      console.error("Error fetching categories", error);
+    }
+  };
+
+  const fetchMenuItems = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/items");
+      console.log("Fetched Items Response:", res.data);
+      const itemsArray = Array.isArray(res.data) ? res.data : res.data.items || [];
+      setMenuItems(itemsArray);
+    } catch (error) {
+      console.error("Error fetching menu items", error);
+      setMenuItems([]);
+    }
+  };
 
   const handleInputChange = (e) => {
     setNewItem({ ...newItem, [e.target.name]: e.target.value });
   };
 
-  const handleAddOrUpdateItem = (e) => {
-    e.preventDefault();
-    if (isEditMode) {
-      setMenuItems(
-        menuItems.map((item) =>
-          item.id === currentItem.id
-            ? {
-                ...newItem,
-                id: currentItem.id,
-                price: parseFloat(newItem.price),
-                stock: parseInt(newItem.stock),
-                calories: parseInt(newItem.calories),
-              }
-            : item
-        )
-      );
-    } else {
-      const item = {
-        id: menuItems.length + 1,
-        ...newItem,
-        price: parseFloat(newItem.price),
-        stock: parseInt(newItem.stock),
-        calories: parseInt(newItem.calories),
-      };
-      setMenuItems([...menuItems, item]);
-    }
-    setNewItem({
-      title: "",
-      price: "",
-      category: "",
-      image: "",
-      stock: "",
-      calories: "",
-    });
-    setIsModalOpen(false);
-    setIsEditMode(false);
+  const handleCategoryInputChange = (e) => {
+    setNewCategory({ ...newCategory, [e.target.name]: e.target.value });
   };
 
-  const handleDeleteItem = (id) => {
-    setMenuItems(menuItems.filter((item) => item.id !== id));
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewItem({ ...newItem, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleAddOrUpdateItem = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", newItem.name);
+    formData.append("price", newItem.price);
+    formData.append("description", newItem.description);
+    formData.append("inStock", newItem.inStock);
+    formData.append("categoryId", newItem.categoryId);
+    formData.append("calories", newItem.calories);
+    formData.append("grams", newItem.grams);
+    if (e.target.image.files[0]) {
+      formData.append("image", e.target.image.files[0]);
+    }
+
+    try {
+      if (isEditMode) {
+        await axios.put(`http://localhost:5000/api/items/${currentItem.id}`, formData);
+      } else {
+        await axios.post("http://localhost:5000/api/items", formData);
+      }
+      fetchMenuItems();
+      resetModal();
+    } catch (error) {
+      console.error("Error saving item", error);
+    }
+  };
+
+  const handleDeleteItem = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/items/${id}`);
+      fetchMenuItems();
+    } catch (error) {
+      console.error("Error deleting item", error);
+    }
   };
 
   const handleEditItem = (item) => {
-    setNewItem(item);
+    setNewItem({
+      name: item.name,
+      price: item.price,
+      description: item.description,
+      categoryId: item.categoryId,
+      image: item.image,
+      inStock: item.inStock,
+      calories: item.calories,
+      grams: item.grams,
+    });
     setCurrentItem(item);
     setIsEditMode(true);
     setIsModalOpen(true);
   };
 
-  const filteredItems = menuItems.filter((item) => {
-    const matchesSearch = item.title
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      filterStatus === "All Categories" || item.category === filterStatus;
-    return matchesSearch && matchesCategory;
-  });
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/api/categories", newCategory);
+      fetchCategories();
+      resetCategoryModal();
+    } catch (error) {
+      console.error("Error adding category", error);
+    }
+  };
+
+  const resetModal = () => {
+    setNewItem({
+      name: "",
+      price: "",
+      description: "",
+      categoryId: "",
+      image: "",
+      inStock: "",
+      calories: "",
+      grams: "",
+    });
+    setIsModalOpen(false);
+    setIsEditMode(false);
+  };
+
+  const resetCategoryModal = () => {
+    setNewCategory({
+      name: "",
+      description: "",
+    });
+    setIsCategoryModalOpen(false);
+  };
+
+  const filteredItems = Array.isArray(menuItems)
+    ? menuItems.filter((item) => {
+        const matchesSearch = item.name?.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory =
+          filterStatus === "All Categories" || item.categoryName === filterStatus;
+        return matchesSearch && matchesCategory;
+      })
+    : [];
 
   return (
-    <div className={styles.container}>
-      <div className={styles.mainNavBar}>
-        <h1 className={styles.h1}>Menu Management</h1>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className={styles.addButton}
-        >
-          + Add New Items
-        </button>
-      </div>
-      <div className={styles.topBar}>
-        <input
-          type="text"
-          placeholder="🔍 Search menu Items.."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className={styles.searchBox}
-        />
-        <select
-          className={styles.allItemsdropdown}
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-        >
-          <option>All Categories</option>
-          <option>Starters</option>
-          <option>Main Course</option>
-          <option>Dessert</option>
-          <option>Sides</option>
-        </select>
-      </div>
+    <Sidebar>
+      <div className={styles.container}>
+        <div className={styles.mainNavBar}>
+          <h1>Menu Management</h1>
+          <button
+            className={styles.addCategoryButton}
+            onClick={() => setIsCategoryModalOpen(true)}
+          >
+            + Add New Category
+          </button>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className={styles.addButton}
+          >
+            + Add New Items
+          </button>
+        </div>
 
-      <div className={styles.gridContainer}>
-        {filteredItems.map((item) => (
-          <div key={item.id} className={styles.card}>
-            <div className={styles.stockBadge}>{item.stock} in stock</div>
-            <img src={item.image} alt={item.title} />
-            <div className={styles.cardContent}>
-              <div className={styles.cardTitlePrice}>
-                <h3>{item.title}</h3>
-                <span>₹ {item.price.toFixed(2)}</span>
-              </div>
-              <p>{item.category}</p>
-              <div className={styles.grams}>
-                <p>100 Grams</p>
-                <p className={styles.calories}>{item.calories} kcal</p>
-              </div>
-              <div className={styles.cardButtons}>
-                <button
-                  onClick={() => handleEditItem(item)}
-                  className={styles.editButton}
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteItem(item.id)}
-                  className={styles.deleteButton}
-                >
-                  Delete
-                </button>
+        <div className={styles.topBar}>
+          <input
+            type="text"
+            placeholder="🔍 Search menu items..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchBox}
+          />
+          <select
+            className={styles.allItemsdropdown}
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option>All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.name}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.gridContainer}>
+          {filteredItems.map((item) => (
+            <div key={item.id} className={styles.card}>
+              <div className={styles.stockBadge}>{item.inStock} in stock</div>
+              <img src={item.image || item.imageUrl} alt={item.name} />
+              <div className={styles.cardContent}>
+                <div className={styles.cardTitlePrice}>
+                  <h3>{item.name}</h3>
+                  <span>₹ {item.price}</span>
+                </div>
+                <p>{item.categoryName}</p>
+                <div className={styles.grams}>
+                  <p>{item.grams || "100"} Grams</p>
+                  <p className={styles.calories}>{item.calories || "0"} kcal</p>
+                </div>
+                <div className={styles.cardButtons}>
+                  <button
+                    onClick={() => handleEditItem(item)}
+                    className={styles.editButton}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteItem(item.id)}
+                    className={styles.deleteButton}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-
-      {isModalOpen && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h2>{isEditMode ? "Edit Item" : "Add New Menu Item"}</h2>
-            <form onSubmit={handleAddOrUpdateItem}>
-              <input
-                name="title"
-                placeholder="Title"
-                value={newItem.title}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                name="price"
-                type="number"
-                step="0.01"
-                placeholder="Price"
-                value={newItem.price}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                name="category"
-                placeholder="Category"
-                value={newItem.category}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                name="image"
-                placeholder="Image URL"
-                value={newItem.image}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                name="stock"
-                type="number"
-                placeholder="Stock"
-                value={newItem.stock}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                name="calories"
-                type="number"
-                placeholder="Calories"
-                value={newItem.calories}
-                onChange={handleInputChange}
-                required
-              />
-              <div className={styles.modalButtons}>
-                <button type="submit" className={styles.addItemButto}>
-                  {isEditMode ? "Update" : "Add Item"}
-                </button>
-                <button
-                  type="button"
-                  className={styles.cancelItemButto}
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    setIsEditMode(false);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
+          ))}
         </div>
-      )}
-    </div>
+
+        {isModalOpen && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
+              <h2>{isEditMode ? "Edit Item" : "Add New Menu Item"}</h2>
+              <form onSubmit={handleAddOrUpdateItem}>
+                <input
+                  name="name"
+                  placeholder="Item Name"
+                  value={newItem.name}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  name="price"
+                  type="number"
+                  placeholder="Price"
+                  value={newItem.price}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  name="description"
+                  placeholder="Description"
+                  value={newItem.description}
+                  onChange={handleInputChange}
+                />
+                <select
+                  name="categoryId"
+                  value={newItem.categoryId}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  name="grams"
+                  type="number"
+                  placeholder="Grams"
+                  value={newItem.grams}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  name="calories"
+                  type="number"
+                  placeholder="Calories"
+                  value={newItem.calories}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {newItem.image && (
+                  <div className={styles.imagePreview}>
+                    <img src={newItem.image} alt="Preview" />
+                  </div>
+                )}
+                <input
+                  name="inStock"
+                  type="number"
+                  placeholder="Stock"
+                  value={newItem.inStock}
+                  onChange={handleInputChange}
+                  required
+                />
+                <div className={styles.modalButtons}>
+                  <button type="submit" className={styles.addItemButto}>
+                    {isEditMode ? "Update Item" : "Add Item"}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.cancelItemButto}
+                    onClick={resetModal}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {isCategoryModalOpen && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
+              <h2>Add New Category</h2>
+              <form onSubmit={handleAddCategory}>
+                <input
+                  name="name"
+                  placeholder="Category Name"
+                  value={newCategory.name}
+                  onChange={handleCategoryInputChange}
+                  required
+                />
+                <input
+                  name="description"
+                  placeholder="Description"
+                  value={newCategory.description}
+                  onChange={handleCategoryInputChange}
+                />
+                <div className={styles.modalButtons}>
+                  <button type="submit" className={styles.addItemButto}>
+                    Add Category
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.cancelItemButto}
+                    onClick={resetCategoryModal}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+    </Sidebar>
   );
 };
 

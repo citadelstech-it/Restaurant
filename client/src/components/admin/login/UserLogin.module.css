@@ -1,0 +1,67 @@
+.container {
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+
+.glassCard {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  text-align: center;
+  width: 320px;
+}
+
+.glassCard h2 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.glassCard input {
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  /* color: white; */
+}
+
+.glassCard input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.glassCard button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.glassCard button:hover {
+  background-color: #45a049;
+}
+
+.error {
+  color: #ff5252;
+  margin-top: 10px;
+}
+
+.success {
+  color: #4caf50;
+  margin-top: 10px;
+}
