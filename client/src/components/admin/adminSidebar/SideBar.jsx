@@ -118,7 +118,9 @@ const SideBar = ({ children }) => {
           </div>
           <FontAwesomeIcon icon={faRightFromBracket} className={styles.icons} onClick={()=>{navigate("/login")}}/>
         </div>
+        </div>
       </nav>
+      
 
       <div className={styles.main}>
         <aside
@@ -148,6 +150,7 @@ const SideBar = ({ children }) => {
 
         <div className={styles.pageContent}>{children}</div>
       </div>
+    </header>
     </div>
   );
 };

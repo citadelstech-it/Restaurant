@@ -15,6 +15,7 @@ const InventoryManagement = () => {
     return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
+  // Fetching initial inventory data
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/items")
@@ -38,25 +39,28 @@ const InventoryManagement = () => {
     return "In Stock";
   };
 
+  // Handle quantity change (when + or - is clicked)
   const handleQuantityChange = (id, change) => {
+    // Optimistic update for inventory
     const updatedInventory = inventory.map((item) =>
       item.id === id
         ? {
             ...item,
-            inStock: Math.max(0, item.inStock + change), 
-            lastUpdated: formatTime(),
+            inStock: Math.max(0, item.inStock + change),
+            lastUpdated: formatTime(), // Update time immediately
           }
         : item
     );
 
     setInventory(updatedInventory);
-
     setInputQuantities((prev) => ({
       ...prev,
       [id]: Math.max(0, (prev[id] || 0) + change),
     }));
 
     const updatedItem = updatedInventory.find((item) => item.id === id);
+
+    // Send PUT request to update the backend with new quantity and lastUpdated time
     axios
       .put(`http://localhost:5000/api/items/${id}`, {
         inStock: updatedItem.inStock,
@@ -67,6 +71,7 @@ const InventoryManagement = () => {
       });
   };
 
+  // Filter inventory based on search query and status
   const filteredInventory = inventory.filter((item) => {
     const matchesStatus =
       filterStatus === "All Items" || getStatus(item.inStock) === filterStatus;
@@ -78,6 +83,14 @@ const InventoryManagement = () => {
 
     return matchesStatus && matchesSearch;
   });
+  const convertToIST = (utcTime) => {
+    const date = new Date(utcTime);
+    return date.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+  };
 
   return (
     <SideBar>
@@ -147,7 +160,7 @@ const InventoryManagement = () => {
                         {getStatus(item.inStock)}
                       </span>
                     </td>
-                    <td>{item.lastUpdated}</td>
+                    <td>{convertToIST(item.updatedAt)}</td>
                     <td>
                       <button
                         className={styles.minus}
