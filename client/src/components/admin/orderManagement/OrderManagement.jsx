@@ -1,75 +1,79 @@
 import React, { useState } from 'react';
-import orderStyle from '../../admin/orderManagement/OrederManagement.module.css';
-import SideBar from '../adminSidebar/sideBar';
+import orderStyle from '../../admin/orderManagement/OrderManagement.module.css';
 
 const initialOrders = [
     {
         id: 'ORD006',
-        date: '2025-08-01 13:45', 
+        date: '2025-08-02 13:45', 
         customer: 'Sundari',
-        table: 'T-09',
+        table: 'T-06',
         items: [
             { name: 'Chocolate Cake', quantity: 2, price: 50 },
             { name: 'Grilled Salmon', quantity: 1, price: 50 },
             { name: 'Beef Steak', quantity: 1, price: 65 }
           ],
+        GST: '10%',
         status: 'Preparing'
     },
     {
         id: 'ORD005',
-        date: '2025-08-1 13:20', 
+        date: '2025-08-02 13:20', 
         customer: 'Bhanu',
-        table: 'T-01',
+        table: 'T-05',
         items: [
             { name: 'Chocolate Cake', quantity: 3, price: 50 },
             { name: 'Grilled Salmon', quantity: 1, price: 50 }
           ],
+        GST: '10%',
         status: 'Preparing'
     },
     {
         id: 'ORD004',
-        date: '2025-08-01 13:00', 
+        date: '2025-08-02 13:00', 
         customer: 'Babu',
-        table: 'T-03',
+        table: 'T-04',
         items: [
             { name: 'Chocolate Cake', quantity: 2, price: 50 },
             { name: 'Beef Steak', quantity: 2, price: 65 }
           ],
+        GST: '10%',
         status: 'Ready'
     },
     {
         id: 'ORD003',
-        date: '2025-08-1 13:30', 
+        date: '2025-08-02 14:30', 
         customer: 'John Smith',
-        table: 'T-05',
+        table: 'T-03',
         items: [{ name: 'Grilled Salmon', quantity: 2, price: 50 }],
+        GST: '10%',
         status: 'Ready'
     },
     {
         id: 'ORD002',
-        date: '2025-08-1 13:25',
+        date: '2025-08-02 14:25',
         customer: 'Sarah Johnson',
-        table: 'T-12',
+        table: 'T-02',
         items: [
             { name: 'Caesar Salad', quantity: 1, price: 30 },
             { name: 'Beef Steak', quantity: 1, price: 65 }
         ],
+        GST: '10%',
         status: 'Delivered'
     },
     {
         id: 'ORD001',
-        date: '2025-08-1 13:15', 
+        date: '2025-08-02 14:15', 
         customer: 'Mike Brown',
-        table: 'T-06',
-        items: [{ name: 'Chocolate Cake', quantity: 2, price: 50 }
-        ],
+        table: 'T-01',
+        items: [{ name: 'Chocolate Cake', quantity: 2, price: 50 }],
+        GST: '10%',
         status: 'Delivered'
     }
 ];
 
 
 
-const OrederManagement = () => {
+const OrderManagement = () => {
     const [orders, setOrders] = useState(initialOrders);
     const [filter, setFilter] = useState('All Orders');
 
@@ -79,7 +83,7 @@ const OrederManagement = () => {
         );
         setOrders(updatedOrders);
     };
-    const getOrderTotal = (items) =>
+    const getOrderTotal  = (items) =>
         items.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const todayDate = new Date().toISOString().split("T")[0]; 
 
@@ -97,6 +101,10 @@ const OrederManagement = () => {
         setOrders([...initialOrders]); 
     };
 
+    const handlelist = () => {
+        setOrders([...initialOrders]); 
+    };
+
     // const filteredOrders = orders.filter(order =>
     //     filter === 'All Orders' ? true : order.status === filter
     // );
@@ -106,16 +114,18 @@ const OrederManagement = () => {
         <div>
             <header>
                 <div className={orderStyle.header}>
-                    <h2>Order Management</h2>
+                    <h1>Order Management</h1>
+                    <div className={orderStyle.nav}>
                     <select className={orderStyle.order} onChange={handleFilterChange} value={filter}>
                         <option value="All Orders">All Orders</option>
                         <option value="Preparing">Preparing</option>
                         <option value="Ready">Ready</option>
                         <option value="Delivered">Delivered</option>
-                    </select>
+                    </select>             
                     <button className={orderStyle.refre1} onClick={handleRefresh}>
                         <i className="fa-solid fa-arrows-rotate"></i> Refresh
                     </button>
+                    <button className={orderStyle.list} onClick={handlelist}>Order List</button></div>
                 </div>
 
                 {filteredOrders.map((order) => (
@@ -125,16 +135,16 @@ const OrederManagement = () => {
                         <p>{order.date}</p>
                         <p>Customer</p>
                         <p>Table</p>
-                        <hr />
+                        <hr /><br />
                         <h5>Order Items:</h5>
                         {order.items.map((item, idx) => (
                             <p key={idx}>
                                 {item.quantity}x {item.name} -
                             </p>
                         ))}
-
-                        <hr />
-                        <h5>Total: {getOrderTotal(order.items).toFixed(2)}</h5>
+                        <p>GST-</p>
+                        <hr /><br />
+                        <h5>Total: &#8377; {getOrderTotal(order.items).toFixed(2)}</h5>
 
 
                         {order.status === 'Preparing' && (
@@ -188,7 +198,7 @@ const OrederManagement = () => {
                                     <p key={idx}>
                                         {(item.price * item.quantity).toFixed(2)}
                                     </p>
-                                ))}<br /><br />
+                                ))}<br /><br /><br/>
                                 <i className="fa-solid fa-eye"></i>
                             </div>
                         )}
@@ -201,4 +211,4 @@ const OrederManagement = () => {
 };
 
 
-export default OrederManagement;
+export default OrderManagement;

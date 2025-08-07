@@ -91,15 +91,23 @@ const SideBar = ({ children }) => {
   };
 
   return (
-    <div className={styles.container}>
-      <nav className={styles.navBar}>
-        <div className={styles.nav_part1}>
-          <FontAwesomeIcon
-            icon={faBars}
-            onClick={toggleSidebar}
-            className={styles.menuIcon}
-          />
-          <h4>Restaurant Admin</h4>
+   <div className={styles.container}>
+  <header>
+    <nav className={styles.navBar}>
+      <div className={styles.nav_part1}>
+        <FontAwesomeIcon
+          icon={faBars}
+          onClick={toggleSidebar}
+          className={styles.menuIcon}
+        />
+        <h4>Restaurant Admin</h4>
+      </div>
+      <div className={styles.nav_part2}>
+        <FontAwesomeIcon icon={faBell} />
+        <span className={styles.sidebar_span}>A</span>
+        <div className={styles.nav_subPart}>
+          <h5>Admin User</h5>
+          <p>admin@gmail.com</p>
         </div>
         <div className={styles.nav_part2}>
           {/* <FontAwesomeIcon icon={faBell} /> */}
