@@ -23,6 +23,8 @@
     background-color: white;
     padding: 20px;
     border-radius: 8px;
+    margin-top: 100px;
+    
     
 }
 .grid1 h3{
@@ -33,7 +35,7 @@
     background-color: white;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 240px;
+    margin-top: 0px;
 }
 .grid2 h3,h4,hr,p,button{
   margin-bottom: 10px;
@@ -43,7 +45,7 @@
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    margin-top: -340px;
+    margin-top: 2px;
 }
 .grid3 h3{
   margin-bottom: 10px;
@@ -54,7 +56,7 @@
     justify-content: center;
     align-items: center;
     gap: 30px   ;
-    margin-top: -145px;
+    margin-top: -5px;
 }
 
  .grid1 input {
@@ -149,8 +151,8 @@
 }
 .rotatingBackground1 {
   position: fixed; 
-  top: 90%;
-  left: 47%;
+  top: 100%;
+  left:  67%;
   transform: translate(-50%, -50%);
   z-index: -1;
   width: 100px;
@@ -188,7 +190,7 @@
 .rotatingBackground4 {
   position: fixed;
   top: 95%;
-  left: 5%;
+  left: 1%;
   transform: translate(-50%, -50%);
   z-index: -1;
   width: 100px;

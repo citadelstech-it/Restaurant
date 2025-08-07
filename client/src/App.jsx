@@ -25,7 +25,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/sidebar" element={<SideBar />} />
         <Route path="/pro" element={<Products />} />
-        <Route path="/receipt/:id" element={<Recipt />} />
+        <Route path="/receipt" element={<Recipt />} />
         <Route path="/inventory-management" element={<InventoryManagement />} />
         <Route path="/menu" element={<MenuManagement />} />
         <Route path="/order" element={<OrederManagement />} />

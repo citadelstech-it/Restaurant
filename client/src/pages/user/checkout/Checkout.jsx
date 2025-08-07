@@ -91,7 +91,7 @@ const Checkout = () => {
         name: customer_name,
         amount: totalAmount,
         number: customer_phone,
-        user_id: 2,
+        user_id: 6,
         customer_email,
         paymentMethod
       };
@@ -164,7 +164,7 @@ const Checkout = () => {
         paymentMethod,
         transactionId: generateTransactionId(),
         MUID: "user123",
-        user_id: 2,
+        user_id: 6,
         amount: 20
       })
       console.log(response, "form checkout")
@@ -180,8 +180,8 @@ const Checkout = () => {
   return (
     <div>
       <div className={checkstyles.outnav}>
-        <a className={checkstyles.backmenu} href="#" onClick={handleBackToMenu}>
-          <p>← Back To Menu</p>
+        <a className={checkstyles.backmenu} href="home" onClick={handleBackToMenu}>
+          <p>← Back To Home</p>
         </a>
         <h1>Checkout</h1>
       </div>
