@@ -3,23 +3,32 @@ import orderStyle from '../../admin/orderManagement/OrderManagement.module.css';
 import SideBar from '../adminSidebar/sideBar';
 import axios from 'axios';
 
+
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState('All Orders');
 
-  const fetchOrders = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/orders');
-      setOrders((prevOrders) => {
-        const newOrders = response.data.filter(newOrder =>
-          !prevOrders.some(existing => existing.id === newOrder.id)
-        );
-        return [...newOrders, ...prevOrders];
-      });
-    } catch (error) {
-      console.error("Failed to fetch orders:", error);
-    }
-  };
+const fetchOrders = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/orders/getOrders');
+    const fetchedOrders = response.data.orders || [];
+
+    setOrders(prevOrders => {
+      const existingOrderIds = new Set(prevOrders.map(order => order._id));
+      const newOrders = fetchedOrders.filter(order => !existingOrderIds.has(order._id));
+
+      if (newOrders.length === 0) {
+        alert("No new data found");
+        return prevOrders; 
+      }
+
+      return [...newOrders, ...prevOrders];
+    });
+
+  } catch (error) {
+    console.error("Failed to fetch orders:", error);
+  }
+};
 
   useEffect(() => {
     fetchOrders();
@@ -35,6 +44,17 @@ const OrderManagement = () => {
     }
   };
 
+  const getPreviousStatus = (status) => {
+  switch (status.toLowerCase()) {
+    case 'preparing': return 'pending';
+    case 'ready': return 'preparing';
+    case 'delivered': return 'ready';
+    case 'completed': return 'delivered';
+    default: return null;
+  }
+};
+
+
   const getActionLabel = (status) => {
     switch (status.toLowerCase()) {
       case 'pending': return 'Mark as Preparing';
@@ -44,7 +64,6 @@ const OrderManagement = () => {
       default: return '';
     }
   };
-
 
   const handleLocalStatusUpdate = (orderId) => {
     setOrders((prevOrders) =>
@@ -58,8 +77,24 @@ const OrderManagement = () => {
     );
   };
 
+  const handleLocalStatusBack = (orderId) => {
+  setOrders((prevOrders) =>
+    prevOrders.map(order => {
+      if (order.id === orderId) {
+        const prev = getPreviousStatus(order.status);
+        return prev ? { ...order, status: prev } : order;
+      }
+      return order;
+    })
+  );
+};
+
+  const handleBack = () => {
+    navigate(-1); 
+  };
+
   const filteredOrders = orders.filter(order =>
-    filter === 'All Orders' ? true : order.status === filter.toLowerCase()
+    filter === 'All Orders' ? true : order.status.toLowerCase() === filter.toLowerCase()
   );
 
   return (
@@ -68,7 +103,10 @@ const OrderManagement = () => {
         <div className={orderStyle.header}>
           <h1 className={orderStyle.title}>Order Management</h1>
           <div className={orderStyle.controls}>
-            <select value={filter} onChange={(e) => setFilter(e.target.value)} className={orderStyle.select}>
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className={orderStyle.select}>
               <option>All Orders</option>
               <option>pending</option>
               <option>preparing</option>
@@ -80,7 +118,7 @@ const OrderManagement = () => {
             <button className={orderStyle.historyBtn}>View Order History</button>
           </div>
         </div>
-
+   
         <div className={orderStyle.cardContainer}>
           {filteredOrders.length === 0 ? (
             <p>No orders found.</p>
@@ -107,10 +145,12 @@ const OrderManagement = () => {
                   )}
 
                   <hr />
-                  <p><strong>Total:</strong> ₹{order.total.toFixed(2)}</p>
+                  <p><strong>Total:</strong> ₹{order.total?.toFixed(2)}</p>
                   <p><strong>GST ({order.GST}%):</strong> ₹{((order.total * order.GST) / 100).toFixed(2)}</p>
-                  <p><strong>Grand Total:</strong> ₹{order.GrandTotal.toFixed(2)}</p>
-
+                  <p><strong>Grand Total:</strong> ₹{order.GrandTotal?.toFixed(2)}</p>
+       
+                 {getPreviousStatus(order.status) && (
+                           <button onClick={() => handleLocalStatusBack(order.id)} className={orderStyle.back}>Back</button>)}
 
                   {nextStatus && (
                     <div className={orderStyle.actions}>
@@ -123,6 +163,14 @@ const OrderManagement = () => {
               );
             })
           )}
+        </div>
+        <div className={orderStyle.previous}>
+          <button className={orderStyle.nextbuttons}>
+            <a href="#" className="previous">&laquo; Previous</a>
+          </button>
+          <button className={orderStyle.nextbuttons}>
+            <a href="#" className="next">Next &raquo;</a>
+          </button>
         </div>
       </div>
     </SideBar>
