@@ -1,179 +1,224 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./InventoryManagement.module.css";
-
-const initialInventoryData = [
-  {
-    id: 1,
-    image: "https://hips.hearstapps.com/hmg-prod/images/how-to-grill-salmon-recipe1-1655870645.jpg?crop=0.6666666666666667xw:1xh;center,top&resize=1200:*",
-    item: "Grilled Salmon",
-    category: "Main Course",
-    quantity: 15,
-    status: "In Stock",
-    lastUpdated: "2 hours ago",
-  },
-  {
-    id: 2,
-    image: "https://www.allrecipes.com/thmb/mXZ0Tulwn3x9_YB_ZbkiTveDYFE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/229063-Classic-Restaurant-Caesar-Salad-ddmfs-4x3-231-89bafa5e54dd4a8c933cf2a5f9f12a6f.jpg",
-    item: "Caesar Salad",
-    category: "Starter",
-    quantity: 25,
-    status: "In Stock",
-    lastUpdated: "2 hours ago",
-  },
-  {
-    id: 3,
-    image: "https://yeyfood.com/wp-content/uploads/2024/06/WEB1magine_chocolate_with_chocolate_frosting._slice_o_05cfb1f8-09ed-4851-aabe-7a4cf1518c99_0-720x720.jpg",
-    item: "Chocolate Cake",
-    category: "Dessert",
-    quantity: 8,
-    status: "Low Stock",
-    lastUpdated: "2 hours ago",
-  },
-  {
-    id: 4,
-    image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUVMUpjh6NqRaaipc-W69AB-IpkeVGlqRE4irir8BXb3Y31jeBqLL3kZ9N412-5tfAYj7fLp_Ki8jkjO0Myn_MPvXSuYvf38Ll2f1TJB8qSOtRW6xfMOUEWHTXM3LM_ohn2dplVtQy26w/s1600/Beef+Steak+Recipes.jpg",
-    item: "Beef Steak",
-    category: "Main Course",
-    quantity: 12,
-    status: "In Stock",
-    lastUpdated: "2 hours ago",
-  },
-  {
-    id: 5,
-    image: "https://www.licious.in/blog/wp-content/uploads/2022/06/chicken-hyderabadi-biryani-01-750x750.jpg",
-    item: "Chicken Biryani",
-    category: "Main Course",
-    quantity: 0,
-    status: "Out Of Stock",
-    lastUpdated: "2 hours ago",
-  },
-];
+import SideBar from "../adminSidebar/SideBar";
+import axios from "axios";
 
 const InventoryManagement = () => {
-  const [inventory, setInventory] = useState(initialInventoryData);
+  const [inventory, setInventory] = useState([]);
   const [filterStatus, setFilterStatus] = useState("All Items");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [inputQuantities, setInputQuantities] = useState({});
+  const [editModeId, setEditModeId] = useState(null);
 
-  const handleQuantityChange = (id, change) => {
-    setInventory((prevInventory) =>
-      prevInventory.map((item) => {
-        if (item.id === id) {
-          const newQuantity = Math.max(0, item.quantity + change);
-          let newStatus = "";
-
-          if (newQuantity === 0) {
-            newStatus = "Out Of Stock";
-          } else if (newQuantity < 10) {
-            newStatus = "Low Stock";
-          } else {
-            newStatus = "In Stock";
-          }
-
-          return {
-            ...item,
-            quantity: newQuantity,
-            status: newStatus,
-          };
-        }
-        return item;
-      })
-    );
+  const formatTime = () => {
+    const now = new Date();
+    return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
+  // Fetching initial inventory data
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/items")
+      .then((response) => {
+        const inventoryData = response.data.items || [];
+        setInventory(inventoryData);
+        const initialQuantities = inventoryData.reduce((acc, item) => {
+          acc[item.id] = item.inStock;
+          return acc;
+        }, {});
+        setInputQuantities(initialQuantities);
+      })
+      .catch((error) => {
+        console.error("Error fetching inventory:", error);
+      });
+  }, []);
 
+  const getStatus = (inStock) => {
+    if (inStock === 0) return "Out Of Stock";
+    if (inStock > 0 && inStock < 10) return "Low Stock";
+    return "In Stock";
+  };
+
+  // Handle quantity change (when + or - is clicked)
+  const handleQuantityChange = (id, change) => {
+    // Optimistic update for inventory
+    const updatedInventory = inventory.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            inStock: Math.max(0, item.inStock + change),
+            lastUpdated: formatTime(), // Update time immediately
+          }
+        : item
+    );
+
+    setInventory(updatedInventory);
+    setInputQuantities((prev) => ({
+      ...prev,
+      [id]: Math.max(0, (prev[id] || 0) + change),
+    }));
+
+    const updatedItem = updatedInventory.find((item) => item.id === id);
+
+    // Send PUT request to update the backend with new quantity and lastUpdated time
+    axios
+      .put(`http://localhost:5000/api/items/${id}`, {
+        inStock: updatedItem.inStock,
+        lastUpdated: updatedItem.lastUpdated,
+      })
+      .catch((error) => {
+        console.error("Error updating inventory:", error);
+      });
+  };
+
+  // Filter inventory based on search query and status
   const filteredInventory = inventory.filter((item) => {
-    if (filterStatus === "All Items") return true;
-    return item.status === filterStatus;
+    const matchesStatus =
+      filterStatus === "All Items" || getStatus(item.inStock) === filterStatus;
+
+    const matchesSearch =
+      item.name && typeof item.name === "string"
+        ? item.name.toLowerCase().includes(searchQuery.toLowerCase())
+        : false;
+
+    return matchesStatus && matchesSearch;
   });
+  const convertToIST = (utcTime) => {
+    const date = new Date(utcTime);
+    return date.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+  };
 
   return (
-    <div className={styles.inventorycontainer}>
-      <div className={styles.inventoryheader}>
-        <h2>Inventory Management</h2>
-        {/* <button className={styles.exportBtn}>
-          <span>
-            <i className="fa-solid fa-download"></i>
-          </span>{" "}
-          Export Report
-        </button> */}
-      </div>
-
-      <div className={styles.searchNavBar}>
-        <div className={styles.searchBar}>
-          <input
-            type="text"
-            className={styles.searchInput}
-            placeholder="🔍 Search inventory..."
-          />
-          <select
-            className={styles.allItemsdropdown}
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-          >
-            <option>All Items</option>
-            <option>Low Stock</option>
-            <option>In Stock</option>
-            <option>Out Of Stock</option>
-          </select>
+    <SideBar>
+      <div className={styles.inventorycontainer}>
+        <div className={styles.inventoryheader}>
+          <h2>Inventory Management</h2>
         </div>
 
-        <table className={styles.inventoryTable}>
-          <thead>
-            <tr>
-              <th>ITEM</th>
-              <th>CATEGORY</th>
-              <th>AVAILABLE QUANTITY</th>
-              <th>STATUS</th>
-              <th>LAST UPDATED</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredInventory.map((item) => (
-              <tr key={item.id}>
-                <td>
-                  <div className={styles.itemCell}>
-                    <img src={item.image} alt={item.item} />
-                    <span>{item.item}</span>
-                  </div>
-                </td>
-                <td>{item.category}</td>
-                <td>
-                  {item.quantity}{" "}
-                  
-                </td>
-                <td>
-                  <span
-                    className={`${styles.statusBadge} ${item.status === "Low Stock"
-                      ? styles.lowstock
-                      : item.status === "Out Of Stock"
-                        ? styles.outofstock
-                        : styles.instock
-                      }`}
-                  >
-                    {item.status}
-                  </span>
-                </td>
-                <td>{item.lastUpdated}</td>
-                <td>
-                  <button
-                    className={styles.plus}
-                    onClick={() => handleQuantityChange(item.id, +1)}
-                  >
-                    +
-                  </button>
-                  <button
-                    className={styles.minus}
-                    onClick={() => handleQuantityChange(item.id, -1)}
-                  >
-                    −
-                  </button>
-                </td>
+        <div className={styles.searchNavBar}>
+          <div className={styles.searchBar}>
+            <input
+              type="text"
+              className={styles.searchInput}
+              placeholder="🔍 Search inventory..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <select
+              className={styles.allItemsdropdown}
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+            >
+              <option>All Items</option>
+              <option>Low Stock</option>
+              <option>In Stock</option>
+              <option>Out Of Stock</option>
+            </select>
+          </div>
+
+          <table className={styles.inventoryTable}>
+            <thead>
+              <tr>
+                <th>ITEM</th>
+                <th>CATEGORY</th>
+                <th>AVAILABLE QUANTITY</th>
+                <th>STATUS</th>
+                <th>LAST UPDATED</th>
+                <th>ACTIONS</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredInventory.length === 0 ? (
+                <tr>
+                  <td colSpan="6">No items match your search criteria.</td>
+                </tr>
+              ) : (
+                filteredInventory.map((item) => (
+                  <tr key={item.id}>
+                    <td>
+                      <div className={styles.itemCell}>
+                        <img src={item.imageUrl} alt={item.name} />
+                        <span>{item.name}</span>
+                      </div>
+                    </td>
+                    <td>{item.Category?.name || "No Category"}</td>
+                    <td>{item.inStock}</td>
+                    <td>
+                      <span
+                        className={`${styles.statusBadge} ${
+                          getStatus(item.inStock) === "Low Stock"
+                            ? styles.lowstock
+                            : getStatus(item.inStock) === "Out Of Stock"
+                            ? styles.outofstock
+                            : styles.instock
+                        }`}
+                      >
+                        {getStatus(item.inStock)}
+                      </span>
+                    </td>
+                    <td>{convertToIST(item.updatedAt)}</td>
+                    <td>
+                      <button
+                        className={styles.minus}
+                        onClick={() => handleQuantityChange(item.id, -1)}
+                      >
+                        −
+                      </button>
+                      {editModeId === item.id ? (
+                        <input
+                          type="number"
+                          autoFocus
+                          min="0"
+                          value={inputQuantities[item.id] ?? ""}
+                          onChange={(e) => {
+                            const value = parseInt(e.target.value, 10);
+                            setInputQuantities((prev) => ({
+                              ...prev,
+                              [item.id]: isNaN(value) ? "" : value,
+                            }));
+                          }}
+                          onBlur={() => {
+                            const value = inputQuantities[item.id];
+                            if (!isNaN(value) && value !== "") {
+                              handleQuantityChange(item.id, value - item.inStock);
+                            }
+                            setEditModeId(null);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") e.target.blur();
+                          }}
+                          className={styles.quantityInput}
+                        />
+                      ) : (
+                        <button
+                          className={styles.editIcon}
+                          onClick={() => setEditModeId(item.id)}
+                          title="Edit Quantity"
+                        >
+                          <span>
+                            <i className="fa-solid fa-pencil"></i>
+                          </span>
+                        </button>
+                      )}
+                      <button
+                        className={styles.plus}
+                        onClick={() => handleQuantityChange(item.id, +1)}
+                      >
+                        +
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </SideBar>
   );
 };
 
