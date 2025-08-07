@@ -180,7 +180,7 @@ const Checkout = () => {
   return (
     <div>
       <div className={checkstyles.outnav}>
-        <a className={checkstyles.backmenu} href="#" onClick={handleBackToMenu}>
+        <a className={checkstyles.backmenu} href="home" onClick={handleBackToMenu}>
           <p>← Back To Menu</p>
         </a>
         <h1>Checkout</h1>
