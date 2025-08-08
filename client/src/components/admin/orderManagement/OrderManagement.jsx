@@ -1,8 +1,9 @@
+
 import React, { useEffect, useState } from 'react';
 import orderStyle from '../../admin/orderManagement/OrderManagement.module.css';
+import SideBar from '../adminSidebar/sideBar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import SideBar from '../adminSidebar/SideBar';
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
@@ -63,7 +64,7 @@ const OrderManagement = () => {
 
   const updateStatusOnServer = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/orders/updateStatus/${orderId}`, {
+      await axios.put('http://localhost:5000/api/orders/updateStatus/${orderId}', {
         status: newStatus,
       });
     } catch (error) {
@@ -143,8 +144,8 @@ const OrderManagement = () => {
 
                   <h4>Items:</h4>
                   {order.OrderItems?.length > 0 ? (
-                    order.OrderItems.map((item, index) => (
-                      <p key={index}>{item.quantity} x {item.name} - ₹{item.price}</p>
+                    order.OrderItems.map((items, index) => (
+                      <p key={index}>{items.quantity} x {items.Item.name} - ₹{items.Item.price}</p>
                     ))
                   ) : (
                     <p style={{ color: 'gray' }}>No items</p>

@@ -7,7 +7,7 @@ router.get('/getOrders/', orderController.getOrders);
 router.get('/getOrders/:id', orderController.getOrderById);
 router.put('/status/:id', orderController.ChangeStatus);
 router.get('/orderHistory', orderController.orderHistory);
-router.get("/dashbaord",orderController.getDashboardData)
+router.get("/dashboard",orderController.getDashboardData)
 
 
 module.exports = router;

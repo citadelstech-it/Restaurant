@@ -173,7 +173,7 @@ import {
   AppstoreOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
-import Sidebar from "../../adminSidebar/SideBar.jsx";
+import SideBar from "../../adminSidebar/sideBar";
 
 const Dashboard = () => {
   const [orders, setOrders] = useState([]);
@@ -189,7 +189,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const res = await axios.get("/orders/dashboard");
+        const res = await axios.get("http://localhost:5000/api/orders/dashboard");
         const data = res.data;
 
         setOrders(data.recentOrders || []);
@@ -226,7 +226,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Sidebar>
+    <SideBar>
       <div className={styles.container}>
         <main className={styles.main}>
           <div className={styles.contentWrapper}>
@@ -275,7 +275,7 @@ const Dashboard = () => {
                     >
                       <div>
                         <strong>{order.id}</strong> <br />
-                        {order.name || "N/A"} – {order.table || "-"}
+                        {order.name || order.name} – {order.table || order.table}
                       </div>
                       <div>
                         ₹{order.GrandTotal?.toLocaleString("en-IN") || "0"} <br />
@@ -318,7 +318,7 @@ const Dashboard = () => {
           </div>
         </main>
       </div>
-    </Sidebar>
+    </SideBar>
   );
 };
 

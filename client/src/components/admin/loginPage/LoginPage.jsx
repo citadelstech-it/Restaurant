@@ -29,6 +29,7 @@ const LoginPage = () => {
     }
   }, []);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!userName || !password) return setError("Enter all fields");
@@ -61,7 +62,7 @@ const LoginPage = () => {
             <input type="text" placeholder="User Name" value={userName} onChange={(e) => setUserName(e.target.value)} />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <p className={styles.errorMsg}>{error}</p>}
-            <button className={styles.signInButton} type="submit">Login</button>
+            <button className={styles.signInButton} type="submit" >Login</button>
           </form>
         </div>
       </div>

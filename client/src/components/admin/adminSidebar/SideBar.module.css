@@ -115,6 +115,9 @@
   color: #4e4d4d;
   transition: transform 0.3s ease;
 }
+.logout{
+  cursor: pointer;
+}
 
 .menuIcon:hover {
   transform: scale(1.1);
@@ -134,6 +137,7 @@
   border-radius: 5px;
   border: none;
   font-size: 17px;
+  cursor: pointer;
 }
 
 
@@ -149,6 +153,7 @@
   margin-top: 8px;
   margin-bottom: 16px;
   transition: border-color 0.3s ease;
+  cursor: pointer;
 }
 
 .selectBox:focus {
