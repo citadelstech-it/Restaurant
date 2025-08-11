@@ -17,7 +17,7 @@ const Checkout = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch cart items
+  
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -51,7 +51,6 @@ const Checkout = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Transaction ID generator - tnxYYYYMMDDHHMMSS
   const generateTransactionId = () => {
     const now = new Date();
     const year = now.getFullYear();
@@ -109,7 +108,7 @@ const Checkout = () => {
       return;
     }
 
-    // Normal checkout flow (non-PhonePe)
+   
     try {
       const payload = {
         user_id: 6,
