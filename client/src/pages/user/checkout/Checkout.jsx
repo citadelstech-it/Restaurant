@@ -13,7 +13,7 @@ const Checkout = () => {
   const [formData, setFormData] = useState({
     customer_name: "",
     customer_phone: "",
-    customer_email: "",
+    customer_email: "", 
     paymentMethod: "",
   });
 
