@@ -34,7 +34,6 @@ const SideBar = ({ children }) => {
     }
   };
 
-
   const handleLoginAsUser = () => {
     Cookies.remove("your_jwt_secret_key");
     localStorage.removeItem("your_jwt_secret_key");
@@ -69,12 +68,19 @@ const SideBar = ({ children }) => {
               <option value="create">Create New User</option>
               <option value="reset">Reset Password</option>
             </select>
+            {/* <button >Create New User</button>
+            <button>Reset Password</button> */}
+
             <span className={styles.sidebar_span}>A</span>
             <div className={styles.nav_subPart}>
               <h5>Admin User</h5>
               <p>admin@gmail.com</p>
             </div>
-            <FontAwesomeIcon icon={faRightFromBracket} onClick={handleLogout} className={ styles.logout} />
+            <FontAwesomeIcon
+              icon={faRightFromBracket}
+              onClick={handleLogout}
+              className={styles.logout}
+            />
           </div>
         </nav>
       </header>

@@ -13,7 +13,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleCardClick = (category) => {
-    navigate("/pro", { state: { category } });
+    navigate("/products", { state: { category } });
   };
 
   return (

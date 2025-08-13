@@ -173,7 +173,7 @@ import {
   AppstoreOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
-import SideBar from "../../adminSidebar/sideBar";
+import SideBar from "../adminSidebar/sideBar";
 
 const Dashboard = () => {
   const [orders, setOrders] = useState([]);
