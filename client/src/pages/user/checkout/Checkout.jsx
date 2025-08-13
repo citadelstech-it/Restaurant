@@ -9,7 +9,7 @@ const Checkout = () => {
   const [formData, setFormData] = useState({
     customer_name: "",
     customer_phone: "",
-    customer_email: "",
+    customer_email: "", 
     paymentMethod: "",
   });
 
@@ -190,7 +190,7 @@ const Checkout = () => {
           <div className={checkstyles.modalContent}>
             <h2>🎉 Order Placed Successfully!</h2>
             <p>Thank you for your order! Your food will be delivered soon.</p>
-            <button onClick={() => navigate("/recipt")}>View Receipt</button>
+            <button onClick={() => navigate("/receipt")}>View Receipt</button>
           </div>
         </div>
       )}
