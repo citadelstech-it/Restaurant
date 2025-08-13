@@ -10,7 +10,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const token = Cookies.get("your_jwt_secret_key");
   const user_id = jwtDecode(token)?.id;
-  console.log(user_id)
+  console.log(user_id);
 
   useEffect(() => {
     axios
@@ -21,7 +21,8 @@ const Cart = () => {
 
   const updateQty = async (id, type) => {
     const item = cartItems.find((i) => i.id === id);
-    const quantity = type === "inc" ? item.quantity + 1 : Math.max(1, item.quantity - 1);
+    const quantity =
+      type === "inc" ? item.quantity + 1 : Math.max(1, item.quantity - 1);
     await axios.post("http://localhost:5000/api/cart", {
       user_id,
       item_id: item.item_id,
@@ -34,20 +35,21 @@ const Cart = () => {
     );
   };
 
-  
   const removeItem = async (id) => {
-  try {
-    await axios.delete(`http://localhost:5000/api/cart/remove/${id}`);
-    setCartItems((prev) => prev.filter((i) => i.id !== id));
-  } catch (error) {
-    console.error("Error removing item:", error);
-  }
-};
+    try {
+      await axios.delete(`http://localhost:5000/api/cart/remove/${id}`);
+      setCartItems((prev) => prev.filter((i) => i.id !== id));
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
+  };
 
-  const subtotal = cartItems.reduce((s, i) => s + i.Item.price * i.quantity, 0);
+  const subtotal = cartItems.reduce(
+    (s, i) => s + i.Item.price * i.quantity,
+    0
+  );
   const tax = Math.round(subtotal * 0.05);
   const total = subtotal + tax;
-
 
   return (
     <div>

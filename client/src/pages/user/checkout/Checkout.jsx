@@ -7,13 +7,11 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 
-
-
 const Checkout = () => {
   const [formData, setFormData] = useState({
     customer_name: "",
     customer_phone: "",
-    customer_email: "", 
+    customer_email: "",
     paymentMethod: "",
   });
 
@@ -21,32 +19,38 @@ const Checkout = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  
+  const token = Cookies.get("your_jwt_secret_key");
+  const user_id = jwtDecode(token)?.id;
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/cart");
+        if (!token) return;
+        const response = await axios.get(
+          `http://localhost:5000/api/cart/${user_id}`
+        );
         console.log("Fetched items response:", response.data);
-
-        const itemsArray = Array.isArray(response.data)
-          ? response.data
-          : response.data.items;
-
+        const itemsArray = Array.isArray(response.data.items)
+          ? response.data.items
+          : [];
         setItems(itemsArray || []);
       } catch (error) {
         console.error("Error fetching items:", error);
         setItems([]);
       }
     };
-
     fetchItems();
-  }, []);
+  }, [user_id, token]);
 
-  const calculateTotal = () =>
+  // GST & Total Calculations
+  const calculateSubtotal = () =>
     items.reduce(
-      (sum, item) => sum + (item.price || 0) * (item.quantity || 1),
+      (sum, item) =>
+        sum + (item.Item?.price || 0) * (item.quantity || 1),
       0
     );
+  const gstAmount = Math.round(calculateSubtotal() * 0.05);
+  const calculateTotal = () => calculateSubtotal() + gstAmount;
 
   const handleBackToMenu = () => navigate("/");
 
@@ -57,131 +61,41 @@ const Checkout = () => {
 
   const generateTransactionId = () => {
     const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-    return `tnx${year}${month}${day}${hours}${minutes}${seconds}`;
+    return `tnx${now.getFullYear()}${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}${String(now.getDate()).padStart(
+      2,
+      "0"
+    )}${String(now.getHours()).padStart(2, "0")}${String(
+      now.getMinutes()
+    ).padStart(2, "0")}${String(now.getSeconds()).padStart(2, "0")}`;
   };
-
-  const token = Cookies.get("your_jwt_secret_key");
-  const user_id = jwtDecode(token)?.id;
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const { customer_name, customer_phone, customer_email, paymentMethod } =
-      formData;
-
-    if (!customer_name || !customer_phone || !customer_email || !paymentMethod) {
-      alert("Please fill all required fields and select a payment method.");
-      return;
-    }
-
-    const totalAmount = calculateTotal();
-
-
-    if (paymentMethod === "PhonePay") {
-      const transactionId = generateTransactionId();
-      const MUID = `MUID${Math.floor(Math.random() * 1000000)}`;
-
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = "http://localhost:5000/api/phonepe/pay";
-
-      const payload = {
-        transactionId,
-        MUID,
-        name: customer_name,
-        amount: totalAmount,
-        number: customer_phone,
-        user_id: 6,
-        customer_email,
-        paymentMethod
-      };
-
-      for (const key in payload) {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = payload[key];
-        form.appendChild(input);
-      }
-
-      document.body.appendChild(form);
-      form.submit();
-      return;
-    }
-
-   
-    try {
-      const payload = {
-        user_id,
-        customer_name,
-        customer_email,
-        customer_phone,
-        amount: formData.amount || totalAmount,
-        paymentMethod,
-      };
-
-      const response = await fetch(
-        "http://localhost:5000/api/orders/checkout",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!response.ok) {
-        const err = await response.text();
-        console.error("Backend error:", err);
-        throw new Error("Order submission failed");
-      }
-
-      const data = await response.json();
-      console.log("Order Success:", data);
-
-      setShowModal(true);
-      setFormData({
-        customer_name: "",
-        customer_phone: "",
-        customer_email: "",
-        paymentMethod: "",
-      });
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Failed to place order. Please try again.");
-    }
-  };
-
 
   const checkoutToPhonepay = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const { customer_name, customer_phone, customer_email, paymentMethod } =
         formData;
-      const response = await axios.post("http://localhost:5000/api/phonepe/pay", {
-        name: customer_name,
-        number: customer_phone,
-        customer_email,
-        paymentMethod,
-        transactionId: generateTransactionId(),
-        MUID: "user123",
-        user_id: 6,
-        amount: 20
-      })
-      console.log(response, "form checkout")
-      if(response.status===200){
-        window.location.href=response.data.redirectUrl
+      const response = await axios.post(
+        "http://localhost:5000/api/phonepe/pay",
+        {
+          name: customer_name,
+          number: customer_phone,
+          customer_email,
+          paymentMethod,
+          transactionId: generateTransactionId(),
+          MUID: "user123",
+          user_id,
+          amount: calculateTotal(),
+        }
+      );
+      if (response.status === 200) {
+        window.location.href = response.data.redirectUrl;
       }
+    } catch (err) {
+      console.log(err, "from phonepay");
     }
-    catch (err) {
-      console.log(err, "from phonepay")
-    }
-  }
+  };
 
   return (
     <div>
@@ -206,7 +120,6 @@ const Checkout = () => {
         <form onSubmit={checkoutToPhonepay} className={checkstyles.outmain}>
           <div className={checkstyles.grid1}>
             <h3>🛵 Delivery Information</h3>
-
             <label>Full Name</label>
             <input
               type="text"
@@ -244,13 +157,15 @@ const Checkout = () => {
               <p>Your cart is empty.</p>
             ) : (
               items.map((item) => (
-                <p key={item.id || item._id}>
-                  {item.name} × {item.quantity || 1}{" "}
-                  <strong>₹{(item.price || 0).toFixed(2)}</strong>
+                <p key={item.id}>
+                  {item.Item?.name} × {item.quantity || 1}{" "}
+                  <strong>₹{(item.Item?.price || 0).toFixed(2)}</strong>
                 </p>
               ))
             )}
             <hr />
+            <p>Subtotal: ₹{calculateSubtotal().toFixed(2)}</p>
+            <p>GST (5%): ₹{gstAmount.toFixed(2)}</p>
             <h4>
               Total <span>₹{calculateTotal().toFixed(2)}</span>
             </h4>
@@ -259,7 +174,6 @@ const Checkout = () => {
 
           <div className={checkstyles.grid3}>
             <h3>💳 Payment Methods</h3>
-
             <input
               type="radio"
               id="credit"
